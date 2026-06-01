@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useTranslations } from 'next-intl';
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -113,12 +114,6 @@ function groupMessagesByDate(messages: Message[]) {
   return groups;
 }
 
-const STATUS_OPTIONS: { label: string; value: ConversationStatus; color: string }[] = [
-  { label: "Open", value: "open", color: "text-primary" },
-  { label: "Pending", value: "pending", color: "text-amber-400" },
-  { label: "Closed", value: "closed", color: "text-slate-400" },
-];
-
 /**
  * WhatsApp-style doodle background applied to the chat area (both the
  * active thread and the empty state). The SVG tile lives at
@@ -144,6 +139,7 @@ export function MessageThread({
   resyncToken = 0,
   onRefresh,
 }: MessageThreadProps) {
+  const t = useTranslations('inbox');
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -206,20 +202,20 @@ export function MessageThread({
       .reverse()
       .find((m) => m.sender_type === "customer");
 
-    if (!lastCustomerMsg) return { expired: true, remaining: "No customer messages" };
+    if (!lastCustomerMsg) return { expired: true, remaining: t('noCustomerMessages') };
 
     const hoursSince = differenceInHours(new Date(), new Date(lastCustomerMsg.created_at));
     const expired = hoursSince >= 24;
 
     if (expired) {
-      return { expired: true, remaining: "Expired" };
+      return { expired: true, remaining: t('timeExpired') };
     }
 
     const hoursLeft = 24 - hoursSince;
     const remaining =
       hoursLeft >= 1
-        ? `${Math.floor(hoursLeft)}h remaining`
-        : `${Math.floor(hoursLeft * 60)}m remaining`;
+        ? `${Math.floor(hoursLeft)}${t('hoursRemaining')}`
+        : `${Math.floor(hoursLeft * 60)}${t('minutesRemaining')}`;
 
     return { expired, remaining };
   }, [messages]);
@@ -589,9 +585,9 @@ export function MessageThread({
     (m: Message): string => {
       const isAgentMsg =
         m.sender_type === "agent" || m.sender_type === "bot";
-      return isAgentMsg ? "You" : contactDisplayName;
+      return isAgentMsg ? t('youLabel') : contactDisplayName;
     },
-    [contactDisplayName],
+    [contactDisplayName, t],
   );
 
   const handleStartReply = useCallback(
@@ -700,10 +696,10 @@ export function MessageThread({
           <MessageSquare className="h-8 w-8 text-slate-600" />
         </div>
         <h3 className="mt-4 text-sm font-medium text-slate-400">
-          Select a conversation
+          {t('selectConversation')}
         </h3>
         <p className="mt-1 text-xs text-slate-600">
-          Choose a conversation from the left to start messaging
+          {t('selectConversationHint')}
         </p>
       </div>
     );
@@ -732,7 +728,7 @@ export function MessageThread({
             <button
               type="button"
               onClick={onBack}
-              aria-label="Back to conversations"
+              aria-label={t('backToConversations')}
               className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md text-slate-300 hover:bg-slate-800 hover:text-white lg:hidden"
             >
               <ArrowLeft className="h-5 w-5" />
@@ -770,8 +766,8 @@ export function MessageThread({
               type="button"
               onClick={handleRefreshClick}
               disabled={isRefreshing}
-              aria-label="Refresh conversation"
-              title="Refresh"
+              aria-label={t('refresh')}
+              title={t('refresh')}
               className={cn(
                 "inline-flex h-7 w-7 items-center justify-center rounded-md text-slate-400 transition-colors hover:bg-slate-800 hover:text-white disabled:opacity-60",
               )}
@@ -788,7 +784,7 @@ export function MessageThread({
                   "inline-flex items-center justify-center h-7 gap-1 px-2 text-xs rounded-md hover:bg-slate-800",
                   currentStatus?.color ?? "text-slate-400"
                 )}>
-                {currentStatus?.label ?? "Status"}
+                {t(currentStatus?.labelKey ?? 'statusOpen')}
                 <ChevronDown className="h-3 w-3" />
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -801,7 +797,7 @@ export function MessageThread({
                   onClick={() => handleStatusChange(opt.value)}
                   className={cn("text-sm", opt.color)}
                 >
-                  {opt.label}
+                  {t(opt.labelKey)}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -825,7 +821,7 @@ export function MessageThread({
             >
               {profiles.length === 0 ? (
                 <DropdownMenuItem disabled className="text-sm text-slate-500">
-                  No teammates available
+                  {t('noTeammates')}
                 </DropdownMenuItem>
               ) : (
                 profiles.map((p) => {
@@ -841,7 +837,7 @@ export function MessageThread({
                     >
                       <span className="flex-1">
                         {p.full_name}
-                        {p.user_id === user?.id ? " (me)" : ""}
+                        {p.user_id === user?.id ? ` ${t('me')}` : ""}
                       </span>
                       {isSelected && <Check className="ml-2 h-3 w-3" />}
                     </DropdownMenuItem>
@@ -855,7 +851,7 @@ export function MessageThread({
                     onClick={() => handleAssignChange(null)}
                     className="text-sm text-slate-400"
                   >
-                    Unassign
+                    {t('unassign')}
                   </DropdownMenuItem>
                 </>
               )}
@@ -872,9 +868,9 @@ export function MessageThread({
           </div>
         ) : messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
-            <p className="text-sm text-slate-500">No messages yet</p>
+            <p className="text-sm text-slate-500">{t('noMessages')}</p>
             <p className="text-xs text-slate-600">
-              Send a template to start the conversation
+              {t('sendTemplate')}
             </p>
           </div>
         ) : (
@@ -955,3 +951,8 @@ export function MessageThread({
     </div>
   );
 }
+  const STATUS_OPTIONS = [
+    { labelKey: 'statusOpen', value: 'open' as ConversationStatus, color: 'text-primary' },
+    { labelKey: 'statusPending', value: 'pending' as ConversationStatus, color: 'text-amber-400' },
+    { labelKey: 'statusClosed', value: 'closed' as ConversationStatus, color: 'text-slate-400' },
+  ];

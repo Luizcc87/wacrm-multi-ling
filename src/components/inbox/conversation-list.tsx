@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useTranslations } from 'next-intl';
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { Conversation, ConversationStatus } from "@/types";
@@ -36,13 +37,6 @@ const STATUS_COLORS: Record<ConversationStatus, string> = {
   closed: "bg-slate-500",
 };
 
-const FILTER_OPTIONS: { label: string; value: ConversationStatus | "all" }[] = [
-  { label: "All", value: "all" },
-  { label: "Open", value: "open" },
-  { label: "Pending", value: "pending" },
-  { label: "Closed", value: "closed" },
-];
-
 export function ConversationList({
   activeConversationId,
   onSelect,
@@ -50,6 +44,13 @@ export function ConversationList({
   onConversationsLoaded,
   resyncToken = 0,
 }: ConversationListProps) {
+  const t = useTranslations('inbox');
+  const FILTER_OPTIONS: { label: string; value: ConversationStatus | "all" }[] = [
+    { label: t('filterAll'), value: "all" },
+    { label: t('filterOpen'), value: "open" },
+    { label: t('filterPending'), value: "pending" },
+    { label: t('filterClosed'), value: "closed" },
+  ];
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<ConversationStatus | "all">("all");
   const [loading, setLoading] = useState(true);
@@ -155,7 +156,7 @@ export function ConversationList({
           <Input
             value={search}
             onChange={handleSearchChange}
-            placeholder="Search conversations..."
+            placeholder={t('search')}
             className="border-slate-700 bg-slate-800 pl-9 text-sm text-white placeholder-slate-500 focus:border-primary/50"
           />
         </div>
@@ -195,7 +196,7 @@ export function ConversationList({
           </div>
         ) : filtered.length === 0 ? (
           <div className="px-4 py-12 text-center">
-            <p className="text-sm text-slate-500">No conversations found</p>
+            <p className="text-sm text-slate-500">{t('noConversationsFound')}</p>
           </div>
         ) : (
           <div className="flex flex-col">
@@ -225,6 +226,7 @@ function ConversationItem({
   isActive,
   onSelect,
 }: ConversationItemProps) {
+  const t = useTranslations('inbox');
   const contact = conversation.contact;
   const displayName = contact?.name || contact?.phone || "Unknown";
   const initials = displayName.charAt(0).toUpperCase();
@@ -270,7 +272,7 @@ function ConversationItem({
         </div>
         <div className="mt-0.5 flex items-center justify-between gap-2">
           <p className="truncate text-xs text-slate-400">
-            {conversation.last_message_text || "No messages yet"}
+            {conversation.last_message_text || t('noMessages')}
           </p>
           <div className="flex shrink-0 items-center gap-1.5">
             {conversation.unread_count > 0 && (

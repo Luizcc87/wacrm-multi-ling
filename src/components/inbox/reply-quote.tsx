@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from 'next-intl';
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Message } from "@/types";
@@ -21,6 +22,7 @@ export function ReplyQuote({
   preview,
   onDismiss,
 }: ReplyQuoteProps) {
+  const t = useTranslations('inbox');
   const isChip = !!onDismiss;
   return (
     <div
@@ -50,7 +52,7 @@ export function ReplyQuote({
         <button
           type="button"
           onClick={onDismiss}
-          aria-label="Cancel reply"
+          aria-label={t('cancelReply')}
           className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-700 hover:text-white"
         >
           <X className="h-3.5 w-3.5" />
