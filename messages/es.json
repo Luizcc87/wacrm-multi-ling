@@ -477,10 +477,21 @@
     "newAutomation": "Nueva automatización",
     "builder": {
       "trigger": "Disparador",
+      "triggerType": "Tipo de disparador",
       "yes": "Sí",
       "no": "No",
       "wait": "Esperar",
       "condition": "Condición",
+      "action": "Acción",
+      "addStep": "Agregar paso",
+      "moveUp": "Mover arriba",
+      "moveDown": "Mover abajo",
+      "delete": "Eliminar",
+      "active": "Activo",
+      "save": "Guardar",
+      "saveDraft": "Guardar borrador",
+      "backToAutomations": "Volver a automatizaciones",
+      "untitledAutomation": "Automatización sin título",
       "fields": {
         "messageText": "Texto del mensaje",
         "templateName": "Nombre de plantilla",
@@ -498,8 +509,66 @@
         "subject": "Asunto",
         "operand": "Operando",
         "url": "URL",
-        "bodyTemplate": "Plantilla de cuerpo (JSON)"
-      }
+        "bodyTemplate": "Plantilla de cuerpo (JSON)",
+        "keywords": "Palabras clave (separadas por comas)",
+        "matchType": "Tipo de coincidencia"
+      },
+      "steps": {
+        "sendMessage": "Enviar mensaje",
+        "sendTemplate": "Enviar plantilla",
+        "addTag": "Agregar etiqueta",
+        "removeTag": "Quitar etiqueta",
+        "assignConversation": "Asignar conversación",
+        "updateContactField": "Actualizar campo de contacto",
+        "createDeal": "Crear negocio",
+        "wait": "Esperar",
+        "condition": "Condición (Si/No)",
+        "sendWebhook": "Enviar webhook",
+        "closeConversation": "Cerrar conversación"
+      },
+      "triggers": {
+        "newMessageReceived": "Nuevo mensaje recibido",
+        "newMessageHint": "Cualquier mensaje entrante",
+        "firstInbound": "Primer mensaje del contacto",
+        "firstInboundHint": "Primera vez que este contacto te escribe (también funciona para contactos agregados manualmente)",
+        "keywordMatch": "Coincidencia de palabra clave",
+        "keywordMatchHint": "El mensaje contiene palabras clave específicas",
+        "newContactCreated": "Nuevo contacto creado",
+        "newContactHint": "Cuando se crea un contacto automáticamente desde un mensaje entrante",
+        "conversationAssigned": "Conversación asignada",
+        "conversationAssignedHint": "Cuando se asigna a un agente",
+        "tagAdded": "Etiqueta agregada",
+        "tagAddedHint": "Cuando se agrega una etiqueta a un contacto",
+        "timeBased": "Basado en tiempo",
+        "timeBasedHint": "En un horario recurrente"
+      },
+      "modes": {
+        "roundRobin": "Round-robin",
+        "specific": "Agente específico"
+      },
+      "contactFields": {
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "company": "Empresa"
+      },
+      "waitUnits": {
+        "minutes": "Minutos",
+        "hours": "Horas",
+        "days": "Días"
+      },
+      "conditionSubjects": {
+        "tagPresence": "Presencia de etiqueta",
+        "contactField": "Campo de contacto",
+        "messageContent": "Contenido del mensaje",
+        "timeOfDay": "Hora del día"
+      },
+      "matchTypes": {
+        "contains": "Contiene",
+        "exact": "Exacto"
+      },
+      "closeConversationDesc": "Establece el estado de la conversación como \"cerrada\". No requiere configuración.",
+      "tagId": "ID de etiqueta",
+      "cronHint": "Expresión cron o HH:mm"
     },
     "logs": {
       "title": "Registros de automatización",
@@ -509,7 +578,12 @@
       "active": "Activo",
       "inactive": "Inactivo"
     },
-    "noResults": "Sin automatizaciones aún"
+    "noResults": "Sin automatizaciones aún",
+    "toast": {
+      "saved": "Automatización guardada",
+      "created": "Automatización creada",
+      "saveFailed": "Error al guardar"
+    }
   },
   "flows": {
     "title": "Flujos",

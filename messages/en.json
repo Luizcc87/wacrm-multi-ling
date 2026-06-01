@@ -477,10 +477,21 @@
     "newAutomation": "New automation",
     "builder": {
       "trigger": "Trigger",
+      "triggerType": "Trigger type",
       "yes": "Yes",
       "no": "No",
       "wait": "Wait",
       "condition": "Condition",
+      "action": "Action",
+      "addStep": "Add step",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "delete": "Delete",
+      "active": "Active",
+      "save": "Save",
+      "saveDraft": "Save Draft",
+      "backToAutomations": "Back to automations",
+      "untitledAutomation": "Untitled automation",
       "fields": {
         "messageText": "Message text",
         "templateName": "Template name",
@@ -498,8 +509,66 @@
         "subject": "Subject",
         "operand": "Operand",
         "url": "URL",
-        "bodyTemplate": "Body template (JSON)"
-      }
+        "bodyTemplate": "Body template (JSON)",
+        "keywords": "Keywords (comma-separated)",
+        "matchType": "Match type"
+      },
+      "steps": {
+        "sendMessage": "Send Message",
+        "sendTemplate": "Send Template",
+        "addTag": "Add Tag",
+        "removeTag": "Remove Tag",
+        "assignConversation": "Assign Conversation",
+        "updateContactField": "Update Contact Field",
+        "createDeal": "Create Deal",
+        "wait": "Wait",
+        "condition": "Condition (If/Else)",
+        "sendWebhook": "Send Webhook",
+        "closeConversation": "Close Conversation"
+      },
+      "triggers": {
+        "newMessageReceived": "New Message Received",
+        "newMessageHint": "Any incoming message",
+        "firstInbound": "First Message from Contact",
+        "firstInboundHint": "First time this contact ever messages you (works for manually-added contacts too)",
+        "keywordMatch": "Keyword Match",
+        "keywordMatchHint": "Message contains specific keyword(s)",
+        "newContactCreated": "New Contact Created",
+        "newContactHint": "When a contact is auto-created from an incoming message",
+        "conversationAssigned": "Conversation Assigned",
+        "conversationAssignedHint": "When assigned to an agent",
+        "tagAdded": "Tag Added",
+        "tagAddedHint": "When a tag is added to a contact",
+        "timeBased": "Time-Based",
+        "timeBasedHint": "On a recurring schedule"
+      },
+      "modes": {
+        "roundRobin": "Round-robin",
+        "specific": "Specific agent"
+      },
+      "contactFields": {
+        "name": "Name",
+        "email": "Email",
+        "company": "Company"
+      },
+      "waitUnits": {
+        "minutes": "Minutes",
+        "hours": "Hours",
+        "days": "Days"
+      },
+      "conditionSubjects": {
+        "tagPresence": "Tag presence",
+        "contactField": "Contact field",
+        "messageContent": "Message content",
+        "timeOfDay": "Time of day"
+      },
+      "matchTypes": {
+        "contains": "Contains",
+        "exact": "Exact"
+      },
+      "closeConversationDesc": "Sets the conversation status to \"closed\". No configuration needed.",
+      "tagId": "Tag id",
+      "cronHint": "Cron expression or HH:mm"
     },
     "logs": {
       "title": "Automation logs",
@@ -509,7 +578,12 @@
       "active": "Active",
       "inactive": "Inactive"
     },
-    "noResults": "No automations yet"
+    "noResults": "No automations yet",
+    "toast": {
+      "saved": "Automation saved",
+      "created": "Automation created",
+      "saveFailed": "Save failed"
+    }
   },
   "flows": {
     "title": "Flows",
