@@ -74,6 +74,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { LocaleSwitcher } from './locale-switcher';
 
 interface NavItem {
   href: string;
@@ -307,6 +308,8 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
               ) : null}
             </div>
           ) : null}
+          {/* Language switcher */}
+          <LocaleSwitcher />
           <DropdownMenu>
             <DropdownMenuTrigger className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors hover:bg-slate-800/60 focus:bg-slate-800/60 focus:outline-none data-popup-open:bg-slate-800/60">
               <Avatar className="size-8 shrink-0">
