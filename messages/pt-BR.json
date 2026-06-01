@@ -19,9 +19,11 @@
       "title": "Crie sua conta",
       "subtitle": "Cadastre-se para começar",
       "fullName": "Nome completo",
+      "namePlaceholder": "João Silva",
       "email": "E-mail",
       "password": "Senha",
       "confirmPassword": "Confirmar senha",
+      "confirmPasswordPlaceholder": "Repita sua senha",
       "passwordMismatch": "As senhas não coincidem",
       "passwordTooShort": "A senha deve ter pelo menos 6 caracteres",
       "submit": "Criar conta",
@@ -33,10 +35,14 @@
     },
     "forgotPassword": {
       "title": "Redefinir senha",
+      "subtitle": "Digite seu e-mail e enviaremos um link de redefinição",
       "email": "E-mail",
+      "emailPlaceholder": "voce@exemplo.com.br",
       "submit": "Enviar link de redefinição",
+      "submitting": "Enviando...",
       "backToLogin": "Voltar ao login",
-      "successMessage": "Verifique seu e-mail para o link de redefinição."
+      "successMessage": "Verifique seu e-mail",
+      "successHint": "Enviamos um link de redefinição de senha para o seu e-mail. Verifique sua caixa de entrada."
     }
   },
   "nav": {

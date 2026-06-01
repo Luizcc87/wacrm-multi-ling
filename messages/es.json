@@ -19,13 +19,15 @@
       "title": "Crea tu cuenta",
       "subtitle": "Regístrate para comenzar",
       "fullName": "Nombre completo",
+      "namePlaceholder": "Juan García",
       "email": "Correo electrónico",
       "password": "Contraseña",
       "confirmPassword": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "Repite tu contraseña",
       "passwordMismatch": "Las contraseñas no coinciden",
       "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
       "submit": "Crear cuenta",
-      "submitting": "Registrando...",
+      "submitting": "Creando cuenta...",
       "alreadyAccount": "¿Ya tienes una cuenta?",
       "signIn": "Iniciar sesión",
       "checkEmail": "Revisa tu correo",
@@ -33,10 +35,14 @@
     },
     "forgotPassword": {
       "title": "Restablecer contraseña",
+      "subtitle": "Ingresa tu correo y te enviaremos un enlace de restablecimiento",
       "email": "Correo electrónico",
+      "emailPlaceholder": "tu@ejemplo.com",
       "submit": "Enviar enlace de restablecimiento",
+      "submitting": "Enviando...",
       "backToLogin": "Volver al inicio de sesión",
-      "successMessage": "Revisa tu correo para el enlace de restablecimiento."
+      "successMessage": "Revisa tu correo",
+      "successHint": "Hemos enviado un enlace para restablecer la contraseña a tu correo electrónico. Revisa tu bandeja de entrada."
     }
   },
   "nav": {
