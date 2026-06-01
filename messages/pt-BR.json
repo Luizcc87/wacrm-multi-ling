@@ -1,0 +1,316 @@
+{
+  "auth": {
+    "login": {
+      "title": "Bem-vindo de volta",
+      "subtitle": "Entre na sua conta",
+      "subtitleInvite": "Entre para aceitar",
+      "subtitleInviteHint": "Entre e vamos te levar ao convite.",
+      "email": "E-mail",
+      "emailPlaceholder": "voce@exemplo.com.br",
+      "password": "Senha",
+      "passwordPlaceholder": "Digite sua senha",
+      "forgotPassword": "Esqueceu a senha?",
+      "submit": "Entrar",
+      "submitting": "Entrando...",
+      "noAccount": "Não tem uma conta?",
+      "createAccount": "Criar conta"
+    },
+    "signup": {
+      "title": "Crie sua conta",
+      "subtitle": "Cadastre-se para começar",
+      "fullName": "Nome completo",
+      "email": "E-mail",
+      "password": "Senha",
+      "confirmPassword": "Confirmar senha",
+      "passwordMismatch": "As senhas não coincidem",
+      "passwordTooShort": "A senha deve ter pelo menos 6 caracteres",
+      "submit": "Criar conta",
+      "submitting": "Criando conta...",
+      "alreadyAccount": "Já tem uma conta?",
+      "signIn": "Entrar",
+      "checkEmail": "Verifique seu e-mail",
+      "checkEmailHint": "Enviamos um link de confirmação para o seu e-mail."
+    },
+    "forgotPassword": {
+      "title": "Redefinir senha",
+      "email": "E-mail",
+      "submit": "Enviar link de redefinição",
+      "backToLogin": "Voltar ao login",
+      "successMessage": "Verifique seu e-mail para o link de redefinição."
+    }
+  },
+  "nav": {
+    "dashboard": "Painel",
+    "inbox": "Caixa de entrada",
+    "contacts": "Contatos",
+    "pipelines": "Funis",
+    "broadcasts": "Transmissões",
+    "automations": "Automações",
+    "flows": "Fluxos",
+    "settings": "Configurações"
+  },
+  "dashboard": {
+    "conversations": "Conversas",
+    "responseTime": "Tempo de resposta",
+    "pipeline": "Funil",
+    "noData": "Sem dados ainda",
+    "startCreating": "Comece a criar",
+    "quickActions": {
+      "newBroadcast": "Nova transmissão",
+      "newDeal": "Novo negócio"
+    },
+    "metrics": {
+      "conversations": "Conversas",
+      "avgResponseTime": "Tempo médio de resposta",
+      "openDeals": "Negócios abertos",
+      "resolvedToday": "Resolvidos hoje"
+    }
+  },
+  "inbox": {
+    "search": "Buscar conversas...",
+    "sendMessage": "Enviar",
+    "typeMessage": "Digite uma mensagem...",
+    "delivered": "Entregue",
+    "read": "Lida",
+    "failed": "Falhou",
+    "copy": "Copiar",
+    "reply": "Responder",
+    "delete": "Excluir",
+    "markAs": "Marcar como...",
+    "cancelReply": "Cancelar resposta",
+    "replyingTo": "Respondendo a:",
+    "chooseTemplate": "Escolher template",
+    "applyTemplate": "Aplicar",
+    "addNote": "Adicionar nota",
+    "tags": "Tags",
+    "customFields": "Campos personalizados",
+    "noConversations": "Nenhuma conversa ainda",
+    "contactInfo": "Informações do contato"
+  },
+  "contacts": {
+    "title": "Contatos",
+    "newContact": "Novo contato",
+    "importContacts": "Importar contatos",
+    "searchContacts": "Buscar contatos...",
+    "name": "Nome",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "company": "Empresa",
+    "notes": "Notas",
+    "addNote": "Adicionar uma nota...",
+    "namePlaceholder": "João Silva",
+    "emailPlaceholder": "joao@exemplo.com.br",
+    "companyPlaceholder": "Acme Ltda.",
+    "phonePlaceholder": "+55 11 99999-9999",
+    "import": {
+      "title": "Importar contatos",
+      "csvFile": "Arquivo CSV",
+      "mapping": "Mapeamento",
+      "submit": "Importar"
+    },
+    "noContacts": "Nenhum contato ainda",
+    "deleteConfirm": "Excluir este contato?"
+  },
+  "pipelines": {
+    "title": "Funis",
+    "addStage": "Adicionar etapa",
+    "createDeal": "Criar negócio",
+    "deal": {
+      "title": "Título",
+      "value": "Valor",
+      "stage": "Etapa",
+      "contact": "Contato",
+      "notes": "Notas",
+      "status": {
+        "open": "Aberto",
+        "won": "Ganho",
+        "lost": "Perdido"
+      }
+    },
+    "noDeals": "Nenhum negócio nesta etapa"
+  },
+  "broadcasts": {
+    "title": "Transmissões",
+    "newBroadcast": "Nova transmissão",
+    "steps": {
+      "chooseTemplate": "Escolher um Template",
+      "chooseTemplateSubtitle": "Selecione um para enviar",
+      "selectAudience": "Selecionar audiência",
+      "personalize": "Personalizar",
+      "scheduleSend": "Agendar envio"
+    },
+    "filters": {
+      "all": "Todos",
+      "tags": "Tags",
+      "segments": "Segmentos"
+    },
+    "schedule": {
+      "sendNow": "Enviar agora",
+      "scheduleLater": "Agendar para depois",
+      "date": "Data",
+      "time": "Hora"
+    },
+    "status": {
+      "draft": "Rascunho",
+      "scheduled": "Agendado",
+      "sending": "Enviando",
+      "sent": "Enviado",
+      "failed": "Falhou"
+    },
+    "noResults": "Nenhuma transmissão ainda"
+  },
+  "automations": {
+    "title": "Automações",
+    "newAutomation": "Nova automação",
+    "builder": {
+      "trigger": "Gatilho",
+      "yes": "Sim",
+      "no": "Não",
+      "wait": "Aguardar",
+      "condition": "Condição",
+      "fields": {
+        "messageText": "Texto da mensagem",
+        "templateName": "Nome do template",
+        "language": "Idioma",
+        "tagId": "ID da tag",
+        "mode": "Modo",
+        "agentId": "ID do agente",
+        "field": "Campo",
+        "value": "Valor",
+        "pipelineId": "ID do funil",
+        "stageId": "ID da etapa",
+        "title": "Título",
+        "amount": "Quantidade",
+        "unit": "Unidade",
+        "subject": "Assunto",
+        "operand": "Operando",
+        "url": "URL",
+        "bodyTemplate": "Template do corpo (JSON)"
+      }
+    },
+    "logs": {
+      "title": "Logs de automação",
+      "noLogs": "Nenhum log ainda"
+    },
+    "status": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+    },
+    "noResults": "Nenhuma automação ainda"
+  },
+  "flows": {
+    "title": "Fluxos",
+    "newFlow": "Novo fluxo",
+    "save": "Salvar",
+    "publish": "Publicar",
+    "validationErrors": "Erros de validação",
+    "runs": {
+      "title": "Execuções do fluxo",
+      "noRuns": "Nenhuma execução ainda"
+    },
+    "noResults": "Nenhum fluxo ainda"
+  },
+  "settings": {
+    "title": "Configurações",
+    "tabs": {
+      "profile": "Perfil",
+      "members": "Membros",
+      "templates": "Templates",
+      "whatsapp": "WhatsApp",
+      "appearance": "Aparência",
+      "sessions": "Sessões"
+    },
+    "profile": {
+      "fullName": "Nome completo",
+      "email": "E-mail",
+      "avatar": "Avatar",
+      "save": "Salvar alterações"
+    },
+    "password": {
+      "current": "Senha atual",
+      "new": "Nova senha",
+      "confirm": "Confirmar senha",
+      "submit": "Atualizar senha"
+    },
+    "members": {
+      "title": "Membros",
+      "invite": "Convidar membro",
+      "remove": "Remover",
+      "roles": {
+        "owner": "Proprietário",
+        "admin": "Administrador",
+        "agent": "Agente",
+        "viewer": "Visualizador"
+      }
+    },
+    "invite": {
+      "title": "Convidar membro",
+      "email": "E-mail",
+      "role": "Função",
+      "submit": "Enviar convite"
+    },
+    "templates": {
+      "title": "Templates",
+      "create": "Criar template",
+      "delete": "Excluir",
+      "status": {
+        "approved": "Aprovado",
+        "pending": "Pendente",
+        "rejected": "Rejeitado"
+      }
+    },
+    "whatsapp": {
+      "phoneNumber": "Número de telefone",
+      "accessToken": "Token de acesso",
+      "status": "Status",
+      "save": "Salvar",
+      "verify": "Verificar"
+    },
+    "appearance": {
+      "title": "Aparência",
+      "theme": "Tema",
+      "themes": {
+        "violet": "Violeta",
+        "emerald": "Esmeralda",
+        "cobalt": "Cobalto",
+        "amber": "Âmbar",
+        "rose": "Rosa"
+      }
+    },
+    "sessions": {
+      "title": "Sessões",
+      "logout": "Sair",
+      "logoutAll": "Sair de todas as sessões"
+    }
+  },
+  "common": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "create": "Criar",
+    "loading": "Carregando...",
+    "error": "Algo deu errado",
+    "success": "Salvo com sucesso",
+    "confirm": "Confirmar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "noResults": "Nenhum resultado",
+    "required": "Obrigatório",
+    "optional": "Opcional",
+    "readOnly": "Somente leitura"
+  },
+  "errors": {
+    "unauthorized": "Você não tem permissão para isso.",
+    "notFound": "Página não encontrada.",
+    "serverError": "Erro no servidor. Tente novamente.",
+    "networkError": "Erro de rede. Verifique sua conexão.",
+    "invalidEmail": "Endereço de e-mail inválido.",
+    "invalidCredentials": "E-mail ou senha inválidos.",
+    "emailInUse": "Este e-mail já está em uso."
+  }
+}

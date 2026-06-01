@@ -1,0 +1,316 @@
+{
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account",
+      "subtitleInvite": "Sign in to accept",
+      "subtitleInviteHint": "Sign in and we'll take you to the invitation.",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create account"
+    },
+    "signup": {
+      "title": "Create your account",
+      "subtitle": "Sign up to get started",
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "submit": "Create account",
+      "submitting": "Signing up...",
+      "alreadyAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "checkEmail": "Check your email",
+      "checkEmailHint": "We sent a confirmation link to your email address."
+    },
+    "forgotPassword": {
+      "title": "Reset password",
+      "email": "Email",
+      "submit": "Send reset link",
+      "backToLogin": "Back to login",
+      "successMessage": "Check your email for the reset link."
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "inbox": "Inbox",
+    "contacts": "Contacts",
+    "pipelines": "Pipelines",
+    "broadcasts": "Broadcasts",
+    "automations": "Automations",
+    "flows": "Flows",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "conversations": "Conversations",
+    "responseTime": "Response time",
+    "pipeline": "Pipeline",
+    "noData": "No data yet",
+    "startCreating": "Start creating",
+    "quickActions": {
+      "newBroadcast": "New broadcast",
+      "newDeal": "New deal"
+    },
+    "metrics": {
+      "conversations": "Conversations",
+      "avgResponseTime": "Avg. response time",
+      "openDeals": "Open deals",
+      "resolvedToday": "Resolved today"
+    }
+  },
+  "inbox": {
+    "search": "Search conversations...",
+    "sendMessage": "Send",
+    "typeMessage": "Type a message...",
+    "delivered": "Delivered",
+    "read": "Read",
+    "failed": "Failed",
+    "copy": "Copy",
+    "reply": "Reply",
+    "delete": "Delete",
+    "markAs": "Mark as...",
+    "cancelReply": "Cancel reply",
+    "replyingTo": "Replying to:",
+    "chooseTemplate": "Choose template",
+    "applyTemplate": "Apply",
+    "addNote": "Add note",
+    "tags": "Tags",
+    "customFields": "Custom fields",
+    "noConversations": "No conversations yet",
+    "contactInfo": "Contact info"
+  },
+  "contacts": {
+    "title": "Contacts",
+    "newContact": "New contact",
+    "importContacts": "Import contacts",
+    "searchContacts": "Search contacts...",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "company": "Company",
+    "notes": "Notes",
+    "addNote": "Add a note...",
+    "namePlaceholder": "John Doe",
+    "emailPlaceholder": "john@example.com",
+    "companyPlaceholder": "Acme Inc.",
+    "phonePlaceholder": "+1 234 567 8900",
+    "import": {
+      "title": "Import contacts",
+      "csvFile": "CSV file",
+      "mapping": "Mapping",
+      "submit": "Import"
+    },
+    "noContacts": "No contacts yet",
+    "deleteConfirm": "Delete this contact?"
+  },
+  "pipelines": {
+    "title": "Pipelines",
+    "addStage": "Add stage",
+    "createDeal": "Create deal",
+    "deal": {
+      "title": "Title",
+      "value": "Value",
+      "stage": "Stage",
+      "contact": "Contact",
+      "notes": "Notes",
+      "status": {
+        "open": "Open",
+        "won": "Won",
+        "lost": "Lost"
+      }
+    },
+    "noDeals": "No deals in this stage"
+  },
+  "broadcasts": {
+    "title": "Broadcasts",
+    "newBroadcast": "New broadcast",
+    "steps": {
+      "chooseTemplate": "Choose a Template",
+      "chooseTemplateSubtitle": "Select one to send",
+      "selectAudience": "Select audience",
+      "personalize": "Personalize",
+      "scheduleSend": "Schedule send"
+    },
+    "filters": {
+      "all": "All",
+      "tags": "Tags",
+      "segments": "Segments"
+    },
+    "schedule": {
+      "sendNow": "Send now",
+      "scheduleLater": "Schedule for later",
+      "date": "Date",
+      "time": "Time"
+    },
+    "status": {
+      "draft": "Draft",
+      "scheduled": "Scheduled",
+      "sending": "Sending",
+      "sent": "Sent",
+      "failed": "Failed"
+    },
+    "noResults": "No broadcasts yet"
+  },
+  "automations": {
+    "title": "Automations",
+    "newAutomation": "New automation",
+    "builder": {
+      "trigger": "Trigger",
+      "yes": "Yes",
+      "no": "No",
+      "wait": "Wait",
+      "condition": "Condition",
+      "fields": {
+        "messageText": "Message text",
+        "templateName": "Template name",
+        "language": "Language",
+        "tagId": "Tag id",
+        "mode": "Mode",
+        "agentId": "Agent id",
+        "field": "Field",
+        "value": "Value",
+        "pipelineId": "Pipeline id",
+        "stageId": "Stage id",
+        "title": "Title",
+        "amount": "Amount",
+        "unit": "Unit",
+        "subject": "Subject",
+        "operand": "Operand",
+        "url": "URL",
+        "bodyTemplate": "Body template (JSON)"
+      }
+    },
+    "logs": {
+      "title": "Automation logs",
+      "noLogs": "No logs yet"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "noResults": "No automations yet"
+  },
+  "flows": {
+    "title": "Flows",
+    "newFlow": "New flow",
+    "save": "Save",
+    "publish": "Publish",
+    "validationErrors": "Validation errors",
+    "runs": {
+      "title": "Flow runs",
+      "noRuns": "No runs yet"
+    },
+    "noResults": "No flows yet"
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "profile": "Profile",
+      "members": "Members",
+      "templates": "Templates",
+      "whatsapp": "WhatsApp",
+      "appearance": "Appearance",
+      "sessions": "Sessions"
+    },
+    "profile": {
+      "fullName": "Full name",
+      "email": "Email",
+      "avatar": "Avatar",
+      "save": "Save changes"
+    },
+    "password": {
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm password",
+      "submit": "Update password"
+    },
+    "members": {
+      "title": "Members",
+      "invite": "Invite member",
+      "remove": "Remove",
+      "roles": {
+        "owner": "Owner",
+        "admin": "Admin",
+        "agent": "Agent",
+        "viewer": "Viewer"
+      }
+    },
+    "invite": {
+      "title": "Invite member",
+      "email": "Email",
+      "role": "Role",
+      "submit": "Send invite"
+    },
+    "templates": {
+      "title": "Templates",
+      "create": "Create template",
+      "delete": "Delete",
+      "status": {
+        "approved": "Approved",
+        "pending": "Pending",
+        "rejected": "Rejected"
+      }
+    },
+    "whatsapp": {
+      "phoneNumber": "Phone number",
+      "accessToken": "Access token",
+      "status": "Status",
+      "save": "Save",
+      "verify": "Verify"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "theme": "Theme",
+      "themes": {
+        "violet": "Violet",
+        "emerald": "Emerald",
+        "cobalt": "Cobalt",
+        "amber": "Amber",
+        "rose": "Rose"
+      }
+    },
+    "sessions": {
+      "title": "Sessions",
+      "logout": "Logout",
+      "logoutAll": "Logout all sessions"
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "success": "Saved successfully",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "noResults": "No results",
+    "required": "Required",
+    "optional": "Optional",
+    "readOnly": "Read-only"
+  },
+  "errors": {
+    "unauthorized": "You don't have permission to do this.",
+    "notFound": "Page not found.",
+    "serverError": "Server error. Please try again.",
+    "networkError": "Network error. Check your connection.",
+    "invalidEmail": "Invalid email address.",
+    "invalidCredentials": "Invalid email or password.",
+    "emailInUse": "This email is already in use."
+  }
+}
