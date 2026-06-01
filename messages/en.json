@@ -63,13 +63,55 @@
     "startCreating": "Start creating",
     "quickActions": {
       "newBroadcast": "New broadcast",
-      "newDeal": "New deal"
+      "newDeal": "New deal",
+      "newContact": "New contact",
+      "newAutomation": "New automation"
     },
     "metrics": {
       "conversations": "Conversations",
       "avgResponseTime": "Avg. response time",
       "openDeals": "Open deals",
       "resolvedToday": "Resolved today"
+    },
+    "activityFeed": {
+      "title": "Recent Activity",
+      "viewAll": "View all →",
+      "noActivity": "No activity yet",
+      "noActivityHint": "Activity from messages, deals, broadcasts, and automations will appear here.",
+      "showing": "Showing",
+      "of": "of",
+      "show": "Show"
+    },
+    "conversationsChart": {
+      "title": "Conversations Over Time",
+      "subtitle": "Daily message volume by direction",
+      "noData": "No message activity in this range",
+      "noDataHint": "Send or receive messages to start populating this chart.",
+      "days": "days",
+      "incoming": "Incoming",
+      "outgoing": "Outgoing",
+      "incomingTooltip": "incoming",
+      "outgoingTooltip": "outgoing"
+    },
+    "responseTimeChart": {
+      "title": "Average First Response Time",
+      "subtitle": "Minutes to reply to a customer's first unreplied message, by weekday",
+      "target": "target",
+      "thisWeek": "This week:",
+      "lastWeek": "Last week:",
+      "noData": "No replies recorded yet",
+      "noDataHint": "This chart fills in as you reply to customer messages."
+    },
+    "pipelineDonut": {
+      "title": "Pipeline Value",
+      "subtitle": "Open deals by stage",
+      "noData": "No open deals yet",
+      "noDataHint": "Create deals in Pipelines to see stage breakdowns here.",
+      "deal": "deal",
+      "deals": "deals"
+    },
+    "emptyState": {
+      "defaultTitle": "Not enough data yet"
     }
   },
   "inbox": {

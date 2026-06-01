@@ -63,13 +63,55 @@
     "startCreating": "Empieza a crear",
     "quickActions": {
       "newBroadcast": "Nueva transmisión",
-      "newDeal": "Nuevo negocio"
+      "newDeal": "Nuevo negocio",
+      "newContact": "Nuevo contacto",
+      "newAutomation": "Nueva automatización"
     },
     "metrics": {
       "conversations": "Conversaciones",
       "avgResponseTime": "Tiempo promedio de respuesta",
       "openDeals": "Negocios abiertos",
       "resolvedToday": "Resueltos hoy"
+    },
+    "activityFeed": {
+      "title": "Actividad reciente",
+      "viewAll": "Ver todo →",
+      "noActivity": "Sin actividad aún",
+      "noActivityHint": "La actividad de mensajes, negocios, transmisiones y automatizaciones aparecerá aquí.",
+      "showing": "Mostrando",
+      "of": "de",
+      "show": "Mostrar"
+    },
+    "conversationsChart": {
+      "title": "Conversaciones a lo largo del tiempo",
+      "subtitle": "Volumen diario de mensajes por dirección",
+      "noData": "Sin actividad de mensajes en este período",
+      "noDataHint": "Envía o recibe mensajes para comenzar a poblar este gráfico.",
+      "days": "días",
+      "incoming": "Entrantes",
+      "outgoing": "Salientes",
+      "incomingTooltip": "entrantes",
+      "outgoingTooltip": "salientes"
+    },
+    "responseTimeChart": {
+      "title": "Tiempo promedio de primera respuesta",
+      "subtitle": "Minutos para responder al primer mensaje sin respuesta del cliente, por día de semana",
+      "target": "objetivo",
+      "thisWeek": "Esta semana:",
+      "lastWeek": "Semana pasada:",
+      "noData": "Sin respuestas registradas aún",
+      "noDataHint": "Este gráfico se completa a medida que respondes a los mensajes de los clientes."
+    },
+    "pipelineDonut": {
+      "title": "Valor del embudo",
+      "subtitle": "Negocios abiertos por etapa",
+      "noData": "Sin negocios abiertos aún",
+      "noDataHint": "Crea negocios en Embudos para ver el desglose por etapa aquí.",
+      "deal": "negocio",
+      "deals": "negocios"
+    },
+    "emptyState": {
+      "defaultTitle": "Datos insuficientes aún"
     }
   },
   "inbox": {

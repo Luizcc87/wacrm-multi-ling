@@ -9,12 +9,12 @@ import { cn } from '@/lib/utils'
  * different widget.
  */
 export function EmptyState({
-  title = 'Not enough data yet',
+  title,
   hint,
   icon: Icon = BarChart3,
   className,
 }: {
-  title?: string
+  title: string
   hint?: string
   icon?: ComponentType<{ className?: string }>
   className?: string

@@ -63,13 +63,55 @@
     "startCreating": "Comece a criar",
     "quickActions": {
       "newBroadcast": "Nova transmissão",
-      "newDeal": "Novo negócio"
+      "newDeal": "Novo negócio",
+      "newContact": "Novo contato",
+      "newAutomation": "Nova automação"
     },
     "metrics": {
       "conversations": "Conversas",
       "avgResponseTime": "Tempo médio de resposta",
       "openDeals": "Negócios abertos",
       "resolvedToday": "Resolvidos hoje"
+    },
+    "activityFeed": {
+      "title": "Atividade recente",
+      "viewAll": "Ver tudo →",
+      "noActivity": "Nenhuma atividade ainda",
+      "noActivityHint": "A atividade de mensagens, negócios, transmissões e automações aparecerá aqui.",
+      "showing": "Mostrando",
+      "of": "de",
+      "show": "Mostrar"
+    },
+    "conversationsChart": {
+      "title": "Conversas ao longo do tempo",
+      "subtitle": "Volume diário de mensagens por direção",
+      "noData": "Sem atividade de mensagens neste período",
+      "noDataHint": "Envie ou receba mensagens para começar a preencher este gráfico.",
+      "days": "dias",
+      "incoming": "Recebidas",
+      "outgoing": "Enviadas",
+      "incomingTooltip": "recebidas",
+      "outgoingTooltip": "enviadas"
+    },
+    "responseTimeChart": {
+      "title": "Tempo médio de primeira resposta",
+      "subtitle": "Minutos para responder à primeira mensagem sem resposta do cliente, por dia da semana",
+      "target": "meta",
+      "thisWeek": "Esta semana:",
+      "lastWeek": "Semana passada:",
+      "noData": "Nenhuma resposta registrada ainda",
+      "noDataHint": "Este gráfico é preenchido conforme você responde às mensagens dos clientes."
+    },
+    "pipelineDonut": {
+      "title": "Valor do funil",
+      "subtitle": "Negócios abertos por etapa",
+      "noData": "Nenhum negócio aberto ainda",
+      "noDataHint": "Crie negócios em Funis para ver o detalhamento por etapa aqui.",
+      "deal": "negócio",
+      "deals": "negócios"
+    },
+    "emptyState": {
+      "defaultTitle": "Dados insuficientes ainda"
     }
   },
   "inbox": {
