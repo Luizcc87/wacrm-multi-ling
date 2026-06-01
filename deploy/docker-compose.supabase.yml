@@ -1,0 +1,40 @@
+version: '3.8'
+
+# -------------------------------------------------------------
+# Stack: Supabase Cloud (Managed DB)
+# -------------------------------------------------------------
+# Variáveis principais (configure no .env):
+# - APP_URL: A URL pública da aplicação
+# - DATABASE_URL: URL do connection pooler fornecido pelo Supabase.
+#   Ex: postgres://postgres.[projeto]:[senha]@aws-0-[regiao].pooler.supabase.com:6543/postgres
+# -------------------------------------------------------------
+
+services:
+  web:
+    image: lc1868/wacrm:latest
+    environment:
+      APP_URL: ${APP_URL}
+      DATABASE_URL: ${DATABASE_URL}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+    # Portas desativadas no host para evitar conflito com Traefik/Cloudflare Tunnel
+    # O acesso ocorre diretamente via rede interna do Swarm (network_swarm_public)
+    # ports:
+    #   - "${WEB_PORT:-80}:80"
+    networks:
+      - network_swarm_public
+      - default
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+networks:
+  network_swarm_public:
+    external: true
