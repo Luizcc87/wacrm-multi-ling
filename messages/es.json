@@ -592,10 +592,66 @@
     "publish": "Publicar",
     "validationErrors": "Errores de validación",
     "runs": {
-      "title": "Ejecuciones de flujo",
+      "title": "Ejecuciones del flujo",
       "noRuns": "Sin ejecuciones aún"
     },
-    "noResults": "Sin flujos aún"
+    "noResults": "Sin flujos aún",
+    "header": {
+      "backToFlows": "Flujos",
+      "flowName": "Nombre del flujo",
+      "description": "Descripción opcional (interna — los clientes no la ven)",
+      "edited": "Editado",
+      "unsavedChanges": "Cambios sin guardar — haz clic en Guardar",
+      "runs": "Ejecuciones",
+      "delete": "Eliminar",
+      "pause": "Pausar",
+      "activate": "Activar",
+      "save": "Guardar",
+      "fixIssues": "Corrige los errores antes de activar",
+      "editorView": "Vista del editor",
+      "canvas": "Lienzo",
+      "list": "Lista"
+    },
+    "validation": {
+      "noIssues": "Sin problemas. Listo para activar.",
+      "errors": "error",
+      "errorsPlural": "errores",
+      "warnings": "advertencia",
+      "warningsPlural": "advertencias",
+      "jumpToNode": "Ir al nodo"
+    },
+    "nodes": {
+      "start": "Inicio",
+      "sendMessage": "Enviar mensaje",
+      "sendButtons": "Enviar botones",
+      "sendList": "Enviar lista",
+      "sendMedia": "Enviar multimedia",
+      "collectInput": "Recopilar entrada",
+      "condition": "Condición",
+      "setTag": "Establecer etiqueta",
+      "handoff": "Transferir",
+      "end": "Fin"
+    },
+    "builder": {
+      "trigger": "Disparador",
+      "addNode": "Agregar nodo",
+      "advanced": "Avanzado",
+      "delete": "Eliminar",
+      "expand": "Expandir",
+      "collapse": "Colapsar",
+      "nodeKey": "Clave del nodo",
+      "noNodes": "Sin nodos aún",
+      "addFirst": "Agrega tu primer nodo para comenzar"
+    },
+    "toast": {
+      "saved": "Flujo guardado",
+      "activated": "Flujo activado",
+      "paused": "Flujo pausado",
+      "deleted": "Flujo eliminado",
+      "saveFailed": "Error al guardar el flujo",
+      "activateFailed": "Error al activar el flujo",
+      "deleteFailed": "Error al eliminar el flujo"
+    }
   },
   "settings": {
     "title": "Configuración",

@@ -595,7 +595,63 @@
       "title": "Execuções do fluxo",
       "noRuns": "Nenhuma execução ainda"
     },
-    "noResults": "Nenhum fluxo ainda"
+    "noResults": "Nenhum fluxo ainda",
+    "header": {
+      "backToFlows": "Fluxos",
+      "flowName": "Nome do fluxo",
+      "description": "Descrição opcional (interna — os clientes não veem isso)",
+      "edited": "Editado",
+      "unsavedChanges": "Alterações não salvas — clique em Salvar",
+      "runs": "Execuções",
+      "delete": "Excluir",
+      "pause": "Pausar",
+      "activate": "Ativar",
+      "save": "Salvar",
+      "fixIssues": "Corrija os problemas abaixo antes de ativar",
+      "editorView": "Visualização do editor",
+      "canvas": "Canvas",
+      "list": "Lista"
+    },
+    "validation": {
+      "noIssues": "Nenhum problema. Pronto para ativar.",
+      "errors": "erro",
+      "errorsPlural": "erros",
+      "warnings": "aviso",
+      "warningsPlural": "avisos",
+      "jumpToNode": "Ir ao nó"
+    },
+    "nodes": {
+      "start": "Início",
+      "sendMessage": "Enviar mensagem",
+      "sendButtons": "Enviar botões",
+      "sendList": "Enviar lista",
+      "sendMedia": "Enviar mídia",
+      "collectInput": "Coletar entrada",
+      "condition": "Condição",
+      "setTag": "Definir tag",
+      "handoff": "Transferir",
+      "end": "Fim"
+    },
+    "builder": {
+      "trigger": "Gatilho",
+      "addNode": "Adicionar nó",
+      "advanced": "Avançado",
+      "delete": "Excluir",
+      "expand": "Expandir",
+      "collapse": "Recolher",
+      "nodeKey": "Chave do nó",
+      "noNodes": "Nenhum nó ainda",
+      "addFirst": "Adicione seu primeiro nó para começar"
+    },
+    "toast": {
+      "saved": "Fluxo salvo",
+      "activated": "Fluxo ativado",
+      "paused": "Fluxo pausado",
+      "deleted": "Fluxo excluído",
+      "saveFailed": "Falha ao salvar o fluxo",
+      "activateFailed": "Falha ao ativar o fluxo",
+      "deleteFailed": "Falha ao excluir o fluxo"
+    }
   },
   "settings": {
     "title": "Configurações",

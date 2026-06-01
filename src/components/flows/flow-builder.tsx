@@ -18,6 +18,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   CircleAlert,
   Plus,
@@ -59,6 +60,19 @@ import {
   type BuilderState,
 } from "./flow-editor-state";
 
+const NODE_LABEL_KEYS: Record<NodeType, string> = {
+  start: "nodes.start",
+  send_message: "nodes.sendMessage",
+  send_buttons: "nodes.sendButtons",
+  send_list: "nodes.sendList",
+  send_media: "nodes.sendMedia",
+  collect_input: "nodes.collectInput",
+  condition: "nodes.condition",
+  set_tag: "nodes.setTag",
+  handoff: "nodes.handoff",
+  end: "nodes.end",
+};
+
 // ============================================================
 // Local state shape — mirrors the DB but the configs are typed
 // loosely (Record<string, unknown>) since each node_type carries a
@@ -70,6 +84,7 @@ import {
 // ============================================================
 
 export function FlowBuilder() {
+  const t = useTranslations("flows");
   const {
     state,
     setState,
@@ -169,9 +184,8 @@ export function FlowBuilder() {
 
         {state.nodes.length === 0 ? (
           <div className="rounded-lg border border-dashed border-slate-700 bg-slate-900/50 p-8 text-center text-sm text-slate-400">
-            Add a <strong>Start</strong> node, then a <strong>Send buttons</strong>
-            {" "}node, then a <strong>Handoff</strong> — that&apos;s the welcome-menu
-            shape from the brief.
+            <div className="font-medium text-slate-300">{t("builder.noNodes")}</div>
+            <div className="mt-1">{t("builder.addFirst")}</div>
           </div>
         ) : (
           state.nodes.map((node) => (
@@ -215,9 +229,10 @@ function TriggerPanel({
   setState: React.Dispatch<React.SetStateAction<BuilderState>>;
   triggerIssues: ValidationIssue[];
 }) {
+  const t = useTranslations("flows");
   return (
     <section className="rounded-lg border border-slate-800 bg-slate-900 p-4">
-      <h2 className="mb-3 text-sm font-semibold text-white">Trigger</h2>
+      <h2 className="mb-3 text-sm font-semibold text-white">{t("builder.trigger")}</h2>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div>
           <label className="mb-1 block text-xs text-slate-400">When…</label>
@@ -348,6 +363,7 @@ function NodeCard({
   onRemove: () => void;
   onSetEntry: () => void;
 }) {
+  const t = useTranslations("flows");
   const meta = NODE_META[node.node_type];
   const hasError = issues.some((i) => i.severity === "error");
   const preview = summarizeNode(node);
@@ -374,7 +390,7 @@ function NodeCard({
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <span className="truncate text-sm font-medium text-white">
-              {meta.label}
+              {t(NODE_LABEL_KEYS[node.node_type] as Parameters<typeof t>[0])}
             </span>
             <code className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">
               {node.node_key}
@@ -426,7 +442,7 @@ function NodeCard({
               className="text-red-400 hover:bg-red-500/10 hover:text-red-300"
             >
               <Trash2 className="h-3.5 w-3.5" />
-              Remove node
+              {t("builder.delete")}
             </Button>
           </div>
           {issues.length > 0 && (
@@ -459,6 +475,7 @@ function NodeConfigWithAdvanced({
   onUpdate: (patch: Partial<BuilderNode>) => void;
   onUpdateConfig: (patch: Record<string, unknown>) => void;
 }) {
+  const t = useTranslations("flows");
   const [showAdvanced, setShowAdvanced] = useState(false);
   const hasReplyIds =
     node.node_type === "send_buttons" || node.node_type === "send_list";
@@ -481,13 +498,13 @@ function NodeConfigWithAdvanced({
           ) : (
             <ChevronDown className="h-3 w-3" />
           )}
-          {showAdvanced ? "Hide" : "Show"} advanced
+          {showAdvanced ? t("builder.collapse") : t("builder.expand")} {t("builder.advanced").toLowerCase()}
         </button>
         {showAdvanced && (
           <div className="mt-3 flex flex-col gap-3">
             <div>
               <label className="mb-1 block text-xs text-slate-400">
-                Node key (internal identifier — keep stable for analytics)
+                {t("builder.nodeKey")} (internal identifier — keep stable for analytics)
               </label>
               <Input
                 value={node.node_key}
@@ -517,6 +534,7 @@ function NodeConfigWithAdvanced({
 // ============================================================
 
 function AddNodeButton({ onAdd }: { onAdd: (type: NodeType) => void }) {
+  const t = useTranslations("flows");
   const types: NodeType[] = [
     "start",
     "send_buttons",
@@ -533,10 +551,10 @@ function AddNodeButton({ onAdd }: { onAdd: (type: NodeType) => void }) {
     <DropdownMenu>
       <DropdownMenuTrigger
         className="inline-flex items-center gap-1.5 rounded-md border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-200 transition-colors hover:bg-slate-800"
-        aria-label="Add node"
+        aria-label={t("builder.addNode")}
       >
         <Plus className="h-3.5 w-3.5" />
-        Add node
+        {t("builder.addNode")}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="border-slate-700 bg-slate-900">
         {types.map((t) => {
@@ -544,12 +562,16 @@ function AddNodeButton({ onAdd }: { onAdd: (type: NodeType) => void }) {
           return (
             <DropdownMenuItem key={t} onClick={() => onAdd(t)}>
               <meta.icon className={cn("h-3.5 w-3.5", meta.color)} />
-              {meta.label}
+              {tLabel(t)}
             </DropdownMenuItem>
           );
         })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
+
+  function tLabel(type: NodeType) {
+    return t(NODE_LABEL_KEYS[type] as Parameters<typeof t>[0]);
+  }
 }
 

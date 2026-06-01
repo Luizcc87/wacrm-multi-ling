@@ -25,6 +25,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Loader2,
   Paperclip,
@@ -62,6 +63,7 @@ export function NodeConfigForm({
   showAdvanced,
   onUpdateConfig,
 }: NodeConfigFormProps) {
+  const t = useTranslations("flows");
   const cfg = node.config;
   switch (node.node_type) {
     case "start":
@@ -71,7 +73,7 @@ export function NodeConfigForm({
           allNodes={allNodes}
           currentKey={node.node_key}
           onChange={(v) => onUpdateConfig({ next_node_key: v })}
-          label="Advances to"
+          label={t("validation.jumpToNode")}
         />
       );
 
@@ -79,7 +81,7 @@ export function NodeConfigForm({
       return (
         <>
           <TextRow
-            label="Text sent to the customer"
+            label={t("nodes.sendMessage")}
             value={(cfg as { text?: string }).text ?? ""}
             onChange={(v) => onUpdateConfig({ text: v })}
           />
@@ -88,7 +90,7 @@ export function NodeConfigForm({
             allNodes={allNodes}
             currentKey={node.node_key}
             onChange={(v) => onUpdateConfig({ next_node_key: v })}
-            label="Advances to"
+            label={t("validation.jumpToNode")}
           />
         </>
       );
@@ -129,7 +131,7 @@ export function NodeConfigForm({
       return (
         <>
           <TextRow
-            label="Prompt sent to the customer"
+            label={t("nodes.collectInput")}
             value={(cfg as { prompt_text?: string }).prompt_text ?? ""}
             onChange={(v) => onUpdateConfig({ prompt_text: v })}
             rows={2}
@@ -163,7 +165,7 @@ export function NodeConfigForm({
             allNodes={allNodes}
             currentKey={node.node_key}
             onChange={(v) => onUpdateConfig({ next_node_key: v })}
-            label="After capturing, advance to"
+            label={t("validation.jumpToNode")}
           />
         </>
       );
@@ -191,7 +193,7 @@ export function NodeConfigForm({
     case "handoff":
       return (
         <TextRow
-          label="Internal note (for the agent picking up)"
+          label={t("nodes.handoff")}
           value={(cfg as { note?: string }).note ?? ""}
           onChange={(v) => onUpdateConfig({ note: v })}
           rows={2}
@@ -201,8 +203,7 @@ export function NodeConfigForm({
     case "end":
       return (
         <p className="text-xs text-slate-500">
-          Terminal node. When the runner reaches this node the run is marked
-          complete. No config needed.
+          {t("nodes.end")}
         </p>
       );
   }
@@ -231,6 +232,7 @@ function SendButtonsForm({
   onUpdateConfig: (patch: Record<string, unknown>) => void;
   showAdvanced: boolean;
 }) {
+  const t = useTranslations("flows");
   const buttons = cfg.buttons ?? [];
   const updateButton = (
     idx: number,
@@ -257,20 +259,20 @@ function SendButtonsForm({
   return (
     <>
       <TextRow
-        label="Body text"
+        label={t("nodes.sendButtons")}
         value={cfg.text ?? ""}
         onChange={(v) => onUpdateConfig({ text: v })}
         rows={3}
       />
       <TextRow
-        label="Footer (optional, 60 chars)"
+        label={t("header.description")}
         value={cfg.footer_text ?? ""}
         onChange={(v) => onUpdateConfig({ footer_text: v })}
       />
       <div>
         <div className="mb-2 flex items-center justify-between">
           <label className="text-xs text-slate-400">
-            Buttons (1–3) — each one routes to a different next node
+            {t("nodes.sendButtons")}
           </label>
         </div>
         <div className="flex flex-col gap-3">
@@ -308,7 +310,7 @@ function SendButtonsForm({
                 nodes={allNodes}
                 excludeKey={currentKey}
                 onChange={(v) => updateButton(i, { next_node_key: v ?? "" })}
-                placeholder="Next node…"
+                placeholder={t("validation.jumpToNode")}
               />
               <Button
                 variant="ghost"
@@ -329,7 +331,7 @@ function SendButtonsForm({
             className="mt-2"
           >
             <Plus className="h-3.5 w-3.5" />
-            Add button
+            {t("builder.addNode")}
           </Button>
         )}
       </div>
@@ -369,6 +371,7 @@ function SendListForm({
   onUpdateConfig: (patch: Record<string, unknown>) => void;
   showAdvanced: boolean;
 }) {
+  const t = useTranslations("flows");
   const sections = cfg.sections ?? [];
   const totalRows = sections.reduce((sum, s) => sum + s.rows.length, 0);
 
@@ -446,19 +449,19 @@ function SendListForm({
   return (
     <>
       <TextRow
-        label="Body text"
+        label={t("nodes.sendList")}
         value={cfg.text ?? ""}
         onChange={(v) => onUpdateConfig({ text: v })}
         rows={3}
       />
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <TextRow
-          label="Tap-to-expand button label (≤20 chars)"
+          label={t("builder.addNode")}
           value={cfg.button_label ?? ""}
           onChange={(v) => onUpdateConfig({ button_label: v })}
         />
         <TextRow
-          label="Footer (optional, 60 chars)"
+          label={t("header.description")}
           value={cfg.footer_text ?? ""}
           onChange={(v) => onUpdateConfig({ footer_text: v })}
         />
@@ -466,7 +469,7 @@ function SendListForm({
 
       <div className="mt-2">
         <label className="mb-2 block text-xs text-slate-400">
-          Rows (1–10 total across all sections)
+          {t("nodes.sendList")}
         </label>
         {sections.map((section, sIdx) => (
           <div
@@ -535,7 +538,7 @@ function SendListForm({
                   onChange={(v) =>
                     updateRow(sIdx, rIdx, { next_node_key: v ?? "" })
                   }
-                  placeholder="Next node…"
+                  placeholder={t("validation.jumpToNode")}
                 />
                 <Button
                   variant="ghost"
@@ -555,7 +558,7 @@ function SendListForm({
                 className="mt-1"
               >
                 <Plus className="h-3.5 w-3.5" />
-                Add row
+                {t("builder.addNode")}
               </Button>
             )}
           </div>
@@ -566,7 +569,7 @@ function SendListForm({
         {sections.length < 10 && (
           <Button variant="outline" size="sm" onClick={addSection}>
             <Plus className="h-3.5 w-3.5" />
-            Add section
+            {t("builder.addNode")}
           </Button>
         )}
       </div>
@@ -604,6 +607,7 @@ function ConditionForm({
   currentKey: string;
   onUpdateConfig: (patch: Record<string, unknown>) => void;
 }) {
+  const t = useTranslations("flows");
   const tags = useUserTags();
 
   const subject = cfg.subject ?? "var";
@@ -614,7 +618,7 @@ function ConditionForm({
     <>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <div>
-          <label className="mb-1 block text-xs text-slate-400">If</label>
+          <label className="mb-1 block text-xs text-slate-400">{t("nodes.condition")}</label>
           <Select
             value={subject}
             onValueChange={(v) =>
@@ -645,7 +649,7 @@ function ConditionForm({
               onValueChange={(v) => onUpdateConfig({ subject_key: v })}
             >
               <SelectTrigger className="bg-slate-800">
-                <SelectValue placeholder="Pick a tag…" />
+                <SelectValue placeholder={t("validation.jumpToNode")} />
               </SelectTrigger>
               <SelectContent>
                 {tags.map((t) => (
@@ -661,7 +665,7 @@ function ConditionForm({
               onValueChange={(v) => onUpdateConfig({ subject_key: v })}
             >
               <SelectTrigger className="bg-slate-800">
-                <SelectValue placeholder="Pick a field…" />
+                <SelectValue placeholder={t("validation.jumpToNode")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="name">name</SelectItem>
@@ -726,14 +730,14 @@ function ConditionForm({
           allNodes={allNodes}
           currentKey={currentKey}
           onChange={(v) => onUpdateConfig({ true_next: v })}
-          label="If true → advance to"
+          label={t("validation.jumpToNode")}
         />
         <NextNodeRow
           value={cfg.false_next ?? ""}
           allNodes={allNodes}
           currentKey={currentKey}
           onChange={(v) => onUpdateConfig({ false_next: v })}
-          label="If false → advance to"
+          label={t("validation.jumpToNode")}
         />
       </div>
     </>
@@ -761,13 +765,14 @@ function SetTagForm({
   currentKey: string;
   onUpdateConfig: (patch: Record<string, unknown>) => void;
 }) {
+  const t = useTranslations("flows");
   const tags = useUserTags();
 
   return (
     <>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div>
-          <label className="mb-1 block text-xs text-slate-400">Action</label>
+          <label className="mb-1 block text-xs text-slate-400">{t("builder.trigger")}</label>
           <Select
             value={cfg.mode ?? "add"}
             onValueChange={(v) =>
@@ -778,8 +783,8 @@ function SetTagForm({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="add">Add tag</SelectItem>
-              <SelectItem value="remove">Remove tag</SelectItem>
+              <SelectItem value="add">{t("nodes.setTag")}</SelectItem>
+              <SelectItem value="remove">{t("builder.delete")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -791,7 +796,7 @@ function SetTagForm({
               onValueChange={(v) => onUpdateConfig({ tag_id: v })}
             >
               <SelectTrigger className="bg-slate-800">
-                <SelectValue placeholder="Pick a tag…" />
+              <SelectValue placeholder={t("validation.jumpToNode")} />
               </SelectTrigger>
               <SelectContent>
                 {tags.map((t) => (
@@ -816,7 +821,7 @@ function SetTagForm({
         allNodes={allNodes}
         currentKey={currentKey}
         onChange={(v) => onUpdateConfig({ next_node_key: v })}
-        label="Then advance to"
+        label={t("validation.jumpToNode")}
       />
     </>
   );
@@ -886,6 +891,7 @@ function SendMediaForm({
   currentKey: string;
   onUpdateConfig: (patch: Record<string, unknown>) => void;
 }) {
+  const t = useTranslations("flows");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -954,9 +960,9 @@ function SendMediaForm({
           media_url: publicUrl,
           filename: file.name,
         });
-        toast.success("File uploaded.");
+        toast.success(t("toast.saved"));
       } catch (err) {
-        const msg = err instanceof Error ? err.message : "Upload failed.";
+        const msg = err instanceof Error ? err.message : t("toast.saveFailed");
         toast.error(msg);
       } finally {
         setUploading(false);
@@ -972,7 +978,7 @@ function SendMediaForm({
   return (
     <>
       <div>
-        <label className="mb-1 block text-xs text-slate-400">Media type</label>
+        <label className="mb-1 block text-xs text-slate-400">{t("nodes.sendMedia")}</label>
         <Select
           value={mediaType}
           onValueChange={(v) => {
@@ -1017,7 +1023,7 @@ function SendMediaForm({
               type="button"
               onClick={handleClear}
               className="rounded p-1 text-slate-400 hover:bg-slate-700 hover:text-slate-200"
-              aria-label="Remove file"
+              aria-label={t("builder.delete")}
               disabled={uploading}
             >
               <X className="h-3.5 w-3.5" />
@@ -1058,7 +1064,7 @@ function SendMediaForm({
       </div>
 
       <TextRow
-        label="Caption (optional, shown under the media)"
+        label={t("header.description")}
         value={cfg.caption ?? ""}
         onChange={(v) => onUpdateConfig({ caption: v })}
         rows={2}
@@ -1083,7 +1089,7 @@ function SendMediaForm({
         allNodes={allNodes}
         currentKey={currentKey}
         onChange={(v) => onUpdateConfig({ next_node_key: v })}
-        label="After sending, advance to"
+        label={t("validation.jumpToNode")}
       />
     </>
   );

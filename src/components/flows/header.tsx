@@ -16,6 +16,7 @@
  */
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   History,
@@ -37,6 +38,7 @@ import {
 } from "./flow-editor-state";
 
 export function EditorHeader() {
+  const t = useTranslations("flows");
   const router = useRouter();
   const {
     flow,
@@ -60,7 +62,7 @@ export function EditorHeader() {
           className="inline-flex items-center gap-1 hover:text-slate-300"
         >
           <ArrowLeft className="h-3 w-3" />
-          Flows
+          {t("header.backToFlows")}
         </button>
       </div>
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -71,18 +73,18 @@ export function EditorHeader() {
             onChange={(e) =>
               setState((s) => ({ ...s, name: e.target.value }))
             }
-            placeholder="Flow name"
+            placeholder={t("header.flowName")}
             className="max-w-md bg-slate-900 text-lg font-semibold"
           />
           <StatusBadge status={state.status} />
           {dirty && (
             <span
               className="inline-flex shrink-0 items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-amber-300"
-              title="Unsaved changes — hit Save to persist"
+              title={t("header.unsavedChanges")}
               aria-live="polite"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-              Edited
+              {t("header.edited")}
             </span>
           )}
         </div>
@@ -93,7 +95,7 @@ export function EditorHeader() {
             onClick={() => router.push(`/flows/${flow.id}/runs`)}
           >
             <History className="h-3.5 w-3.5" />
-            Runs
+            {t("header.runs")}
           </Button>
           <Button
             variant="ghost"
@@ -102,7 +104,7 @@ export function EditorHeader() {
             className="text-red-400 hover:bg-red-500/10 hover:text-red-300"
           >
             <Trash2 className="h-3.5 w-3.5" />
-            Delete
+            {t("header.delete")}
           </Button>
           {state.status === "active" ? (
             <Button
@@ -116,7 +118,7 @@ export function EditorHeader() {
               ) : (
                 <PauseCircle className="h-3.5 w-3.5" />
               )}
-              Pause
+              {t("header.pause")}
             </Button>
           ) : (
             <Button
@@ -126,7 +128,7 @@ export function EditorHeader() {
               disabled={activating || !canActivate}
               title={
                 !canActivate
-                  ? "Fix the issues below before activating"
+                  ? t("header.fixIssues")
                   : undefined
               }
             >
@@ -135,7 +137,7 @@ export function EditorHeader() {
               ) : (
                 <PlayCircle className="h-3.5 w-3.5" />
               )}
-              Activate
+              {t("header.activate")}
             </Button>
           )}
           <Button onClick={() => void save()} disabled={saving} size="sm">
@@ -144,7 +146,7 @@ export function EditorHeader() {
             ) : (
               <Save className="h-3.5 w-3.5" />
             )}
-            Save
+            {t("header.save")}
           </Button>
         </div>
       </div>
@@ -153,7 +155,7 @@ export function EditorHeader() {
         onChange={(e) =>
           setState((s) => ({ ...s, description: e.target.value }))
         }
-        placeholder="Optional description (internal — customers don't see this)"
+        placeholder={t("header.description")}
         className="bg-slate-900 text-sm"
       />
     </div>

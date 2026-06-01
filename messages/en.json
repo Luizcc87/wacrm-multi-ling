@@ -595,7 +595,63 @@
       "title": "Flow runs",
       "noRuns": "No runs yet"
     },
-    "noResults": "No flows yet"
+    "noResults": "No flows yet",
+    "header": {
+      "backToFlows": "Flows",
+      "flowName": "Flow name",
+      "description": "Optional description (internal — customers don't see this)",
+      "edited": "Edited",
+      "unsavedChanges": "Unsaved changes — hit Save to persist",
+      "runs": "Runs",
+      "delete": "Delete",
+      "pause": "Pause",
+      "activate": "Activate",
+      "save": "Save",
+      "fixIssues": "Fix the issues below before activating",
+      "editorView": "Editor view",
+      "canvas": "Canvas",
+      "list": "List"
+    },
+    "validation": {
+      "noIssues": "No issues. Ready to activate.",
+      "errors": "error",
+      "errorsPlural": "errors",
+      "warnings": "warning",
+      "warningsPlural": "warnings",
+      "jumpToNode": "Jump to node"
+    },
+    "nodes": {
+      "start": "Start",
+      "sendMessage": "Send message",
+      "sendButtons": "Send buttons",
+      "sendList": "Send list",
+      "sendMedia": "Send media",
+      "collectInput": "Collect input",
+      "condition": "Condition",
+      "setTag": "Set tag",
+      "handoff": "Handoff",
+      "end": "End"
+    },
+    "builder": {
+      "trigger": "Trigger",
+      "addNode": "Add node",
+      "advanced": "Advanced",
+      "delete": "Delete",
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "nodeKey": "Node key",
+      "noNodes": "No nodes yet",
+      "addFirst": "Add your first node to get started"
+    },
+    "toast": {
+      "saved": "Flow saved",
+      "activated": "Flow activated",
+      "paused": "Flow paused",
+      "deleted": "Flow deleted",
+      "saveFailed": "Failed to save flow",
+      "activateFailed": "Failed to activate flow",
+      "deleteFailed": "Failed to delete flow"
+    }
   },
   "settings": {
     "title": "Settings",
