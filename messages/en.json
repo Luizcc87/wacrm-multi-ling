@@ -318,5 +318,37 @@
     "invalidEmail": "Invalid email address.",
     "invalidCredentials": "Invalid email or password.",
     "emailInUse": "This email is already in use."
+  },
+  "layout": {
+    "sidebar": {
+      "closeMenu": "Close menu",
+      "beta": "Beta",
+      "profile": "Profile",
+      "settings": "Settings",
+      "signOut": "Sign out",
+      "roles": {
+        "owner": "Owner",
+        "admin": "Admin",
+        "agent": "Agent",
+        "viewer": "Viewer"
+      }
+    },
+    "header": {
+      "openMenu": "Open menu",
+      "openAccountMenu": "Open account menu",
+      "profile": "Profile",
+      "settings": "Settings",
+      "signOut": "Sign out",
+      "pageTitles": {
+        "dashboard": "Dashboard",
+        "inbox": "Inbox",
+        "contacts": "Contacts",
+        "pipelines": "Pipelines",
+        "broadcasts": "Broadcasts",
+        "automations": "Automations",
+        "settings": "Settings",
+        "flows": "Flows"
+      }
+    }
   }
 }

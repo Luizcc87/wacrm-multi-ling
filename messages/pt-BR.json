@@ -318,5 +318,37 @@
     "invalidEmail": "Endereço de e-mail inválido.",
     "invalidCredentials": "E-mail ou senha inválidos.",
     "emailInUse": "Este e-mail já está em uso."
+  },
+  "layout": {
+    "sidebar": {
+      "closeMenu": "Fechar menu",
+      "beta": "Beta",
+      "profile": "Perfil",
+      "settings": "Configurações",
+      "signOut": "Sair",
+      "roles": {
+        "owner": "Proprietário",
+        "admin": "Administrador",
+        "agent": "Agente",
+        "viewer": "Visualizador"
+      }
+    },
+    "header": {
+      "openMenu": "Abrir menu",
+      "openAccountMenu": "Abrir menu da conta",
+      "profile": "Perfil",
+      "settings": "Configurações",
+      "signOut": "Sair",
+      "pageTitles": {
+        "dashboard": "Painel",
+        "inbox": "Caixa de entrada",
+        "contacts": "Contatos",
+        "pipelines": "Funis",
+        "broadcasts": "Transmissões",
+        "automations": "Automações",
+        "settings": "Configurações",
+        "flows": "Fluxos"
+      }
+    }
   }
 }

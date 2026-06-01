@@ -318,5 +318,37 @@
     "invalidEmail": "Dirección de correo inválida.",
     "invalidCredentials": "Correo o contraseña inválidos.",
     "emailInUse": "Este correo ya está en uso."
+  },
+  "layout": {
+    "sidebar": {
+      "closeMenu": "Cerrar menú",
+      "beta": "Beta",
+      "profile": "Perfil",
+      "settings": "Configuración",
+      "signOut": "Cerrar sesión",
+      "roles": {
+        "owner": "Propietario",
+        "admin": "Administrador",
+        "agent": "Agente",
+        "viewer": "Espectador"
+      }
+    },
+    "header": {
+      "openMenu": "Abrir menú",
+      "openAccountMenu": "Abrir menú de cuenta",
+      "profile": "Perfil",
+      "settings": "Configuración",
+      "signOut": "Cerrar sesión",
+      "pageTitles": {
+        "dashboard": "Panel",
+        "inbox": "Bandeja de entrada",
+        "contacts": "Contactos",
+        "pipelines": "Embudos",
+        "broadcasts": "Transmisiones",
+        "automations": "Automatizaciones",
+        "settings": "Configuración",
+        "flows": "Flujos"
+      }
+    }
   }
 }
