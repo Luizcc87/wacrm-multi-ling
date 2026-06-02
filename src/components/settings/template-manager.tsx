@@ -122,6 +122,7 @@ export function TemplateManager() {
   const supabase = createClient();
   const { user, loading: authLoading } = useAuth();
   const t = useTranslations('settings');
+  const tc = useTranslations('common');
 
   const [loading, setLoading] = useState(true);
   const [templates, setTemplates] = useState<MessageTemplate[]>([]);
@@ -765,7 +766,7 @@ export function TemplateManager() {
                   <Input
                     id="template-header-text"
                     aria-label="Header text"
-                    placeholder={t('templates.headerTextPlaceholder')}
+                    placeholder={t.raw('templates.headerTextPlaceholder')}
                     value={form.header_content}
                     onChange={(e) =>
                       setForm({ ...form, header_content: e.target.value })
@@ -777,7 +778,7 @@ export function TemplateManager() {
                     <Input
                       id="template-header-sample"
                       aria-label="Sample value for header variable"
-                      placeholder={t('templates.headerTextSamplePlaceholder')}
+                      placeholder={t.raw('templates.headerTextSamplePlaceholder')}
                       value={form.header_sample}
                       onChange={(e) =>
                         setForm({ ...form, header_sample: e.target.value })
@@ -812,7 +813,7 @@ export function TemplateManager() {
             <div className="space-y-2">
               <Label className="text-slate-300">{t('templates.formBody')}</Label>
               <Textarea
-                placeholder={t('templates.bodyPlaceholder')}
+                placeholder={t.raw('templates.bodyPlaceholder')}
                 value={form.body_text}
                 onChange={(e) =>
                   setForm({ ...form, body_text: e.target.value })
@@ -822,7 +823,7 @@ export function TemplateManager() {
                 className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 resize-none"
               />
               <p className="text-[11px] text-slate-500">
-                {t('templates.bodyHint')}
+                {t.raw('templates.bodyHint')}
               </p>
 
               {bodyVarCount > 0 && (
@@ -954,7 +955,7 @@ export function TemplateManager() {
                       {btn.type === 'URL' && (
                         <div className="space-y-1 pl-1">
                           <Input
-                            placeholder={t('templates.btnUrlPlaceholder')}
+                            placeholder={t.raw('templates.btnUrlPlaceholder')}
                             value={btn.url}
                             onChange={(e) =>
                               updateButton(i, { url: e.target.value })
@@ -963,7 +964,7 @@ export function TemplateManager() {
                           />
                           {extractVariableIndices(btn.url).length > 0 && (
                             <Input
-                              placeholder={t('templates.btnUrlSamplePlaceholder')}
+                              placeholder={t.raw('templates.btnUrlSamplePlaceholder')}
                               value={btn.example ?? ''}
                               onChange={(e) =>
                                 updateButton(i, { example: e.target.value })
@@ -1006,7 +1007,7 @@ export function TemplateManager() {
               onClick={() => setDialogOpen(false)}
               className="border-slate-700 text-slate-300 hover:bg-slate-800"
             >
-              {t('common.cancel')}
+              {tc('cancel')}
             </Button>
             <Button
               onClick={handleSubmit}
@@ -1053,7 +1054,7 @@ export function TemplateManager() {
               disabled={deletingId !== null}
               className="border-slate-700 text-slate-300 hover:bg-slate-800"
             >
-              {t('common.cancel')}
+              {tc('cancel')}
             </Button>
             <Button
               onClick={confirmDelete}
@@ -1066,7 +1067,7 @@ export function TemplateManager() {
                   {t('templates.deleting')}
                 </>
               ) : (
-                t('common.delete')
+                tc('delete')
               )}
             </Button>
           </DialogFooter>

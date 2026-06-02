@@ -750,9 +750,9 @@ export function WhatsAppConfig() {
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-400">
                   <ol className="list-decimal list-inside space-y-1 text-sm">
-                    {t('whatsapp.step1Desc')
+                    {t.raw('whatsapp.step1Desc')
                       .split('\n')
-                      .map((line, i) => (
+                      .map((line: string, i: number) => (
                         <li key={i}>{parseLine(line)}</li>
                       ))}
                   </ol>
@@ -768,9 +768,9 @@ export function WhatsAppConfig() {
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-400">
                   <ol className="list-decimal list-inside space-y-1 text-sm">
-                    {t('whatsapp.step2Desc')
+                    {t.raw('whatsapp.step2Desc')
                       .split('\n')
-                      .map((line, i) => (
+                      .map((line: string, i: number) => (
                         <li key={i}>{parseLine(line)}</li>
                       ))}
                   </ol>
@@ -786,9 +786,9 @@ export function WhatsAppConfig() {
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-400">
                   <ol className="list-decimal list-inside space-y-1 text-sm">
-                    {t('whatsapp.step3Desc')
+                    {t.raw('whatsapp.step3Desc')
                       .split('\n')
-                      .map((line, i) => (
+                      .map((line: string, i: number) => (
                         <li key={i}>{parseLine(line)}</li>
                       ))}
                   </ol>
@@ -804,9 +804,9 @@ export function WhatsAppConfig() {
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-400">
                   <ol className="list-decimal list-inside space-y-1 text-sm">
-                    {t('whatsapp.step4Desc')
+                    {t.raw('whatsapp.step4Desc')
                       .split('\n')
-                      .map((line, i) => (
+                      .map((line: string, i: number) => (
                         <li key={i}>{parseLine(line)}</li>
                       ))}
                   </ol>
