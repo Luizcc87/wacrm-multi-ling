@@ -1004,6 +1004,42 @@
       }
     }
   },
+  "join": {
+    "verifying": "Verificando convite…",
+    "tryAgain": "Tentar novamente",
+    "createAccount": "Criar uma nova conta",
+    "signIn": "Entrar",
+    "notFound": "Convite não encontrado",
+    "notFoundBody": "Este link não corresponde a um convite válido. Verifique a URL ou peça à pessoa que te convidou para enviar um novo.",
+    "used": "Convite já utilizado",
+    "usedBody": "Este convite já foi aceito. Se não foi você, peça ao admin da conta para enviar um link novo.",
+    "expired": "Convite expirado",
+    "expiredBody": "Este convite expirou. Peça ao admin da conta para enviar um novo — levam apenas alguns segundos para gerar.",
+    "serverError": "Algo deu errado",
+    "serverErrorBody": "Não foi possível verificar este convite agora. Tente atualizar a página em um momento.",
+    "youreInvited": "Você foi convidado para",
+    "joinAs": "Você entrará como",
+    "linkValidUntil": "Link válido até",
+    "accepting": "Aceitando…",
+    "acceptInvitation": "Aceitar convite",
+    "acceptingNote": "Aceitar move seu login para {account}. Sua conta pessoal vazia do cadastro será removida.",
+    "cantJoin": "Não é possível entrar em {account} com esta conta",
+    "cantJoinDesc": "Para entrar em {account}, saia e cadastre-se com outro e-mail. O link do convite permanece válido enquanto não expirar.",
+    "staySignedIn": "Permanecer conectado",
+    "signOutRetry": "Sair e usar outro e-mail",
+    "signingOut": "Saindo…",
+    "createAndJoin": "Criar conta e entrar",
+    "alreadyHaveAccount": "Já tenho uma conta",
+    "failedAccept": "Falha ao aceitar o convite",
+    "cantReachServer": "Não foi possível alcançar o servidor",
+    "cantSignOut": "Não foi possível sair. Tente atualizar a página.",
+    "welcomeToTeam": "Bem-vindo à equipe",
+    "roles": {
+      "admin": "Administrador",
+      "agent": "Agente",
+      "viewer": "Visualizador"
+    }
+  },
   "common": {
     "save": "Salvar",
     "cancel": "Cancelar",
@@ -1023,7 +1059,17 @@
     "noResults": "Nenhum resultado",
     "required": "Obrigatório",
     "optional": "Opcional",
-    "readOnly": "Somente leitura"
+    "readOnly": "Somente leitura",
+    "readOnlyGated": "Somente leitura — seu perfil não pode {reason}",
+    "gateReasons": {
+      "send messages": "enviar mensagens",
+      "add or import contacts": "adicionar ou importar contatos",
+      "create pipelines": "criar funis",
+      "create deals": "criar negócios",
+      "create flows": "criar fluxos",
+      "create automations": "criar automações",
+      "create broadcasts": "criar transmissões"
+    }
   },
   "errors": {
     "unauthorized": "Você não tem permissão para isso.",

@@ -7,6 +7,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/hooks/use-theme";
+import { LocalePreferenceSync } from "@/components/layout/locale-preference-sync";
 import { DEFAULT_THEME, STORAGE_KEY, THEME_IDS } from "@/lib/themes";
 import "../globals.css";
 
@@ -70,6 +71,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body className="min-h-full bg-background text-foreground font-sans">
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
+            <LocalePreferenceSync />
             {children}
             <Toaster
               theme="dark"

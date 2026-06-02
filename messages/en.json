@@ -1004,6 +1004,42 @@
       }
     }
   },
+  "join": {
+    "verifying": "Verifying invitation…",
+    "tryAgain": "Try again",
+    "createAccount": "Create a new account instead",
+    "signIn": "Sign in",
+    "notFound": "Invite not found",
+    "notFoundBody": "This link doesn't match a valid invitation. Double-check the URL or ask the person who invited you to send a new one.",
+    "used": "Invite already used",
+    "usedBody": "This invitation has already been accepted. If that wasn't you, ask the account admin to send a fresh link.",
+    "expired": "Invite expired",
+    "expiredBody": "This invitation has expired. Ask the account admin to send a new one — they take a few seconds to generate.",
+    "serverError": "Something went wrong",
+    "serverErrorBody": "We couldn't verify this invitation right now. Try refreshing the page in a moment.",
+    "youreInvited": "You're invited to",
+    "joinAs": "You'll join as",
+    "linkValidUntil": "Link valid until",
+    "accepting": "Accepting…",
+    "acceptInvitation": "Accept invitation",
+    "acceptingNote": "Accepting moves your login into {account}. Your empty personal account from signup will be cleaned up.",
+    "cantJoin": "Can't join {account} with this account",
+    "cantJoinDesc": "To join {account}, sign out and sign up again with a different email address. The invite link stays valid as long as it hasn't expired.",
+    "staySignedIn": "Stay signed in",
+    "signOutRetry": "Sign out & use a different email",
+    "signingOut": "Signing out…",
+    "createAndJoin": "Create account & join",
+    "alreadyHaveAccount": "I already have an account",
+    "failedAccept": "Failed to accept invitation",
+    "cantReachServer": "Could not reach the server",
+    "cantSignOut": "Could not sign out. Try refreshing the page.",
+    "welcomeToTeam": "Welcome to the team",
+    "roles": {
+      "admin": "Admin",
+      "agent": "Agent",
+      "viewer": "Viewer"
+    }
+  },
   "common": {
     "save": "Save",
     "cancel": "Cancel",
@@ -1023,7 +1059,17 @@
     "noResults": "No results",
     "required": "Required",
     "optional": "Optional",
-    "readOnly": "Read-only"
+    "readOnly": "Read-only",
+    "readOnlyGated": "Read-only — your role can't {reason}",
+    "gateReasons": {
+      "send messages": "send messages",
+      "add or import contacts": "add or import contacts",
+      "create pipelines": "create pipelines",
+      "create deals": "create deals",
+      "create flows": "create flows",
+      "create automations": "create automations",
+      "create broadcasts": "create broadcasts"
+    }
   },
   "errors": {
     "unauthorized": "You don't have permission to do this.",

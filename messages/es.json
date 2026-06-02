@@ -1004,6 +1004,42 @@
       }
     }
   },
+  "join": {
+    "verifying": "Verificando invitación…",
+    "tryAgain": "Intentar de nuevo",
+    "createAccount": "Crear una nueva cuenta",
+    "signIn": "Iniciar sesión",
+    "notFound": "Invitación no encontrada",
+    "notFoundBody": "Este enlace no coincide con una invitación válida. Verifica la URL o pide a quien te invitó que envíe una nueva.",
+    "used": "Invitación ya usada",
+    "usedBody": "Esta invitación ya fue aceptada. Si no fuiste tú, pide al admin de la cuenta que envíe un enlace nuevo.",
+    "expired": "Invitación expirada",
+    "expiredBody": "Esta invitación ha expirado. Pide al admin de la cuenta que envíe una nueva — toman unos segundos generarla.",
+    "serverError": "Algo salió mal",
+    "serverErrorBody": "No pudimos verificar esta invitación ahora. Intenta refrescar la página en un momento.",
+    "youreInvited": "Estás invitado a",
+    "joinAs": "Te unirás como",
+    "linkValidUntil": "Enlace válido hasta",
+    "accepting": "Aceptando…",
+    "acceptInvitation": "Aceptar invitación",
+    "acceptingNote": "Aceptar mueve tu sesión a {account}. Tu cuenta personal vacía del registro será eliminada.",
+    "cantJoin": "No puedes unirte a {account} con esta cuenta",
+    "cantJoinDesc": "Para unirte a {account}, cierre sesión y regístrese con otro correo. El enlace sigue válido mientras no haya expirado.",
+    "staySignedIn": "Permanecer conectado",
+    "signOutRetry": "Cerrar sesión y usar otro correo",
+    "signingOut": "Cerrando sesión…",
+    "createAndJoin": "Crear cuenta y unirse",
+    "alreadyHaveAccount": "Ya tengo una cuenta",
+    "failedAccept": "Error al aceptar la invitación",
+    "cantReachServer": "No se pudo contactar al servidor",
+    "cantSignOut": "No se pudo cerrar sesión. Intenta refrescar la página.",
+    "welcomeToTeam": "Bienvenido al equipo",
+    "roles": {
+      "admin": "Administrador",
+      "agent": "Agente",
+      "viewer": "Espectador"
+    }
+  },
   "common": {
     "save": "Guardar",
     "cancel": "Cancelar",
@@ -1023,7 +1059,17 @@
     "noResults": "Sin resultados",
     "required": "Requerido",
     "optional": "Opcional",
-    "readOnly": "Solo lectura"
+    "readOnly": "Solo lectura",
+    "readOnlyGated": "Solo lectura — tu rol no puede {reason}",
+    "gateReasons": {
+      "send messages": "enviar mensajes",
+      "add or import contacts": "agregar o importar contactos",
+      "create pipelines": "crear embudos",
+      "create deals": "crear negocios",
+      "create flows": "crear flujos",
+      "create automations": "crear automatizaciones",
+      "create broadcasts": "crear transmisiones"
+    }
   },
   "errors": {
     "unauthorized": "No tienes permiso para hacer esto.",
