@@ -1,6 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { useTheme } from "@/hooks/use-theme";
 import { THEMES, type ThemeId } from "@/lib/themes";
@@ -20,27 +21,27 @@ import { cn } from "@/lib/utils";
  */
 export function AppearancePanel() {
   const { theme, setTheme } = useTheme();
+  const t = useTranslations("settings");
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-lg font-semibold text-white">Color theme</h2>
+        <h2 className="text-lg font-semibold text-white">{t("appearance.title")}</h2>
         <p className="mt-1 text-sm text-slate-400">
-          Pick the accent color used across the app. All themes stay
-          dark — only the primary color (buttons, active nav, badges)
-          changes. Saved to this device.
+          {t("appearance.description")}
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {THEMES.map((t) => (
+        {THEMES.map((tTheme) => (
           <ThemeCard
-            key={t.id}
-            id={t.id}
-            name={t.name}
-            tagline={t.tagline}
-            swatch={t.swatch}
-            isActive={t.id === theme}
-            onPick={() => setTheme(t.id)}
+            key={tTheme.id}
+            id={tTheme.id}
+            name={tTheme.name}
+            tagline={tTheme.tagline}
+            swatch={tTheme.swatch}
+            isActive={tTheme.id === theme}
+            onPick={() => setTheme(tTheme.id)}
+            t={t}
           />
         ))}
       </div>
@@ -55,6 +56,7 @@ function ThemeCard({
   swatch,
   isActive,
   onPick,
+  t,
 }: {
   id: ThemeId;
   name: string;
@@ -62,13 +64,14 @@ function ThemeCard({
   swatch: string;
   isActive: boolean;
   onPick: () => void;
+  t: any;
 }) {
   return (
     <button
       type="button"
       onClick={onPick}
       aria-pressed={isActive}
-      aria-label={`Use ${name} theme`}
+      aria-label={t("appearance.useTheme", { name })}
       className={cn(
         "flex flex-col gap-3 rounded-lg border bg-card p-4 text-left transition-colors",
         isActive
@@ -88,7 +91,7 @@ function ThemeCard({
         {isActive && (
           <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2 py-0.5 text-[11px] font-medium text-primary">
             <Check className="h-3 w-3" />
-            Active
+            {t("appearance.active")}
           </span>
         )}
       </div>

@@ -17,6 +17,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { Copy, Loader2, MessageCircle, Sparkles } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
@@ -48,20 +49,6 @@ interface InviteMemberDialogProps {
   onCreated: () => void;
 }
 
-const EXPIRY_OPTIONS: { value: string; label: string }[] = [
-  { value: '1', label: '1 day' },
-  { value: '7', label: '7 days' },
-  { value: '30', label: '30 days' },
-];
-
-const ROLE_DESCRIPTIONS: Record<InviteRole, string> = {
-  admin:
-    'Can invite teammates, manage settings, send messages, and edit data.',
-  agent:
-    'Can use the inbox, contacts, broadcasts, automations, and flows. No settings or member access.',
-  viewer: 'Read-only access across every page. Cannot send or edit anything.',
-};
-
 // Server caps label at 80 chars (see src/app/api/account/invitations/route.ts).
 // Mirror it on the client so we short-circuit before the round-trip
 // rather than letting the user submit and bounce off a 400.
@@ -82,11 +69,24 @@ export function InviteMemberDialog({
   onCreated,
 }: InviteMemberDialogProps) {
   const { account } = useAuth();
+  const t = useTranslations('settings');
   const [role, setRole] = useState<InviteRole>('agent');
   const [expiry, setExpiry] = useState<string>('7');
   const [label, setLabel] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<CreatedInvite | null>(null);
+
+  const EXPIRY_OPTIONS: { value: string; label: string }[] = [
+    { value: '1', label: t('invite.expiryOptions.day') },
+    { value: '7', label: t('invite.expiryOptions.days', { days: 7 }) },
+    { value: '30', label: t('invite.expiryOptions.days', { days: 30 }) },
+  ];
+
+  const ROLE_DESCRIPTIONS: Record<InviteRole, string> = {
+    admin: t('invite.roleDescriptionAdmin'),
+    agent: t('invite.roleDescriptionAgent'),
+    viewer: t('invite.roleDescriptionViewer'),
+  };
 
   function reset() {
     setRole('agent');
@@ -155,12 +155,12 @@ export function InviteMemberDialog({
     if (!result) return;
     try {
       await navigator.clipboard.writeText(result.url);
-      toast.success('Invite link copied');
+      toast.success(t('invite.copied'));
     } catch {
       // Most likely "not in a secure context" — happens on http://
       // local IPs. Surface the link in the toast so the admin can
       // hand-copy it.
-      toast.error('Clipboard blocked — copy the link manually');
+      toast.error(t('invite.clipboardBlocked'));
     }
   }
 
@@ -170,7 +170,11 @@ export function InviteMemberDialog({
     // for users in multi-team contexts where "our wacrm account"
     // wouldn't be enough to disambiguate.
     const accountName = result?.accountName ?? 'our wacrm account';
-    const message = `Join ${accountName} on wacrm using this link (valid for ${result?.expiresInDays} days): ${url}`;
+    const message = t('invite.whatsAppMessage', {
+      accountName,
+      days: result?.expiresInDays ?? 7,
+      url,
+    });
     return `https://wa.me/?text=${encodeURIComponent(message)}`;
   }
 
@@ -191,22 +195,22 @@ export function InviteMemberDialog({
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-white">
                 <Sparkles className="size-4 text-primary" />
-                Invite created
+                {t('invite.createdTitle')}
               </DialogTitle>
               <DialogDescription className="text-slate-400">
-                Share this link with your new teammate. They&apos;ll be able
-                to sign up (or sign in) and join the account as{' '}
-                <span className="font-medium text-slate-300">{result.role}</span>
-                . The link is valid for{' '}
-                <span className="font-medium text-slate-300">
-                  {result.expiresInDays} day{result.expiresInDays === 1 ? '' : 's'}
-                </span>
-                .
+                {result.expiresInDays === 1
+                  ? t('invite.createdDescriptionOne', {
+                      role: t(`members.roles.${result.role}` as any),
+                    })
+                  : t('invite.createdDescription', {
+                      role: t(`members.roles.${result.role}` as any),
+                      days: result.expiresInDays,
+                    })}
               </DialogDescription>
             </DialogHeader>
 
             <div className="space-y-3 py-2">
-              <Label className="text-slate-300">Invite link</Label>
+              <Label className="text-slate-300">{t('invite.inviteLink')}</Label>
               <div className="flex gap-2">
                 <Input
                   readOnly
@@ -220,7 +224,7 @@ export function InviteMemberDialog({
                   className="bg-primary hover:bg-primary/90 text-primary-foreground shrink-0"
                 >
                   <Copy className="size-4" />
-                  Copy
+                  {t('invite.copy')}
                 </Button>
               </div>
 
@@ -231,11 +235,9 @@ export function InviteMemberDialog({
                   intro, amber-200 for the body. */}
               <div className="rounded-md border border-amber-500/50 bg-amber-500/15 px-3 py-2 text-xs text-amber-200">
                 <strong className="font-semibold text-amber-100">
-                  Save this link now.
+                  {t('invite.warningTitle')}
                 </strong>{' '}
-                We never store the plaintext — once you close this dialog
-                the URL is gone. To re-share, revoke this invite and create
-                a new one.
+                {t('invite.warningText')}
               </div>
 
               {/* Anchor styled with `buttonVariants` rather than wrapping
@@ -254,7 +256,7 @@ export function InviteMemberDialog({
                 })}
               >
                 <MessageCircle className="size-4" />
-                Send via WhatsApp
+                {t('invite.sendWhatsApp')}
               </a>
             </div>
 
@@ -263,23 +265,22 @@ export function InviteMemberDialog({
                 onClick={() => onOpenChange(false)}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
-                Done
+                {t('invite.done')}
               </Button>
             </DialogFooter>
           </>
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle className="text-white">Invite a teammate</DialogTitle>
+              <DialogTitle className="text-white">{t('invite.teammateTitle')}</DialogTitle>
               <DialogDescription className="text-slate-400">
-                Generate a one-time invite link. Share it via WhatsApp,
-                Slack, or any channel you like — no email service required.
+                {t('invite.description')}
               </DialogDescription>
             </DialogHeader>
 
             <div className="space-y-4 py-2">
               <div className="space-y-2">
-                <Label className="text-slate-300">Role</Label>
+                <Label className="text-slate-300">{t('invite.role')}</Label>
                 <Select
                   value={role}
                   onValueChange={(v) => v && setRole(v as InviteRole)}
@@ -288,9 +289,9 @@ export function InviteMemberDialog({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="agent">Agent</SelectItem>
-                    <SelectItem value="viewer">Viewer</SelectItem>
+                    <SelectItem value="admin">{t('members.roles.admin')}</SelectItem>
+                    <SelectItem value="agent">{t('members.roles.agent')}</SelectItem>
+                    <SelectItem value="viewer">{t('members.roles.viewer')}</SelectItem>
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-slate-500">
@@ -299,7 +300,7 @@ export function InviteMemberDialog({
               </div>
 
               <div className="space-y-2">
-                <Label className="text-slate-300">Link valid for</Label>
+                <Label className="text-slate-300">{t('invite.validFor')}</Label>
                 <Select
                   value={expiry}
                   onValueChange={(v) => v && setExpiry(v)}
@@ -319,19 +320,18 @@ export function InviteMemberDialog({
 
               <div className="space-y-2">
                 <Label className="text-slate-300">
-                  Label{' '}
-                  <span className="text-xs text-slate-500">(optional)</span>
+                  {t('invite.label')}{' '}
+                  <span className="text-xs text-slate-500">{t('invite.labelOptional')}</span>
                 </Label>
                 <Input
-                  placeholder="e.g. Sara — support team"
+                  placeholder={t('invite.labelPlaceholder')}
                   value={label}
                   onChange={(e) => setLabel(e.target.value)}
                   maxLength={MAX_LABEL_LEN}
                   className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
                 />
                 <p className="text-xs text-slate-500">
-                  Helps you remember who you sent the link to in the pending
-                  list below.
+                  {t('invite.labelHint')}
                 </p>
               </div>
             </div>
@@ -342,7 +342,7 @@ export function InviteMemberDialog({
                 onClick={() => onOpenChange(false)}
                 className="border-slate-700 text-slate-300 hover:bg-slate-800"
               >
-                Cancel
+                {t('invite.cancel')}
               </Button>
               <Button
                 onClick={handleCreate}
@@ -352,10 +352,10 @@ export function InviteMemberDialog({
                 {submitting ? (
                   <>
                     <Loader2 className="size-4 animate-spin" />
-                    Creating...
+                    {t('invite.generating')}
                   </>
                 ) : (
-                  'Generate link'
+                  t('invite.generate')
                 )}
               </Button>
             </DialogFooter>

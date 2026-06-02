@@ -23,6 +23,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 import {
   AlertTriangle,
   Crown,
@@ -78,14 +79,6 @@ interface Invitation {
   expires_at: string;
 }
 
-// Editable roles in the inline dropdown. Owner is never an option —
-// promotions go through the (deferred) Transfer Ownership flow.
-const EDITABLE_ROLES: { value: AccountRole; label: string; hint: string }[] = [
-  { value: 'admin', label: 'Admin', hint: 'Manage members + everything' },
-  { value: 'agent', label: 'Agent', hint: 'Use features; no settings' },
-  { value: 'viewer', label: 'Viewer', hint: 'Read-only across the app' },
-];
-
 // Per-role chip metadata. The colour scale runs amber (owner —
 // scarce, immutable) → primary (admin — significant) → slate
 // (agent — operational default) → muted slate (viewer — read-
@@ -94,27 +87,22 @@ const EDITABLE_ROLES: { value: AccountRole; label: string; hint: string }[] = [
 // into a shared module.
 const ROLE_CHIP: Record<
   AccountRole,
-  { icon: typeof Crown; label: string; className: string }
+  { icon: typeof Crown; className: string }
 > = {
   owner: {
     icon: Crown,
-    label: 'Owner',
-    className:
-      'border-amber-500/40 bg-amber-500/10 text-amber-300',
+    className: 'border-amber-500/40 bg-amber-500/10 text-amber-300',
   },
   admin: {
     icon: Shield,
-    label: 'Admin',
     className: 'border-primary/40 bg-primary/10 text-primary',
   },
   agent: {
     icon: UserCog,
-    label: 'Agent',
     className: 'border-slate-700 bg-slate-800 text-slate-300',
   },
   viewer: {
     icon: UserIcon,
-    label: 'Viewer',
     className: 'border-slate-800 bg-slate-900 text-slate-500',
   },
 };
@@ -129,17 +117,18 @@ function fmtDate(iso: string): string {
   });
 }
 
-function fmtExpiresIn(iso: string): string {
+function fmtExpiresIn(iso: string, t: any): string {
   const ms = new Date(iso).getTime() - Date.now();
-  if (ms <= 0) return 'expired';
+  if (ms <= 0) return t('members.expired');
   const days = Math.floor(ms / (24 * 60 * 60 * 1000));
-  if (days >= 1) return `expires in ${days} day${days === 1 ? '' : 's'}`;
+  if (days >= 1) return t('members.expiresInDays', { days });
   const hours = Math.max(1, Math.floor(ms / (60 * 60 * 1000)));
-  return `expires in ${hours} hour${hours === 1 ? '' : 's'}`;
+  return t('members.expiresInHours', { hours });
 }
 
 export function MembersTab() {
   const { user, canManageMembers } = useAuth();
+  const t = useTranslations('settings');
 
   const [members, setMembers] = useState<Member[]>([]);
   const [invitations, setInvitations] = useState<Invitation[]>([]);
@@ -150,6 +139,19 @@ export function MembersTab() {
   const [pendingMemberAction, setPendingMemberAction] = useState<string | null>(
     null,
   );
+
+  const EDITABLE_ROLES: { value: AccountRole; label: string; hint: string }[] = [
+    { value: 'admin', label: t('members.roles.admin'), hint: t('members.roleHints.admin') },
+    { value: 'agent', label: t('members.roles.agent'), hint: t('members.roleHints.agent') },
+    { value: 'viewer', label: t('members.roles.viewer'), hint: t('members.roleHints.viewer') },
+  ];
+
+  const roleChip = {
+    owner: { ...ROLE_CHIP.owner, label: t('members.roles.owner') },
+    admin: { ...ROLE_CHIP.admin, label: t('members.roles.admin') },
+    agent: { ...ROLE_CHIP.agent, label: t('members.roles.agent') },
+    viewer: { ...ROLE_CHIP.viewer, label: t('members.roles.viewer') },
+  };
 
   const loadEverything = useCallback(async () => {
     try {
@@ -162,7 +164,7 @@ export function MembersTab() {
 
       if (!mres.ok) {
         const payload = await mres.json().catch(() => ({}));
-        toast.error(payload.error || 'Failed to load members');
+        toast.error(payload.error || t('members.toasts.loadMembersFailed'));
         return;
       }
       const mdata = (await mres.json()) as { members: Member[] };
@@ -171,7 +173,7 @@ export function MembersTab() {
       if (ires) {
         if (!ires.ok) {
           const payload = await ires.json().catch(() => ({}));
-          toast.error(payload.error || 'Failed to load invitations');
+          toast.error(payload.error || t('members.toasts.loadInvitesFailed'));
           return;
         }
         const idata = (await ires.json()) as { invitations: Invitation[] };
@@ -181,11 +183,11 @@ export function MembersTab() {
       }
     } catch (err) {
       console.error('[MembersTab] load error:', err);
-      toast.error('Could not reach the server');
+      toast.error(t('members.toasts.networkError'));
     } finally {
       setLoading(false);
     }
-  }, [canManageMembers]);
+  }, [canManageMembers, t]);
 
   useEffect(() => {
     void loadEverything();
@@ -221,10 +223,15 @@ export function MembersTab() {
           ),
         );
         const payload = await res.json().catch(() => ({}));
-        toast.error(payload.error || 'Failed to update role');
+        toast.error(payload.error || t('members.toasts.updateRoleFailed'));
         return;
       }
-      toast.success(`Updated ${member.full_name || 'member'} to ${nextRole}`);
+      toast.success(
+        t('members.toasts.updateRoleSuccess', {
+          name: member.full_name || t('members.untitledInvite'),
+          role: t(`members.roles.${nextRole}` as any),
+        }),
+      );
     } catch (err) {
       // Same revert on network failure.
       setMembers((prev) =>
@@ -233,7 +240,7 @@ export function MembersTab() {
         ),
       );
       console.error('[MembersTab] role change error:', err);
-      toast.error('Could not reach the server');
+      toast.error(t('members.toasts.networkError'));
     } finally {
       setPendingMemberAction(null);
     }
@@ -249,17 +256,21 @@ export function MembersTab() {
       );
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
-        toast.error(payload.error || 'Failed to remove member');
+        toast.error(payload.error || t('members.toasts.removeMemberFailed'));
         return;
       }
-      toast.success(`Removed ${removingMember.full_name || 'member'}`);
+      toast.success(
+        t('members.toasts.removeMemberSuccess', {
+          name: removingMember.full_name || t('members.untitledInvite'),
+        }),
+      );
       setMembers((prev) =>
         prev.filter((m) => m.user_id !== removingMember.user_id),
       );
       setRemovingMember(null);
     } catch (err) {
       console.error('[MembersTab] remove error:', err);
-      toast.error('Could not reach the server');
+      toast.error(t('members.toasts.networkError'));
     } finally {
       setPendingMemberAction(null);
     }
@@ -272,14 +283,14 @@ export function MembersTab() {
       });
       if (!res.ok) {
         const payload = await res.json().catch(() => ({}));
-        toast.error(payload.error || 'Failed to revoke invitation');
+        toast.error(payload.error || t('members.toasts.revokeInviteFailed'));
         return;
       }
-      toast.success('Invitation revoked');
+      toast.success(t('members.toasts.revokeInviteSuccess'));
       setInvitations((prev) => prev.filter((i) => i.id !== invite.id));
     } catch (err) {
       console.error('[MembersTab] revoke error:', err);
-      toast.error('Could not reach the server');
+      toast.error(t('members.toasts.networkError'));
     }
   }
 
@@ -296,10 +307,9 @@ export function MembersTab() {
       {/* Header + invite button */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-white">Account members</h2>
+          <h2 className="text-lg font-semibold text-white">{t('members.title')}</h2>
           <p className="text-sm text-slate-400">
-            People with access to this account. Roles control what each
-            teammate can do.
+            {t('members.description')}
           </p>
         </div>
         <RequireRole min="admin">
@@ -308,7 +318,7 @@ export function MembersTab() {
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             <Plus className="size-4" />
-            Invite member
+            {t('members.invite')}
           </Button>
         </RequireRole>
       </div>
@@ -318,7 +328,7 @@ export function MembersTab() {
         <CardContent className="p-0">
           <ul className="divide-y divide-slate-800">
             {members.map((member) => {
-              const roleMeta = ROLE_CHIP[member.role];
+              const roleMeta = roleChip[member.role];
               const RoleIcon = roleMeta.icon;
               const isSelf = member.user_id === user?.id;
               const isOwnerRow = member.role === 'owner';
@@ -352,11 +362,11 @@ export function MembersTab() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <span className="truncate text-sm font-medium text-white">
-                          {member.full_name || 'Unnamed'}
+                          {member.full_name || t('members.untitledInvite')}
                         </span>
                         {isSelf && (
                           <Badge className="bg-slate-800 text-slate-300 border-slate-700 text-[10px] uppercase tracking-wide">
-                            You
+                            {t('members.you')}
                           </Badge>
                         )}
                       </div>
@@ -371,7 +381,7 @@ export function MembersTab() {
                   {/* Joined date stays desktop-only. The mobile row's
                       vertical density makes the joined date noise. */}
                   <div className="hidden sm:block text-right text-xs text-slate-500">
-                    Joined {fmtDate(member.joined_at)}
+                    {t('members.joined', { date: fmtDate(member.joined_at) })}
                   </div>
 
                   {/* Actions cluster. On mobile this is its own row
@@ -448,7 +458,7 @@ export function MembersTab() {
           <div className="mb-2 flex items-center gap-2">
             <UsersRound className="size-4 text-slate-400" />
             <h3 className="text-sm font-semibold text-white">
-              Pending invitations
+              {t('members.pendingTitle')}
             </h3>
             <Badge className="bg-slate-800 text-slate-400 border-slate-700">
               {invitations.length}
@@ -461,9 +471,7 @@ export function MembersTab() {
               looking for a button) keeps it from feeling like a bug. */}
           {invitations.length > 0 ? (
             <p className="mb-3 text-xs text-slate-500">
-              The plaintext invite URL is only shown once at creation
-              for security — to re-share, revoke the invite below and
-              create a new one.
+              {t('members.pendingHint')}
             </p>
           ) : null}
 
@@ -472,11 +480,10 @@ export function MembersTab() {
               <CardContent className="flex flex-col items-center justify-center py-8 text-center">
                 <Mail className="size-6 text-slate-600" />
                 <p className="mt-2 text-sm text-slate-400">
-                  No pending invitations.
+                  {t('members.noPending')}
                 </p>
                 <p className="mt-1 text-xs text-slate-500">
-                  Click <span className="text-slate-300">Invite member</span>{' '}
-                  above to generate a shareable link.
+                  {t('members.noPendingHint')}
                 </p>
               </CardContent>
             </Card>
@@ -485,44 +492,47 @@ export function MembersTab() {
               <CardContent className="p-0">
                 <ul className="divide-y divide-slate-800">
                   {invitations.map((inv) => {
-                    const inviteRoleMeta = ROLE_CHIP[inv.role];
+                    const inviteRoleMeta = roleChip[inv.role];
                     const InviteRoleIcon = inviteRoleMeta.icon;
                     return (
-                    <li
-                      key={inv.id}
-                      className="flex items-center gap-4 px-4 py-3"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-white">
-                            {inv.label || 'Untitled invite'}
-                          </span>
-                          <span
-                            className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-medium ${inviteRoleMeta.className}`}
-                          >
-                            <InviteRoleIcon className="size-3" />
-                            {inviteRoleMeta.label}
-                          </span>
-                        </div>
-                        <p className="mt-0.5 text-xs text-slate-500">
-                          Created {fmtDate(inv.created_at)} · {fmtExpiresIn(inv.expires_at)}
-                        </p>
-                      </div>
-
-                      {/* Revoke: red default state, mirrors the
-                          members-tab Remove button. Pre-polish version
-                          read as a neutral secondary button until
-                          hover. */}
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleRevoke(inv)}
-                        className="border-red-500/40 bg-red-500/10 text-red-300 hover:bg-red-500/20 hover:border-red-500/60 hover:text-red-200"
+                      <li
+                        key={inv.id}
+                        className="flex items-center gap-4 px-4 py-3"
                       >
-                        <MailX className="size-4" />
-                        Revoke
-                      </Button>
-                    </li>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium text-white">
+                              {inv.label || t('members.untitledInvite')}
+                            </span>
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-medium ${inviteRoleMeta.className}`}
+                            >
+                              <InviteRoleIcon className="size-3" />
+                              {inviteRoleMeta.label}
+                            </span>
+                          </div>
+                          <p className="mt-0.5 text-xs text-slate-500">
+                            {t('members.inviteMeta', {
+                              date: fmtDate(inv.created_at),
+                              expiry: fmtExpiresIn(inv.expires_at, t),
+                            })}
+                          </p>
+                        </div>
+
+                        {/* Revoke: red default state, mirrors the
+                            members-tab Remove button. Pre-polish version
+                            read as a neutral secondary button until
+                            hover. */}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleRevoke(inv)}
+                          className="border-red-500/40 bg-red-500/10 text-red-300 hover:bg-red-500/20 hover:border-red-500/60 hover:text-red-200"
+                        >
+                          <MailX className="size-4" />
+                          {t('members.revoke')}
+                        </Button>
+                      </li>
                     );
                   })}
                 </ul>
@@ -548,16 +558,12 @@ export function MembersTab() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-white">
               <AlertTriangle className="size-4 text-amber-400" />
-              Remove member
+              {t('members.removeDialog.title')}
             </DialogTitle>
             <DialogDescription className="text-slate-400">
-              Remove{' '}
-              <span className="font-medium text-slate-300">
-                {removingMember?.full_name || 'this teammate'}
-              </span>{' '}
-              from the account? They&apos;ll be signed out of this account
-              and given a fresh personal account on their next sign-in. Their
-              login isn&apos;t deleted.
+              {t('members.removeDialog.description', {
+                name: removingMember?.full_name || t('members.untitledInvite'),
+              })}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="bg-slate-900 border-slate-700">
@@ -566,7 +572,7 @@ export function MembersTab() {
               onClick={() => setRemovingMember(null)}
               className="border-slate-700 text-slate-300 hover:bg-slate-800"
             >
-              Cancel
+              {t('members.removeDialog.cancel')}
             </Button>
             <Button
               onClick={handleRemove}
@@ -576,10 +582,10 @@ export function MembersTab() {
               {pendingMemberAction ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  Removing...
+                  {t('members.removeDialog.submitting')}
                 </>
               ) : (
-                'Remove member'
+                t('members.removeDialog.submit')
               )}
             </Button>
           </DialogFooter>

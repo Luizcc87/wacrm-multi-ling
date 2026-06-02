@@ -1,6 +1,8 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import {
   Settings,
   MessageSquare,
@@ -46,6 +48,7 @@ export default function SettingsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { profile, profileLoading } = useAuth();
+  const t = useTranslations('settings');
 
   const accountSharingEnabled =
     !profileLoading &&
@@ -76,10 +79,9 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Settings</h1>
+        <h1 className="text-2xl font-bold text-white">{t('title')}</h1>
         <p className="text-sm text-slate-400 mt-1">
-          Manage your profile, WhatsApp® integration, message templates, and
-          tags.
+          {t('description')}
         </p>
       </div>
 
@@ -90,35 +92,35 @@ export default function SettingsPage() {
             className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
           >
             <User className="size-4" />
-            Profile
+            {t('tabs.profile')}
           </TabsTrigger>
           <TabsTrigger
             value="whatsapp"
             className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
           >
             <Settings className="size-4" />
-            WhatsApp Config
+            {t('tabs.whatsapp')}
           </TabsTrigger>
           <TabsTrigger
             value="templates"
             className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
           >
             <MessageSquare className="size-4" />
-            Templates
+            {t('tabs.templates')}
           </TabsTrigger>
           <TabsTrigger
             value="tags"
             className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
           >
             <Tag className="size-4" />
-            Tags
+            {t('tabs.tags')}
           </TabsTrigger>
           <TabsTrigger
             value="appearance"
             className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
           >
             <Palette className="size-4" />
-            Appearance
+            {t('tabs.appearance')}
           </TabsTrigger>
           {/* Members tab is feature-flagged. We render the trigger
               only when the flag is enabled, so users without the
@@ -129,7 +131,7 @@ export default function SettingsPage() {
               className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
             >
               <UsersRound className="size-4" />
-              Members
+              {t('tabs.members')}
             </TabsTrigger>
           )}
         </TabsList>
