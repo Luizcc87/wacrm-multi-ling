@@ -80,7 +80,11 @@
       "noActivityHint": "A atividade de mensagens, negócios, transmissões e automações aparecerá aqui.",
       "showing": "Mostrando",
       "of": "de",
-      "show": "Mostrar"
+      "show": "Mostrar",
+      "secAgo": "{n}s atrás",
+      "minAgo": "{n}m atrás",
+      "hrAgo": "{n}h atrás",
+      "dayAgo": "{n}d atrás"
     },
     "conversationsChart": {
       "title": "Conversas ao longo do tempo",
@@ -100,7 +104,8 @@
       "thisWeek": "Esta semana:",
       "lastWeek": "Semana passada:",
       "noData": "Nenhuma resposta registrada ainda",
-      "noDataHint": "Este gráfico é preenchido conforme você responde às mensagens dos clientes."
+      "noDataHint": "Este gráfico é preenchido conforme você responde às mensagens dos clientes.",
+      "categoryLabel": "Média (min)"
     },
     "pipelineDonut": {
       "title": "Valor do funil",
@@ -108,10 +113,25 @@
       "noData": "Nenhum negócio aberto ainda",
       "noDataHint": "Crie negócios em Funis para ver o detalhamento por etapa aqui.",
       "deal": "negócio",
-      "deals": "negócios"
+      "deals": "negócios",
+      "total": "Total"
     },
     "emptyState": {
       "defaultTitle": "Dados insuficientes ainda"
+    },
+    "page": {
+      "title": "Dashboard",
+      "subtitle": "Análise em tempo real de conversas, contatos, negócios, transmissões e automações.",
+      "activeConversations": "Conversas Ativas",
+      "newContactsToday": "Novos Contatos Hoje",
+      "openDealsValue": "Valor de Negócios Abertos",
+      "messagesSentToday": "Mensagens Enviadas Hoje",
+      "openDeal": "negócio aberto",
+      "openDeals": "negócios abertos",
+      "noChange": "Sem mudança {suffix}",
+      "delta": "{sign}{count} {suffix}",
+      "newTodayVsYesterday": "novos hoje vs ontem",
+      "vsYesterday": "vs ontem"
     }
   },
   "inbox": {

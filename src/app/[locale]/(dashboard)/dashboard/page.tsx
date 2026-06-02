@@ -32,11 +32,13 @@ import { PipelineDonut } from '@/components/dashboard/pipeline-donut'
 import { ResponseTimeChart } from '@/components/dashboard/response-time-chart'
 import { ActivityFeed } from '@/components/dashboard/activity-feed'
 import { useCurrency } from '@/hooks/use-currency'
+import { useTranslations } from 'next-intl'
 
 type RangeDays = 7 | 30 | 90
 
 export default function DashboardPage() {
   const { formatCurrency } = useCurrency()
+  const t = useTranslations('dashboard')
   const [metrics, setMetrics] = useState<MetricsBundle | null>(null)
   const [metricsLoading, setMetricsLoading] = useState(true)
 
@@ -121,9 +123,9 @@ export default function DashboardPage() {
     <div className="space-y-5">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-white">{t('page.title')}</h1>
         <p className="mt-1 text-sm text-slate-400">
-          Live analytics across conversations, contacts, deals, broadcasts, and automations.
+          {t('page.subtitle')}
         </p>
       </div>
 
@@ -134,16 +136,16 @@ export default function DashboardPage() {
         ) : (
           <>
             <MetricCard
-              title="Active Conversations"
+              title={t('page.activeConversations')}
               value={metrics.activeConversations.current.toLocaleString()}
               icon={MessageSquare}
               delta={{
                 sign: metrics.activeConversations.previous,
-                label: deltaLabel(metrics.activeConversations.previous, 'new today vs yesterday'),
+                label: deltaLabel(metrics.activeConversations.previous, t('page.newTodayVsYesterday'), t),
               }}
             />
             <MetricCard
-              title="New Contacts Today"
+              title={t('page.newContactsToday')}
               value={metrics.newContactsToday.current.toLocaleString()}
               icon={UserPlus}
               delta={{
@@ -151,18 +153,19 @@ export default function DashboardPage() {
                   metrics.newContactsToday.current - metrics.newContactsToday.previous,
                 label: deltaLabel(
                   metrics.newContactsToday.current - metrics.newContactsToday.previous,
-                  'vs yesterday',
+                  t('page.vsYesterday'),
+                  t,
                 ),
               }}
             />
             <MetricCard
-              title="Open Deals Value"
+              title={t('page.openDealsValue')}
               value={formatCurrency(metrics.openDealsValue)}
               icon={DollarSign}
-              subtitle={`${metrics.openDealsCount} open deal${metrics.openDealsCount === 1 ? '' : 's'}`}
+              subtitle={`${metrics.openDealsCount} ${metrics.openDealsCount === 1 ? t('page.openDeal') : t('page.openDeals')}`}
             />
             <MetricCard
-              title="Messages Sent Today"
+              title={t('page.messagesSentToday')}
               value={metrics.messagesSentToday.current.toLocaleString()}
               icon={Send}
               delta={{
@@ -170,7 +173,8 @@ export default function DashboardPage() {
                   metrics.messagesSentToday.current - metrics.messagesSentToday.previous,
                 label: deltaLabel(
                   metrics.messagesSentToday.current - metrics.messagesSentToday.previous,
-                  'vs yesterday',
+                  t('page.vsYesterday'),
+                  t,
                 ),
               }}
             />
@@ -214,8 +218,8 @@ export default function DashboardPage() {
 // ------------------------------------------------------------
 
 
-function deltaLabel(delta: number, suffix: string): string {
-  if (delta === 0) return `No change ${suffix}`
+function deltaLabel(delta: number, suffix: string, t: ReturnType<typeof import('next-intl').useTranslations>): string {
+  if (delta === 0) return t('page.noChange', { suffix })
   const sign = delta > 0 ? '+' : ''
-  return `${sign}${delta.toLocaleString()} ${suffix}`
+  return t('page.delta', { sign, count: delta.toLocaleString(), suffix })
 }

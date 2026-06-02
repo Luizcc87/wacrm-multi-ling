@@ -80,7 +80,11 @@
       "noActivityHint": "Activity from messages, deals, broadcasts, and automations will appear here.",
       "showing": "Showing",
       "of": "of",
-      "show": "Show"
+      "show": "Show",
+      "secAgo": "{n}s ago",
+      "minAgo": "{n}m ago",
+      "hrAgo": "{n}h ago",
+      "dayAgo": "{n}d ago"
     },
     "conversationsChart": {
       "title": "Conversations Over Time",
@@ -100,7 +104,8 @@
       "thisWeek": "This week:",
       "lastWeek": "Last week:",
       "noData": "No replies recorded yet",
-      "noDataHint": "This chart fills in as you reply to customer messages."
+      "noDataHint": "This chart fills in as you reply to customer messages.",
+      "categoryLabel": "Avg minutes"
     },
     "pipelineDonut": {
       "title": "Pipeline Value",
@@ -108,10 +113,25 @@
       "noData": "No open deals yet",
       "noDataHint": "Create deals in Pipelines to see stage breakdowns here.",
       "deal": "deal",
-      "deals": "deals"
+      "deals": "deals",
+      "total": "Total"
     },
     "emptyState": {
       "defaultTitle": "Not enough data yet"
+    },
+    "page": {
+      "title": "Dashboard",
+      "subtitle": "Live analytics across conversations, contacts, deals, broadcasts, and automations.",
+      "activeConversations": "Active Conversations",
+      "newContactsToday": "New Contacts Today",
+      "openDealsValue": "Open Deals Value",
+      "messagesSentToday": "Messages Sent Today",
+      "openDeal": "open deal",
+      "openDeals": "open deals",
+      "noChange": "No change {suffix}",
+      "delta": "{sign}{count} {suffix}",
+      "newTodayVsYesterday": "new today vs yesterday",
+      "vsYesterday": "vs yesterday"
     }
   },
   "inbox": {

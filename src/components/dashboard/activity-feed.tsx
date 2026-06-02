@@ -104,7 +104,7 @@ export function ActivityFeed({ items, loading }: ActivityFeedProps) {
                     {it.text}
                   </span>
                   <span className="flex-shrink-0 text-xs text-slate-500 tabular-nums">
-                    {relativeTime(it.at)}
+                    {relativeTime(it.at, t)}
                   </span>
                 </div>
               )
@@ -156,13 +156,13 @@ export function ActivityFeed({ items, loading }: ActivityFeedProps) {
   )
 }
 
-function relativeTime(iso: string): string {
+function relativeTime(iso: string, t: ReturnType<typeof import('next-intl').useTranslations>): string {
   const then = new Date(iso).getTime()
   if (Number.isNaN(then)) return ''
   const diffSec = Math.round((Date.now() - then) / 1000)
-  if (diffSec < 60) return `${Math.max(1, diffSec)}s ago`
-  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`
-  if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`
-  if (diffSec < 2_592_000) return `${Math.floor(diffSec / 86400)}d ago`
+  if (diffSec < 60) return t('secAgo', { n: Math.max(1, diffSec) })
+  if (diffSec < 3600) return t('minAgo', { n: Math.floor(diffSec / 60) })
+  if (diffSec < 86400) return t('hrAgo', { n: Math.floor(diffSec / 3600) })
+  if (diffSec < 2_592_000) return t('dayAgo', { n: Math.floor(diffSec / 86400) })
   return new Date(iso).toLocaleDateString()
 }
