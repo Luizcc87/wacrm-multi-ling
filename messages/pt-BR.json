@@ -358,7 +358,8 @@
       "dealReopened": "Negócio reaberto",
       "requiredFields": "Título, contato e etapa são obrigatórios"
     },
-    "noDeals": "Nenhum negócio nesta etapa"
+    "noDeals": "Nenhum negócio nesta etapa",
+    "addPipeline": "Adicionar Pipeline"
   },
   "broadcasts": {
     "title": "Transmissões",
@@ -1002,6 +1003,16 @@
         "deleteSuccess": "Tag excluída",
         "deleteFailed": "Falha ao excluir tag"
       }
+    },
+    "account": {
+      "title": "Configurações da conta",
+      "description": "Configure padrões da conta compartilhados por todos os membros.",
+      "currency": "Moeda padrão",
+      "currencyHint": "Todos os novos negócios usam esta moeda por padrão. Negócios individuais ainda podem substituí-la.",
+      "saving": "Salvando…",
+      "saveChanges": "Salvar alterações",
+      "currencySaved": "Moeda atualizada",
+      "currencySaveError": "Falha ao salvar a moeda"
     }
   },
   "join": {

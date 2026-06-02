@@ -19,6 +19,7 @@ import type { Deal, PipelineStage } from "@/types";
 import { DealCard } from "./deal-card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useCurrency } from "@/hooks/use-currency";
 
 interface PipelineBoardProps {
   stages: PipelineStage[];
@@ -26,15 +27,6 @@ interface PipelineBoardProps {
   onDealMoved: (dealId: string, newStageId: string) => void;
   onAddDeal: (stageId: string) => void;
   onEditDeal: (deal: Deal) => void;
-}
-
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
 }
 
 export function PipelineBoard({
@@ -45,6 +37,7 @@ export function PipelineBoard({
   onEditDeal,
 }: PipelineBoardProps) {
   const [activeDealId, setActiveDealId] = useState<string | null>(null);
+  const { formatCurrency } = useCurrency();
 
   const sortedStages = useMemo(
     () => [...stages].sort((a, b) => a.position - b.position),
@@ -179,6 +172,7 @@ function StageColumn({
   onEditDeal: (deal: Deal) => void;
 }) {
   const t = useTranslations("pipelines");
+  const { formatCurrency } = useCurrency();
   const { setNodeRef, isOver } = useDroppable({ id: stage.id });
 
   return (

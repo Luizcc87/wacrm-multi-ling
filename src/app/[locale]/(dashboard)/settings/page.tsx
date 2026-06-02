@@ -20,6 +20,7 @@ import { PasswordForm } from '@/components/settings/password-form';
 import { SessionsCard } from '@/components/settings/sessions-card';
 import { AppearancePanel } from '@/components/settings/appearance-panel';
 import { MembersTab } from '@/components/settings/members-tab';
+import { AccountSettingsForm } from '@/components/settings/account-settings-form';
 import { useAuth } from '@/hooks/use-auth';
 
 const BASE_TAB_VALUES = [
@@ -138,6 +139,7 @@ export default function SettingsPage() {
 
         <TabsContent value="profile" className="space-y-6">
           <ProfileForm />
+          <AccountSettingsForm />
           <PasswordForm />
           <SessionsCard />
         </TabsContent>

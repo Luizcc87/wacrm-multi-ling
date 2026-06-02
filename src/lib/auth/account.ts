@@ -87,8 +87,8 @@ export interface AccountContext {
   accountId: string;
   /** Caller's role within their account. */
   role: AccountRole;
-  /** Lightweight account meta — id + name. */
-  account: { id: string; name: string };
+  /** Lightweight account meta — id + name + default_currency. */
+  account: { id: string; name: string; default_currency: string };
 }
 
 /**
@@ -121,7 +121,7 @@ export async function getCurrentAccount(): Promise<AccountContext> {
   // rather than silently returning a half-populated profile.
   const { data, error } = await supabase
     .from("profiles")
-    .select("account_id, account_role, account:accounts!inner(id, name)")
+    .select("account_id, account_role, account:accounts!inner(id, name, default_currency)")
     .eq("user_id", user.id)
     .maybeSingle();
 
@@ -151,7 +151,7 @@ export async function getCurrentAccount(): Promise<AccountContext> {
     userId: user.id,
     accountId: data.account_id,
     role: data.account_role,
-    account: { id: accountRow.id, name: accountRow.name },
+    account: { id: accountRow.id, name: accountRow.name, default_currency: accountRow.default_currency ?? "USD" },
   };
 }
 

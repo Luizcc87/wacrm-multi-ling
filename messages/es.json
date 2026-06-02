@@ -358,7 +358,8 @@
       "dealReopened": "Negocio reabierto",
       "requiredFields": "Título, contacto y etapa son obligatorios"
     },
-    "noDeals": "Sin negocios en esta etapa"
+    "noDeals": "Sin negocios en esta etapa",
+    "addPipeline": "Agregar Pipeline"
   },
   "broadcasts": {
     "title": "Transmisiones",
@@ -1002,6 +1003,16 @@
         "deleteSuccess": "Etiqueta eliminada",
         "deleteFailed": "Error al eliminar la etiqueta"
       }
+    },
+    "account": {
+      "title": "Configuración de la cuenta",
+      "description": "Configure los valores predeterminados compartidos por todos los miembros.",
+      "currency": "Moneda predeterminada",
+      "currencyHint": "Todos los nuevos tratos usan esta moneda por defecto. Los tratos individuales aún pueden cambiarla.",
+      "saving": "Guardando…",
+      "saveChanges": "Guardar cambios",
+      "currencySaved": "Moneda actualizada",
+      "currencySaveError": "Error al guardar la moneda"
     }
   },
   "join": {

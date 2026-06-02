@@ -27,10 +27,10 @@ import {
   X,
   Trash2,
   MessageSquare,
-  DollarSign,
   Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useCurrency } from "@/hooks/use-currency";
 
 interface DealFormProps {
   open: boolean;
@@ -53,10 +53,13 @@ export function DealForm({
 }: DealFormProps) {
   const t = useTranslations("pipelines");
   const supabase = createClient();
+  const { currency: accountCurrency } = useCurrency();
+  const currencySymbol = new Intl.NumberFormat(undefined, { style: "currency", currency: accountCurrency, minimumFractionDigits: 0 })
+    .formatToParts(0)
+    .find((p) => p.type === "currency")?.value ?? accountCurrency;
 
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
-  const [currency, setCurrency] = useState("USD");
   const [contactId, setContactId] = useState("");
   const [stageId, setStageId] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
@@ -83,7 +86,6 @@ export function DealForm({
     if (deal) {
       setTitle(deal.title);
       setValue(String(deal.value ?? ""));
-      setCurrency(deal.currency || "USD");
       // contact_id is nullable when the contact has been deleted
       // (migration 004: ON DELETE SET NULL). "" means "no selection".
       setContactId(deal.contact_id ?? "");
@@ -94,14 +96,13 @@ export function DealForm({
     } else {
       setTitle("");
       setValue("");
-      setCurrency("USD");
       setContactId("");
       setStageId(defaultStageId || stages[0]?.id || "");
       setAssignedTo("");
       setExpectedCloseDate("");
       setNotes("");
     }
-  }, [open, deal, defaultStageId, stages]);
+  }, [open, deal, defaultStageId, stages, accountCurrency]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   // Load supporting data once the sheet is open
@@ -158,7 +159,7 @@ export function DealForm({
     const payload = {
       title: title.trim(),
       value: parseFloat(value) || 0,
-      currency,
+      currency: accountCurrency,
       contact_id: contactId,
       pipeline_id: pipelineId,
       stage_id: stageId,
@@ -295,7 +296,9 @@ export function DealForm({
               <div className="grid gap-2">
                 <Label className="text-slate-300">{t("deal.value")}</Label>
                 <div className="relative">
-                  <DollarSign className="absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-500 select-none">
+                    {currencySymbol}
+                  </span>
                   <Input
                     type="number"
                     value={value}
@@ -304,18 +307,6 @@ export function DealForm({
                     className="border-slate-700 bg-slate-800 pl-7 text-white"
                   />
                 </div>
-              </div>
-              <div className="grid gap-2">
-                <Label className="text-slate-300">{t("deal.currency")}</Label>
-                <select
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="h-9 w-full rounded-lg border border-slate-700 bg-slate-800 px-2.5 text-sm text-white outline-none focus:border-primary"
-                >
-                  <option value="USD">USD</option>
-                  <option value="EUR">EUR</option>
-                  <option value="GBP">GBP</option>
-                </select>
               </div>
             </div>
 
