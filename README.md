@@ -1,8 +1,38 @@
-# wacrm — CRM Template for WhatsApp
+# wacrm-multi-ling — Multilingual CRM Template for WhatsApp
 
-> Self-hostable CRM template for WhatsApp® — shared inbox, contacts,
-> sales pipelines, broadcasts, and no-code automations. Fork it, brand
-> it, host it.
+> Fork of [wacrm](https://github.com/ArnasDon/wacrm) with full internationalization (i18n) via **next-intl**.
+> Self-hostable CRM for WhatsApp® — shared inbox, contacts, pipelines, broadcasts, and automations — in three languages.
+
+## 🌐 Supported Languages
+
+This fork adds UI internationalization across all modules. Users switch languages via the sidebar switcher; preference persists in `localStorage`.
+
+| Language | Locale | URL prefix |
+|---|---|---|
+| 🇺🇸 English | `en` | `/en/...` |
+| 🇪🇸 Spanish | `es` | `/es/...` |
+| 🇧🇷 Portuguese (Brazil) | `pt-BR` | `/pt-BR/...` |
+
+### What is translated
+
+- Authentication pages (login, signup, forgot password, join/invitation)
+- Dashboard metrics, charts, and activity feed
+- Inbox: conversations, messages, composer, templates, contact sidebar
+- Contacts, pipelines, broadcasts wizard, automations builder, flows editor
+- Settings (profile, password, appearance, WhatsApp config, templates, tags, members, sessions)
+- Navigation, sidebar, header, and role-gated UI elements
+
+### Docker Image
+
+```bash
+docker pull lc1868/wacrm-multi-ling:latest
+```
+
+Multi-arch: `linux/amd64` + `linux/arm64`  
+Docker Hub: [hub.docker.com/r/lc1868/wacrm-multi-ling](https://hub.docker.com/r/lc1868/wacrm-multi-ling)  
+Source: [github.com/Luizcc87/wacrm-multi-ling](https://github.com/Luizcc87/wacrm-multi-ling)
+
+---
 
 <p align="center">
   <a href="https://www.hostinger.com/web-apps-hosting">

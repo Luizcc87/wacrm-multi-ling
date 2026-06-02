@@ -11,8 +11,9 @@ version: '3.8'
 
 services:
   web:
-    # Image hosted on Docker Hub: https://hub.docker.com/repository/docker/lc1868/wacrm
-    image: lc1868/wacrm:latest
+    # Image hosted on Docker Hub: https://hub.docker.com/r/lc1868/wacrm-multi-ling
+    # Multi-arch (linux/amd64 + linux/arm64) — multilingual fork (en, es, pt-BR)
+    image: lc1868/wacrm-multi-ling:latest
     environment:
       APP_URL: ${APP_URL}
       DATABASE_URL: ${DATABASE_URL}
