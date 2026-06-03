@@ -3,10 +3,13 @@ version: '3.8'
 # -------------------------------------------------------------
 # Stack: Supabase Cloud (Managed DB)
 # -------------------------------------------------------------
-# Key variables (configure them in your .env file):
-# - APP_URL: The public URL of the application.
+# Key variables (configure them in your .env file or Portainer stack env):
+# - APP_URL / NEXT_PUBLIC_SITE_URL: Public URL of the application.
 # - DATABASE_URL: Connection pooler URL provided by Supabase.
 #   E.g., postgres://postgres.[project]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
+# - ENCRYPTION_KEY: 64-character hex key used to encrypt WhatsApp tokens.
+#   Generate with: openssl rand -hex 32
+# - META_APP_SECRET: Meta App Secret used to validate WhatsApp webhook signatures.
 # -------------------------------------------------------------
 
 services:
@@ -15,11 +18,20 @@ services:
     # Multi-arch (linux/amd64 + linux/arm64) — multilingual fork (en, es, pt-BR)
     image: lc1868/wacrm-multi-ling:latest
     environment:
+      # App public URLs
       APP_URL: ${APP_URL}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+
+      # Supabase database
       DATABASE_URL: ${DATABASE_URL}
       NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+
+      # WhatsApp / Meta security
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY} # Example: 64 hex chars from `openssl rand -hex 32`
+      META_APP_SECRET: ${META_APP_SECRET} # Example: Meta Developers > App settings > Basic > App secret
     # Ports disabled on the host to prevent conflicts with Traefik/Cloudflare Tunnel.
     # Traffic routing is done directly via the internal Swarm network (network_swarm_public).
     # ports:
