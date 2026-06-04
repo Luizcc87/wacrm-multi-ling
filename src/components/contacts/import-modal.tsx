@@ -130,6 +130,16 @@ export function ImportModal({ open, onOpenChange, onImported }: ImportModalProps
       const user = session?.user;
       if (!user) throw new Error('Not authenticated');
 
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('account_id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (profileError || !profile?.account_id) {
+        throw new Error('Account profile not found');
+      }
+
       let imported = 0;
       let failed = 0;
 
@@ -138,6 +148,7 @@ export function ImportModal({ open, onOpenChange, onImported }: ImportModalProps
       for (let i = 0; i < parsedRows.length; i += chunkSize) {
         const chunk = parsedRows.slice(i, i + chunkSize);
         const rows = chunk.map((row) => ({
+          account_id: profile.account_id,
           user_id: user.id,
           phone: row.phone,
           name: row.name || null,
@@ -167,11 +178,11 @@ export function ImportModal({ open, onOpenChange, onImported }: ImportModalProps
 
       setResult({ imported, failed });
       if (imported > 0) {
-        toast.success(`${imported} contact${imported !== 1 ? 's' : ''} imported`);
+        toast.success(`${imported} ${t('imported')}`);
         onImported();
       }
       if (failed > 0) {
-        toast.error(`${failed} contact${failed !== 1 ? 's' : ''} failed to import`);
+        toast.error(`${failed} ${t('failed')}`);
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Import failed';

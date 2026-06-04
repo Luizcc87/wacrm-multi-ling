@@ -94,6 +94,16 @@ export function ContactForm({
       const user = session?.user;
       if (!user) throw new Error('Not authenticated');
 
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('account_id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (profileError || !profile?.account_id) {
+        throw new Error('Account profile not found');
+      }
+
       let contactId = contact?.id;
 
       if (isEdit && contactId) {
@@ -112,6 +122,7 @@ export function ContactForm({
         const { data, error } = await supabase
           .from('contacts')
           .insert({
+            account_id: profile.account_id,
             user_id: user.id,
             name: name.trim() || null,
             phone: phone.trim(),

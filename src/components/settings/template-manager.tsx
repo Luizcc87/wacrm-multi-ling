@@ -312,7 +312,7 @@ export function TemplateManager() {
       if (Array.isArray(data.errors) && data.errors.length > 0) {
         const preview = data.errors.slice(0, 3).map(
           (e: { name: string; language: string; message: string }) =>
-            `${e.name} (${e.language})`
+            `${e.name} (${e.language}): ${e.message}`
         );
         const suffix =
           data.errors.length > 3 ? `, +${data.errors.length - 3} more` : '';
