@@ -1,4 +1,4 @@
-{
+﻿{
   "auth": {
     "login": {
       "title": "Welcome back",
@@ -1162,5 +1162,35 @@
         "flows": "Flows"
       }
     }
+  }
+,
+  "startConversation": {
+    "newConversation": "New conversation",
+    "startConversation": "Start conversation",
+    "openInInbox": "Open in Inbox",
+    "phoneLabel": "Contact phone",
+    "phonePlaceholder": "+1 555 000 0000",
+    "nameLabel": "Name (optional)",
+    "namePlaceholder": "Contact name",
+    "searchContact": "Search existing contact",
+    "existingConversation": "Existing conversation found",
+    "newContact": "A new contact will be created",
+    "windowOpen": "24h window open — free text allowed",
+    "windowClosed": "Outside 24h window — template required",
+    "templateRequired": "Template required",
+    "selectTemplate": "Select approved template",
+    "noApprovedTemplates": "No approved templates available",
+    "messageLabel": "Message",
+    "send": "Send",
+    "sending": "Sending...",
+    "cancel": "Cancel",
+    "phoneInvalid": "Invalid phone number",
+    "whatsappNotConfigured": "WhatsApp not configured. Set up the integration in Settings.",
+    "windowExpired": "24h window has expired. Select a template to reopen the conversation.",
+    "errorMetaApi": "Error sending via Meta API. Please try again.",
+    "errorSave": "Message sent but failed to save. Contact support.",
+    "successSent": "Conversation started successfully",
+    "contactNoPhone": "This contact has no valid phone number",
+    "viewerRestricted": "Viewers cannot start conversations"
   }
 }

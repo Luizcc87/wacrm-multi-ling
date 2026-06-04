@@ -15,9 +15,11 @@ import {
   DollarSign,
   StickyNote,
   Plus,
+  MessageSquarePlus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { NewConversationModal } from "./new-conversation-modal";
 import { format } from "date-fns";
 
 interface ContactSidebarProps {
@@ -26,7 +28,9 @@ interface ContactSidebarProps {
 
 export function ContactSidebar({ contact }: ContactSidebarProps) {
   const t = useTranslations('inbox');
+  const tStart = useTranslations('startConversation');
   const [copied, setCopied] = useState(false);
+  const [newConvOpen, setNewConvOpen] = useState(false);
   const [deals, setDeals] = useState<Deal[]>([]);
   const [notes, setNotes] = useState<ContactNote[]>([]);
   const [tags, setTags] = useState<(Tag & { contact_tag_id: string })[]>([]);
@@ -126,6 +130,12 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
 
   return (
     <div className="flex h-full w-70 flex-col border-l border-slate-800 bg-slate-900">
+      <NewConversationModal
+        open={newConvOpen}
+        onOpenChange={setNewConvOpen}
+        prefillPhone={contact?.phone}
+        prefillContactId={contact?.id}
+      />
       <ScrollArea className="flex-1">
         <div className="p-4">
           {/* Contact Info */}
@@ -171,6 +181,23 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
               </div>
             )}
           </div>
+
+          {/* Start conversation CTA */}
+          {contact.phone ? (
+            <Button
+              size="sm"
+              variant="outline"
+              className="mt-3 w-full gap-2 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+              onClick={() => setNewConvOpen(true)}
+            >
+              <MessageSquarePlus className="h-4 w-4" />
+              {tStart('startConversation')}
+            </Button>
+          ) : (
+            <p className="mt-3 text-center text-xs text-slate-500">
+              {tStart('contactNoPhone')}
+            </p>
+          )}
 
           {/* Divider */}
           <div className="my-4 border-t border-slate-800" />

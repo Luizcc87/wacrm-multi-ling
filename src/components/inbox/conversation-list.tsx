@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { Conversation, ConversationStatus } from "@/types";
-import { Search, ChevronDown } from "lucide-react";
+import { Search, ChevronDown, MessageSquarePlus } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { NewConversationModal } from "./new-conversation-modal";
 
 interface ConversationListProps {
   activeConversationId: string | null;
@@ -45,6 +46,7 @@ export function ConversationList({
   resyncToken = 0,
 }: ConversationListProps) {
   const t = useTranslations('inbox');
+  const tStart = useTranslations('startConversation');
   const FILTER_OPTIONS: { label: string; value: ConversationStatus | "all" }[] = [
     { label: t('filterAll'), value: "all" },
     { label: t('filterOpen'), value: "open" },
@@ -54,6 +56,7 @@ export function ConversationList({
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<ConversationStatus | "all">("all");
   const [loading, setLoading] = useState(true);
+  const [newConvOpen, setNewConvOpen] = useState(false);
 
   // Keep the latest callback in a ref so the fetch effect below can
   // have a stable, empty-dep identity. Previously the fetch useCallback
@@ -149,6 +152,8 @@ export function ConversationList({
     // the single pane showing; fixed 320px on desktop where it shares the
     // row with the thread + contact sidebar.
     <div className="flex h-full w-full flex-col border-r border-slate-800 bg-slate-900 lg:w-80">
+      <NewConversationModal open={newConvOpen} onOpenChange={setNewConvOpen} />
+
       {/* Search + Filter */}
       <div className="space-y-2 border-b border-slate-800 p-3">
         <div className="relative">
@@ -161,6 +166,7 @@ export function ConversationList({
           />
         </div>
 
+        <div className="flex items-center justify-between">
         <DropdownMenu>
           <DropdownMenuTrigger className="inline-flex items-center justify-center h-7 gap-1 px-2 text-xs text-slate-400 hover:text-white rounded-md hover:bg-slate-800">
               {activeFilter?.label ?? "All"}
@@ -186,6 +192,16 @@ export function ConversationList({
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="h-7 gap-1 px-2 text-xs text-slate-400 hover:text-white hover:bg-slate-800"
+          onClick={() => setNewConvOpen(true)}
+          title={tStart('newConversation')}
+        >
+          <MessageSquarePlus className="h-4 w-4" />
+        </Button>
+        </div>
       </div>
 
       {/* Conversation Items */}
