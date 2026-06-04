@@ -51,13 +51,8 @@ export function ContactSidebar({ contact, onContactUpdated }: ContactSidebarProp
 
     const supabase = createClient();
 
-    // Fetch contact details, deals, notes, and tags in parallel
-    const [contactRes, dealsRes, notesRes, tagsRes] = await Promise.all([
-      supabase
-        .from("contacts")
-        .select("*")
-        .eq("id", contact.id)
-        .maybeSingle(),
+    // Fetch deals, notes, and tags in parallel
+    const [dealsRes, notesRes, tagsRes] = await Promise.all([
       supabase
         .from("deals")
         .select("*, stage:pipeline_stages(*)")
@@ -74,11 +69,6 @@ export function ContactSidebar({ contact, onContactUpdated }: ContactSidebarProp
         .eq("contact_id", contact.id),
     ]);
 
-    if (contactRes.data) {
-      const updated = contactRes.data as Contact;
-      setLocalContact(updated);
-      onContactUpdated?.(updated);
-    }
     if (dealsRes.data) setDeals(dealsRes.data);
     if (notesRes.data) setNotes(notesRes.data);
     if (tagsRes.data) {
@@ -91,6 +81,27 @@ export function ContactSidebar({ contact, onContactUpdated }: ContactSidebarProp
       setTags(mapped);
     }
   }, [contact]);
+
+  const refetchContact = useCallback(async () => {
+    if (!contact) return;
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("contacts")
+      .select("*")
+      .eq("id", contact.id)
+      .maybeSingle();
+
+    if (data) {
+      const updated = data as Contact;
+      setLocalContact(updated);
+      onContactUpdated?.(updated);
+    }
+  }, [contact, onContactUpdated]);
+
+  const handleContactSaved = useCallback(() => {
+    void refetchContact();
+    void fetchContactData();
+  }, [refetchContact, fetchContactData]);
 
   // Load on contact change. setContactData/setTags run inside async
   // Supabase callbacks, not synchronously in the effect body.
@@ -132,10 +143,6 @@ export function ContactSidebar({ contact, onContactUpdated }: ContactSidebarProp
     }
     setAddingNote(false);
   }, [localContact, newNote]);
-
-  const handleContactSaved = useCallback(() => {
-    void fetchContactData();
-  }, [fetchContactData]);
 
   if (!localContact) {
     return (
