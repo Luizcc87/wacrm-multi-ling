@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/flows/admin-client'
 import { sendTextMessage, sendTemplateMessage } from '@/lib/whatsapp/meta-api'
 import { decrypt } from '@/lib/whatsapp/encryption'
 import {
@@ -49,7 +48,7 @@ export async function POST(request: Request) {
     // Resolve account + role
     const { data: profile } = await supabase
       .from('profiles')
-      .select('account_id, role')
+      .select('account_id, account_role')
       .eq('user_id', user.id)
       .maybeSingle()
 
@@ -61,7 +60,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const role = profile?.role
+    const role = profile?.account_role
     if (!isAccountRole(role) || !canSendMessages(role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
@@ -91,11 +90,11 @@ export async function POST(request: Request) {
     }
 
     // Fetch config owner user_id for audit column in inserts
-    const { data: configOwnerProfile } = await supabaseAdmin()
+    const { data: configOwnerProfile } = await supabase
       .from('profiles')
       .select('user_id')
       .eq('account_id', accountId)
-      .eq('role', 'owner')
+      .eq('account_role', 'owner')
       .maybeSingle()
     const configOwnerUserId: string = configOwnerProfile?.user_id ?? user.id
 
@@ -125,7 +124,7 @@ export async function POST(request: Request) {
           ? normalized.replace(/\D/g, '').slice(-8)
           : normalized.replace(/\D/g, '')
 
-      const { data: candidates } = await supabaseAdmin()
+      const { data: candidates } = await supabase
         .from('contacts')
         .select('*')
         .eq('account_id', accountId)
@@ -139,7 +138,7 @@ export async function POST(request: Request) {
         contact = existing
       } else {
         // Create contact
-        const { data: created, error: createErr } = await supabaseAdmin()
+        const { data: created, error: createErr } = await supabase
           .from('contacts')
           .insert({
             account_id: accountId,
@@ -168,7 +167,7 @@ export async function POST(request: Request) {
     }
 
     // Find or create conversation
-    const { data: existingConv } = await supabaseAdmin()
+    const { data: existingConv } = await supabase
       .from('conversations')
       .select('*')
       .eq('account_id', accountId)
@@ -177,7 +176,7 @@ export async function POST(request: Request) {
 
     let conversation = existingConv
     if (!conversation) {
-      const { data: newConv, error: convErr } = await supabaseAdmin()
+      const { data: newConv, error: convErr } = await supabase
         .from('conversations')
         .insert({
           account_id: accountId,
@@ -188,13 +187,14 @@ export async function POST(request: Request) {
         .single()
 
       if (convErr || !newConv) {
+        console.error('[conversations/start] Failed to create conversation. Error:', convErr)
         return NextResponse.json({ error: 'Failed to create conversation' }, { status: 500 })
       }
       conversation = newConv
     }
 
     // Determine WABA 24h window status
-    const { data: lastInbound } = await supabaseAdmin()
+    const { data: lastInbound } = await supabase
       .from('messages')
       .select('created_at')
       .eq('conversation_id', conversation.id as string)
@@ -243,7 +243,16 @@ export async function POST(request: Request) {
       }
     }
 
-    const accessToken = decrypt(config.access_token)
+    let accessToken: string
+    try {
+      accessToken = decrypt(config.access_token)
+    } catch (err) {
+      console.error('[conversations/start] Token decryption failed:', err)
+      return NextResponse.json(
+        { error: 'token_decryption_failed' },
+        { status: 422 },
+      )
+    }
 
     // Load and validate template row if needed
     let templateRow: MessageTemplate | null = null
@@ -302,7 +311,7 @@ export async function POST(request: Request) {
     }
 
     // Persist message
-    const { data: messageRecord, error: msgErr } = await supabaseAdmin()
+    const { data: messageRecord, error: msgErr } = await supabase
       .from('messages')
       .insert({
         conversation_id: conversation.id as string,
@@ -325,7 +334,7 @@ export async function POST(request: Request) {
     }
 
     // Update conversation metadata
-    await supabaseAdmin()
+    await supabase
       .from('conversations')
       .update({
         last_message_text:

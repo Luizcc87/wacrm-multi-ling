@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import type { Contact, Tag, ContactTag } from '@/types';
@@ -41,6 +42,7 @@ import {
   Users,
   ChevronLeft,
   ChevronRight,
+  MessageSquarePlus,
 } from 'lucide-react';
 import { ContactForm } from '@/components/contacts/contact-form';
 import { ContactDetailView } from '@/components/contacts/contact-detail-view';
@@ -57,6 +59,7 @@ interface ContactWithTags extends Contact {
 export default function ContactsPage() {
   const t = useTranslations('contacts');
   const locale = useLocale();
+  const router = useRouter();
   const supabase = createClient();
   const canEdit = useCan('send-messages');
 
@@ -375,6 +378,16 @@ export default function ContactsPage() {
                         align="end"
                         className="bg-slate-900 border-slate-700"
                       >
+                        <DropdownMenuItem
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/${locale}/inbox?c=new&phone=${encodeURIComponent(contact.phone)}`);
+                          }}
+                          className="text-slate-300 focus:bg-slate-800 focus:text-white"
+                        >
+                          <MessageSquarePlus className="size-4" />
+                          {t('startConversation')}
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={(e) => {
                             e.stopPropagation();

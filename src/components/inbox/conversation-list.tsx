@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import type { Conversation, ConversationStatus } from "@/types";
@@ -53,10 +54,24 @@ export function ConversationList({
     { label: t('filterPending'), value: "pending" },
     { label: t('filterClosed'), value: "closed" },
   ];
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const locale = useLocale();
+
+  const cParam = searchParams.get("c");
+  const phoneParam = searchParams.get("phone");
+
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<ConversationStatus | "all">("all");
   const [loading, setLoading] = useState(true);
-  const [newConvOpen, setNewConvOpen] = useState(false);
+  const [newConvOpen, setNewConvOpen] = useState(cParam === "new");
+
+  // Sync state if URL query param changes
+  useEffect(() => {
+    if (cParam === "new") {
+      setNewConvOpen(true);
+    }
+  }, [cParam]);
 
   // Keep the latest callback in a ref so the fetch effect below can
   // have a stable, empty-dep identity. Previously the fetch useCallback
@@ -152,7 +167,20 @@ export function ConversationList({
     // the single pane showing; fixed 320px on desktop where it shares the
     // row with the thread + contact sidebar.
     <div className="flex h-full w-full flex-col border-r border-slate-800 bg-slate-900 lg:w-80">
-      <NewConversationModal open={newConvOpen} onOpenChange={setNewConvOpen} />
+      <NewConversationModal
+        open={newConvOpen}
+        onOpenChange={(open) => {
+          setNewConvOpen(open);
+          if (!open) {
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete("c");
+            params.delete("phone");
+            const newQuery = params.toString();
+            router.replace(newQuery ? `/${locale}/inbox?${newQuery}` : `/${locale}/inbox`, { scroll: false });
+          }
+        }}
+        prefillPhone={phoneParam || undefined}
+      />
 
       {/* Search + Filter */}
       <div className="space-y-2 border-b border-slate-800 p-3">
