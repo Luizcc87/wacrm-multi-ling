@@ -240,6 +240,7 @@
     "failedCustomFields": "Failed to save custom fields",
     "customFieldsSaved": "Custom fields saved",
     "editContact": "Edit Contact",
+    "saveToContacts": "Save to contacts",
     "addContact": "Add Contact",
     "editContactDesc": "Update the contact details below.",
     "addContactDesc": "Fill in the details to create a new contact.",

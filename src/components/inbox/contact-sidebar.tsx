@@ -20,30 +20,44 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NewConversationModal } from "./new-conversation-modal";
+import { ContactForm } from "@/components/contacts/contact-form";
 import { format } from "date-fns";
 
 interface ContactSidebarProps {
   contact: Contact | null;
+  onContactUpdated?: (updated: Contact) => void;
 }
 
-export function ContactSidebar({ contact }: ContactSidebarProps) {
+export function ContactSidebar({ contact, onContactUpdated }: ContactSidebarProps) {
   const t = useTranslations('inbox');
   const tStart = useTranslations('startConversation');
+  const tContacts = useTranslations('contacts');
   const [copied, setCopied] = useState(false);
   const [newConvOpen, setNewConvOpen] = useState(false);
+  const [editFormOpen, setEditFormOpen] = useState(false);
+  const [localContact, setLocalContact] = useState<Contact | null>(contact);
   const [deals, setDeals] = useState<Deal[]>([]);
   const [notes, setNotes] = useState<ContactNote[]>([]);
   const [tags, setTags] = useState<(Tag & { contact_tag_id: string })[]>([]);
   const [newNote, setNewNote] = useState("");
   const [addingNote, setAddingNote] = useState(false);
 
+  useEffect(() => {
+    setLocalContact(contact);
+  }, [contact]);
+
   const fetchContactData = useCallback(async () => {
     if (!contact) return;
 
     const supabase = createClient();
 
-    // Fetch deals, notes, and tags in parallel
-    const [dealsRes, notesRes, tagsRes] = await Promise.all([
+    // Fetch contact details, deals, notes, and tags in parallel
+    const [contactRes, dealsRes, notesRes, tagsRes] = await Promise.all([
+      supabase
+        .from("contacts")
+        .select("*")
+        .eq("id", contact.id)
+        .maybeSingle(),
       supabase
         .from("deals")
         .select("*, stage:pipeline_stages(*)")
@@ -60,6 +74,11 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
         .eq("contact_id", contact.id),
     ]);
 
+    if (contactRes.data) {
+      const updated = contactRes.data as Contact;
+      setLocalContact(updated);
+      onContactUpdated?.(updated);
+    }
     if (dealsRes.data) setDeals(dealsRes.data);
     if (notesRes.data) setNotes(notesRes.data);
     if (tagsRes.data) {
@@ -81,17 +100,14 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
   }, [fetchContactData]);
 
   const handleCopyPhone = useCallback(async () => {
-    if (!contact?.phone) return;
-    await navigator.clipboard.writeText(contact.phone);
+    if (!localContact?.phone) return;
+    await navigator.clipboard.writeText(localContact.phone);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    // Dep is the whole `contact` object (not `contact?.phone`) so the
-    // React Compiler's inference agrees with the manual dep list —
-    // fixes the `preserve-manual-memoization` lint error.
-  }, [contact]);
+  }, [localContact]);
 
   const handleAddNote = useCallback(async () => {
-    if (!contact || !newNote.trim()) return;
+    if (!localContact || !newNote.trim()) return;
     setAddingNote(true);
 
     const supabase = createClient();
@@ -103,7 +119,7 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
     const { data, error } = await supabase
       .from("contact_notes")
       .insert({
-        contact_id: contact.id,
+        contact_id: localContact.id,
         user_id: user?.id,
         note_text: newNote.trim(),
       })
@@ -115,9 +131,13 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
       setNewNote("");
     }
     setAddingNote(false);
-  }, [contact, newNote]);
+  }, [localContact, newNote]);
 
-  if (!contact) {
+  const handleContactSaved = useCallback(() => {
+    void fetchContactData();
+  }, [fetchContactData]);
+
+  if (!localContact) {
     return (
       <div className="flex h-full w-70 items-center justify-center border-l border-slate-800 bg-slate-900">
         <p className="text-sm text-slate-500">{t('contactSidebarEmpty')}</p>
@@ -125,7 +145,7 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
     );
   }
 
-  const displayName = contact.name || contact.phone;
+  const displayName = localContact.name || localContact.phone;
   const initials = displayName.charAt(0).toUpperCase();
 
   return (
@@ -133,17 +153,24 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
       <NewConversationModal
         open={newConvOpen}
         onOpenChange={setNewConvOpen}
-        prefillPhone={contact?.phone}
-        prefillContactId={contact?.id}
+        prefillPhone={localContact?.phone}
+        prefillContactId={localContact?.id}
+      />
+      <ContactForm
+        open={editFormOpen}
+        onOpenChange={setEditFormOpen}
+        contact={localContact}
+        contactTags={tags.map((t) => ({ contact_id: localContact.id, tag_id: t.id, id: t.contact_tag_id }))}
+        onSaved={handleContactSaved}
       />
       <ScrollArea className="flex-1">
         <div className="p-4">
           {/* Contact Info */}
           <div className="flex flex-col items-center text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-700 text-lg font-semibold text-white">
-              {contact.avatar_url ? (
+              {localContact.avatar_url ? (
                 <img
-                  src={contact.avatar_url}
+                  src={localContact.avatar_url}
                   alt={displayName}
                   className="h-16 w-16 rounded-full object-cover"
                 />
@@ -154,8 +181,8 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
             <h3 className="mt-3 text-sm font-semibold text-white">
               {displayName}
             </h3>
-            {contact.company && (
-              <p className="text-xs text-slate-400">{contact.company}</p>
+            {localContact.company && (
+              <p className="text-xs text-slate-400">{localContact.company}</p>
             )}
           </div>
 
@@ -166,7 +193,7 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
               className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-300 transition-colors hover:bg-slate-800"
             >
               <Phone className="h-4 w-4 text-slate-500" />
-              <span className="flex-1 text-left">{contact.phone}</span>
+              <span className="flex-1 text-left">{localContact.phone}</span>
               {copied ? (
                 <Check className="h-3 w-3 text-primary" />
               ) : (
@@ -174,30 +201,44 @@ export function ContactSidebar({ contact }: ContactSidebarProps) {
               )}
             </button>
 
-            {contact.email && (
+            {localContact.email && (
               <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-300">
                 <Mail className="h-4 w-4 text-slate-500" />
-                <span className="truncate">{contact.email}</span>
+                <span className="truncate">{localContact.email}</span>
               </div>
             )}
           </div>
 
-          {/* Start conversation CTA */}
-          {contact.phone ? (
+          {/* Actions CTA Stack */}
+          <div className="mt-3 space-y-2">
+            {localContact.phone ? (
+              <Button
+                size="sm"
+                variant="outline"
+                className="w-full gap-2 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+                onClick={() => setNewConvOpen(true)}
+              >
+                <MessageSquarePlus className="h-4 w-4" />
+                {tStart('startConversation')}
+              </Button>
+            ) : (
+              <p className="text-center text-xs text-slate-500">
+                {tStart('contactNoPhone')}
+              </p>
+            )}
+
             <Button
               size="sm"
-              variant="outline"
-              className="mt-3 w-full gap-2 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
-              onClick={() => setNewConvOpen(true)}
+              variant="secondary"
+              className="w-full gap-2 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white"
+              onClick={() => setEditFormOpen(true)}
             >
-              <MessageSquarePlus className="h-4 w-4" />
-              {tStart('startConversation')}
+              <User className="h-4 w-4" />
+              {!localContact.name || localContact.name.trim() === "" || localContact.name === localContact.phone
+                ? tContacts('saveToContacts') || "Salvar em contatos"
+                : tContacts('editContact') || "Editar contato"}
             </Button>
-          ) : (
-            <p className="mt-3 text-center text-xs text-slate-500">
-              {tStart('contactNoPhone')}
-            </p>
-          )}
+          </div>
 
           {/* Divider */}
           <div className="my-4 border-t border-slate-800" />
