@@ -175,6 +175,7 @@
     "youLabel": "You",
     "sessionExpired": "24-hour session expired. Use a template to re-engage.",
     "sessionExpiredPlaceholder": "Session expired - use a template",
+    "templateStagedPlaceholder": "Template message staged. Click Send to send.",
     "readOnlyPlaceholder": "Read-only - viewers can browse but not reply",
     "readOnlyTitle": "Read-only - your role can't send messages",
     "quickRepliesHint": "Type '/' for quick replies",

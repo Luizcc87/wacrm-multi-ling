@@ -218,8 +218,48 @@ export function NewConversationModal({
     }
   }
 
-  function handleTemplateSelect(tmpl: MessageTemplate, values: TemplateSendValues) {
-    void sendMessage({ type: "template", template: tmpl, values });
+  async function handleTemplateSelect(tmpl: MessageTemplate, values: TemplateSendValues) {
+    if (!windowInfo) return;
+    setSending(true);
+    setSendError(null);
+    try {
+      const res = await fetch("/api/conversations/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contact_id: windowInfo.contact_id,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (data.error === "token_decryption_failed") {
+          setSendError(t("tokenDecryptionFailed"));
+          return;
+        }
+        setSendError(data.error ?? t("errorMetaApi"));
+        return;
+      }
+      const data = await res.json();
+      onOpenChange(false);
+
+      const urlParams = new URLSearchParams();
+      urlParams.set("c", data.conversation_id);
+      urlParams.set("template", tmpl.name);
+      if (values.body && values.body.length > 0) {
+        urlParams.set("t_body", JSON.stringify(values.body));
+      }
+      if (values.headerText) {
+        urlParams.set("t_header", values.headerText);
+      }
+      if (values.buttonParams) {
+        urlParams.set("t_buttons", JSON.stringify(values.buttonParams));
+      }
+      router.push(`/${locale}/inbox?${urlParams.toString()}`);
+    } catch {
+      setSendError(t("errorMetaApi"));
+    } finally {
+      setSending(false);
+    }
   }
 
   const canLookup = phone.trim().length >= 8 && !loadingWindow;

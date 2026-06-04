@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -44,6 +45,16 @@ interface ReplyDraft {
   id: string;
   authorLabel: string;
   preview: string;
+}
+
+interface StagedTemplateInfo {
+  template: MessageTemplate;
+  values: {
+    body: string[];
+    headerText?: string;
+    buttonParams?: Record<number, string>;
+  };
+  renderedText: string;
 }
 
 function renderTemplateBody(body: string, params: string[]): string {
@@ -141,7 +152,12 @@ export function MessageThread({
 }: MessageThreadProps) {
   const t = useTranslations('inbox');
   const { user } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const locale = useLocale();
+
   const [loading, setLoading] = useState(false);
+  const [stagedTemplate, setStagedTemplate] = useState<StagedTemplateInfo | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -558,6 +574,96 @@ export function MessageThread({
     [conversation, onNewMessage, onUpdateMessage],
   );
 
+  // Listen to template parameters in the URL to stage a template
+  const templateName = searchParams.get("template");
+  const tBodyStr = searchParams.get("t_body");
+  const tHeaderStr = searchParams.get("t_header");
+  const tButtonsStr = searchParams.get("t_buttons");
+
+  useEffect(() => {
+    if (!conversationId || !user?.id) {
+      setStagedTemplate(null);
+      return;
+    }
+
+    if (!templateName) {
+      setStagedTemplate(null);
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("message_templates")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("name", templateName)
+        .eq("status", "APPROVED")
+        .maybeSingle();
+
+      if (cancelled) return;
+      if (error || !data) {
+        console.error("Failed to load staged template:", error);
+        setStagedTemplate(null);
+        return;
+      }
+
+      let body: string[] = [];
+      try {
+        body = tBodyStr ? JSON.parse(tBodyStr) : [];
+      } catch (e) {
+        console.error("Failed to parse t_body:", e);
+      }
+
+      let buttonParams: Record<number, string> = {};
+      try {
+        buttonParams = tButtonsStr ? JSON.parse(tButtonsStr) : {};
+      } catch (e) {
+        console.error("Failed to parse t_buttons:", e);
+      }
+
+      const renderedText = renderTemplateBody(data.body_text, body);
+
+      setStagedTemplate({
+        template: data,
+        values: {
+          body,
+          headerText: tHeaderStr || undefined,
+          buttonParams,
+        },
+        renderedText,
+      });
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [conversationId, user?.id, templateName, tBodyStr, tHeaderStr, tButtonsStr]);
+
+  const clearTemplateParams = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.delete("template");
+    params.delete("t_body");
+    params.delete("t_header");
+    params.delete("t_buttons");
+    const newQuery = params.toString();
+    router.replace(newQuery ? `/${locale}/inbox?${newQuery}` : `/${locale}/inbox`, { scroll: false });
+  }, [router, locale]);
+
+  const handleSendStagedTemplate = useCallback(async () => {
+    if (!stagedTemplate) return;
+    const { template, values } = stagedTemplate;
+    setStagedTemplate(null);
+    clearTemplateParams();
+    await handleSendTemplate(template, values);
+  }, [stagedTemplate, handleSendTemplate, clearTemplateParams]);
+
+  const handleClearStagedTemplate = useCallback(() => {
+    setStagedTemplate(null);
+    clearTemplateParams();
+  }, [clearTemplateParams]);
+
   // Build a quick id → Message map so reply quotes can be rendered without
   // an extra fetch — the thread already holds the full conversation.
   const messagesById = useMemo(() => {
@@ -941,6 +1047,9 @@ export function MessageThread({
         onOpenTemplates={handleOpenTemplates}
         replyTo={replyTo}
         onClearReply={() => setReplyTo(null)}
+        stagedTemplate={stagedTemplate}
+        onSendStagedTemplate={handleSendStagedTemplate}
+        onClearStagedTemplate={handleClearStagedTemplate}
       />
 
       <TemplatePicker

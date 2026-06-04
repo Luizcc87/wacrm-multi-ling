@@ -339,6 +339,23 @@ export default function InboxPage() {
     };
   }, []);
 
+  // Auto-select deep-linked conversation when it appears in the list, or update contact info when hydrated
+  useEffect(() => {
+    if (!deepLinkConvId || conversations.length === 0) return;
+    const match = conversations.find((c) => c.id === deepLinkConvId);
+    if (!match) return;
+
+    if (activeConversation?.id !== deepLinkConvId) {
+      setActiveConversation(match);
+      setActiveContact(match.contact ?? null);
+      setMessages([]);
+      autoSelectedForDeepLinkRef.current = deepLinkConvId;
+    } else if (match.contact && !activeContact) {
+      // Backfill contact details once hydration finishes
+      setActiveContact(match.contact);
+    }
+  }, [deepLinkConvId, conversations, activeConversation?.id, activeContact]);
+
   /**
    * Manual refresh trigger for the thread-header refresh button.
    * Bumps the same resyncToken the reconnect / visibility paths use,

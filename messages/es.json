@@ -175,6 +175,7 @@
     "youLabel": "Tú",
     "sessionExpired": "Sesión de 24 horas vencida. Usa una plantilla para reactivar.",
     "sessionExpiredPlaceholder": "Sesión vencida - usa una plantilla",
+    "templateStagedPlaceholder": "Mensaje de plantilla preparado. Haga clic en Enviar para enviar.",
     "readOnlyPlaceholder": "Solo lectura — los espectadores pueden navegar pero no responder",
     "readOnlyTitle": "Solo lectura — tu rol no puede enviar mensajes",
     "quickRepliesHint": "Escribe '/' para respuestas rápidas",

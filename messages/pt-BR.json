@@ -175,6 +175,7 @@
     "youLabel": "Você",
     "sessionExpired": "Sessão de 24 horas expirada. Use um template para reengajar.",
     "sessionExpiredPlaceholder": "Sessão expirada - use um template",
+    "templateStagedPlaceholder": "Mensagem de template preparada. Clique em Enviar para enviar.",
     "readOnlyPlaceholder": "Somente leitura — visualizadores podem navegar mas não responder",
     "readOnlyTitle": "Somente leitura — seu papel não pode enviar mensagens",
     "quickRepliesHint": "Digite '/' para respostas rápidas",
