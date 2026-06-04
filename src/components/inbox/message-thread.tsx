@@ -643,6 +643,7 @@ export function MessageThread({
 
   const clearTemplateParams = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
+    if (!params.has("template")) return;
     params.delete("template");
     params.delete("t_body");
     params.delete("t_header");
@@ -663,6 +664,26 @@ export function MessageThread({
     setStagedTemplate(null);
     clearTemplateParams();
   }, [clearTemplateParams]);
+
+  const handleSelectTemplateForStaging = useCallback(
+    (
+      template: MessageTemplate,
+      values: {
+        body: string[];
+        headerText?: string;
+        buttonParams?: Record<number, string>;
+      },
+    ) => {
+      const renderedText = renderTemplateBody(template.body_text, values.body);
+      setStagedTemplate({
+        template,
+        values,
+        renderedText,
+      });
+      setTemplateModalOpen(false);
+    },
+    [],
+  );
 
   // Build a quick id → Message map so reply quotes can be rendered without
   // an extra fetch — the thread already holds the full conversation.
@@ -1055,7 +1076,7 @@ export function MessageThread({
       <TemplatePicker
         open={templateModalOpen}
         onOpenChange={setTemplateModalOpen}
-        onSelect={handleSendTemplate}
+        onSelect={handleSelectTemplateForStaging}
       />
     </div>
   );

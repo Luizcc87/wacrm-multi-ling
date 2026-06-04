@@ -124,9 +124,9 @@ export function MessageComposer({
               {stagedTemplate.values.headerText}
             </div>
           )}
-          <p className="whitespace-pre-wrap text-sm text-slate-200">
+          <div className="max-h-48 overflow-y-auto whitespace-pre-wrap text-sm text-slate-200 pr-1 scrollbar-thin">
             {stagedTemplate.renderedText}
-          </p>
+          </div>
           {stagedTemplate.template.buttons && stagedTemplate.template.buttons.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
               {stagedTemplate.template.buttons.map((btn: any, idx: number) => (
