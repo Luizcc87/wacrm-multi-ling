@@ -1197,6 +1197,7 @@
     "errorSave": "Mensaje enviado pero no se pudo guardar. Contacta al soporte.",
     "successSent": "Conversación iniciada con éxito",
     "contactNoPhone": "Este contacto no tiene número de teléfono válido",
-    "viewerRestricted": "Los observadores no pueden iniciar conversaciones"
+    "viewerRestricted": "Los observadores no pueden iniciar conversaciones",
+    "windowExpiredHint": "Ventana de 24h expirada — se requiere un template"
   }
 }

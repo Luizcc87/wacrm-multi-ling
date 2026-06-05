@@ -363,9 +363,12 @@ export function ContactDetailView({
                   size="sm"
                   variant="outline"
                   onClick={() => {
+                    if (!contact.phone) return;
                     router.push(`/${locale}/inbox?c=new&phone=${encodeURIComponent(contact.phone)}`);
                   }}
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800 shrink-0 gap-1.5 self-start sm:self-center"
+                  disabled={!contact.phone}
+                  title={!contact.phone ? t('noPhoneForConversation') || 'Contato sem telefone' : undefined}
+                  className="border-slate-700 text-slate-300 hover:bg-slate-800 shrink-0 gap-1.5 self-start sm:self-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <MessageSquarePlus className="size-4" />
                   <span>{t('startConversation')}</span>

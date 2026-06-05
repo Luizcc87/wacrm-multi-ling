@@ -1197,6 +1197,7 @@
     "errorSave": "Mensagem enviada, mas houve erro ao salvar. Contate o suporte.",
     "successSent": "Conversa iniciada com sucesso",
     "contactNoPhone": "Este contato não possui telefone válido",
-    "viewerRestricted": "Visualizadores não podem iniciar conversas"
+    "viewerRestricted": "Visualizadores não podem iniciar conversas",
+    "windowExpiredHint": "Janela de 24h expirada — será necessário usar um template"
   }
 }

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { differenceInHours } from "date-fns";
 import type { Conversation, Message, Contact, ConversationStatus } from "@/types";
 import { useRealtime } from "@/hooks/use-realtime";
 import { ConversationList } from "@/components/inbox/conversation-list";
@@ -531,6 +532,19 @@ export default function InboxPage() {
     );
   }, []);
 
+  // Compute WABA 24h session status from the current message list.
+  // Mirrors the identical logic in MessageThread.sessionInfo so the
+  // ContactSidebar can show an amber warning BEFORE the user clicks
+  // "Iniciar Conversa" and the modal verifies the window.
+  const sessionExpired = useMemo(() => {
+    if (!messages.length) return false;
+    const lastCustomerMsg = [...messages]
+      .reverse()
+      .find((m) => m.sender_type === 'customer');
+    if (!lastCustomerMsg) return true;
+    return differenceInHours(new Date(), new Date(lastCustomerMsg.created_at)) >= 24;
+  }, [messages]);
+
   // On mobile (<lg) we show a SINGLE pane — either the list or the
   // thread — rather than cramming both side-by-side. Selecting a
   // conversation slides the thread in; the thread's back button pops
@@ -603,7 +617,7 @@ export default function InboxPage() {
 
         {/* Right panel: Contact sidebar — desktop only. */}
         <div className="hidden lg:block">
-          <ContactSidebar contact={activeContact} onContactUpdated={handleContactUpdated} />
+          <ContactSidebar contact={activeContact} onContactUpdated={handleContactUpdated} sessionExpired={sessionExpired} />
         </div>
       </div>
     </div>

@@ -381,9 +381,11 @@ export default function ContactsPage() {
                         <DropdownMenuItem
                           onClick={(e) => {
                             e.stopPropagation();
+                            if (!contact.phone) return;
                             router.push(`/${locale}/inbox?c=new&phone=${encodeURIComponent(contact.phone)}`);
                           }}
-                          className="text-slate-300 focus:bg-slate-800 focus:text-white"
+                          disabled={!contact.phone}
+                          className="text-slate-300 focus:bg-slate-800 focus:text-white disabled:pointer-events-none disabled:opacity-50"
                         >
                           <MessageSquarePlus className="size-4" />
                           {t('startConversation')}

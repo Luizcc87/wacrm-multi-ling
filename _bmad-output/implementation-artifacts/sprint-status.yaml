@@ -1,0 +1,20 @@
+# Sprint Status — wacrm-multi-ling: Usuários, Permissões e Auth
+# Gerado em: 2026-06-04
+# Épico: 1 — Graduação do Sistema de Equipe e Controle de Registro
+
+# STATUS DEFINITIONS:
+#   backlog       — história criada no epics.md, story file ainda não gerado
+#   ready-for-dev — story file gerado, pronto para o dev agent iniciar
+#   in-progress   — dev agent trabalhando
+#   done          — implementado e revisado
+#   blocked       — impedimento externo
+
+sprint_name: "wacrm-multi-ling — Users & Permissions"
+last_updated: "2026-06-04"
+
+development_status:
+  epic-1: in-progress
+
+  1-1-graduate-team-tab: ready-for-dev
+  1-2-allow-public-signup-env: ready-for-dev
+  1-3-cleanup-profiles-legacy-role: ready-for-dev

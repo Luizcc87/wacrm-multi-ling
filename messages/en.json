@@ -1198,6 +1198,7 @@
     "errorSave": "Message sent but failed to save. Contact support.",
     "successSent": "Conversation started successfully",
     "contactNoPhone": "This contact has no valid phone number",
-    "viewerRestricted": "Viewers cannot start conversations"
+    "viewerRestricted": "Viewers cannot start conversations",
+    "windowExpiredHint": "24h window expired — a template will be required"
   }
 }

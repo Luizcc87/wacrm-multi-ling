@@ -16,22 +16,28 @@ import {
   StickyNote,
   Plus,
   MessageSquarePlus,
+  AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { GatedButton } from "@/components/ui/gated-button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NewConversationModal } from "./new-conversation-modal";
 import { ContactForm } from "@/components/contacts/contact-form";
+import { useCan } from "@/hooks/use-can";
 import { format } from "date-fns";
 
 interface ContactSidebarProps {
   contact: Contact | null;
   onContactUpdated?: (updated: Contact) => void;
+  /** Whether the WABA 24h session for the current conversation has expired. */
+  sessionExpired?: boolean;
 }
 
-export function ContactSidebar({ contact, onContactUpdated }: ContactSidebarProps) {
+export function ContactSidebar({ contact, onContactUpdated, sessionExpired = false }: ContactSidebarProps) {
   const t = useTranslations('inbox');
   const tStart = useTranslations('startConversation');
   const tContacts = useTranslations('contacts');
+  const canSend = useCan('send-messages');
   const [copied, setCopied] = useState(false);
   const [newConvOpen, setNewConvOpen] = useState(false);
   const [editFormOpen, setEditFormOpen] = useState(false);
@@ -219,15 +225,25 @@ export function ContactSidebar({ contact, onContactUpdated }: ContactSidebarProp
           {/* Actions CTA Stack */}
           <div className="mt-3 space-y-2">
             {localContact.phone ? (
-              <Button
+              <GatedButton
                 size="sm"
                 variant="outline"
-                className="w-full gap-2 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+                canAct={canSend}
+                gateReason="send messages"
+                className={cn(
+                  "w-full gap-2 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white",
+                  sessionExpired && canSend && "border-amber-700/60 text-amber-400 hover:border-amber-600 hover:text-amber-300"
+                )}
                 onClick={() => setNewConvOpen(true)}
+                title={sessionExpired && canSend ? tStart('windowExpiredHint') || 'Janela expirada — use um template' : undefined}
               >
-                <MessageSquarePlus className="h-4 w-4" />
+                {sessionExpired && canSend ? (
+                  <AlertTriangle className="h-4 w-4" />
+                ) : (
+                  <MessageSquarePlus className="h-4 w-4" />
+                )}
                 {tStart('startConversation')}
-              </Button>
+              </GatedButton>
             ) : (
               <p className="text-center text-xs text-slate-500">
                 {tStart('contactNoPhone')}
