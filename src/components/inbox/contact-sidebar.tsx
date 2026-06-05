@@ -224,30 +224,28 @@ export function ContactSidebar({ contact, onContactUpdated, sessionExpired = fal
 
           {/* Actions CTA Stack */}
           <div className="mt-3 space-y-2">
-            {localContact.phone ? (
-              <GatedButton
-                size="sm"
-                variant="outline"
-                canAct={canSend}
-                gateReason="send messages"
-                className={cn(
-                  "w-full gap-2 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white",
-                  sessionExpired && canSend && "border-amber-700/60 text-amber-400 hover:border-amber-600 hover:text-amber-300"
-                )}
-                onClick={() => setNewConvOpen(true)}
-                title={sessionExpired && canSend ? tStart('windowExpiredHint') || 'Janela expirada — use um template' : undefined}
-              >
-                {sessionExpired && canSend ? (
+            {/* "Iniciar Conversa" only when the WABA 24h session has expired.
+                While the window is open the agent can reply directly in the
+                message composer — no need to re-initiate. */}
+            {sessionExpired && (
+              localContact.phone ? (
+                <GatedButton
+                  size="sm"
+                  variant="outline"
+                  canAct={canSend}
+                  gateReason="send messages"
+                  className="w-full gap-2 border-amber-700/60 text-amber-400 hover:border-amber-600 hover:text-amber-300"
+                  onClick={() => setNewConvOpen(true)}
+                  title={tStart('windowExpiredHint') || 'Janela expirada — use um template'}
+                >
                   <AlertTriangle className="h-4 w-4" />
-                ) : (
-                  <MessageSquarePlus className="h-4 w-4" />
-                )}
-                {tStart('startConversation')}
-              </GatedButton>
-            ) : (
-              <p className="text-center text-xs text-slate-500">
-                {tStart('contactNoPhone')}
-              </p>
+                  {tStart('startConversation')}
+                </GatedButton>
+              ) : (
+                <p className="text-center text-xs text-slate-500">
+                  {tStart('contactNoPhone')}
+                </p>
+              )
             )}
 
             <Button
