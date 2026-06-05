@@ -319,7 +319,9 @@ export function ProfileForm() {
               <div>
                 <dt className="text-slate-500">{t('profile.role')}</dt>
                 <dd className="mt-0.5 font-mono text-slate-200">
-                  {profile?.role ? t(`members.roles.${profile.role}` as any) : '—'}
+                  {profile?.account_role
+                    ? t(`members.roles.${profile.account_role}` as any)
+                    : '—'}
                 </dd>
               </div>
               <div>

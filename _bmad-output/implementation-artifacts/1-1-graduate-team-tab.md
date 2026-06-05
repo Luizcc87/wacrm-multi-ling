@@ -1,6 +1,6 @@
 # Story 1.1: Graduar Tab de Equipe (Remover Beta Gate)
 
-## Status: ready-for-dev
+## Status: done
 
 ## Story
 
@@ -23,17 +23,17 @@
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1** — Editar `wacrm-multi-ling/src/app/[locale]/(dashboard)/settings/page.tsx`
-  - [ ] 1a: Mover `'members'` de `FLAGGED_TAB_VALUES` para `BASE_TAB_VALUES`
-  - [ ] 1b: Remover const `ACCOUNT_SHARING_FLAG = 'account_sharing'`
-  - [ ] 1c: Remover `const accountSharingEnabled = ...` (depende de `profile` e `profileLoading`)
-  - [ ] 1d: Remover a guarda `{accountSharingEnabled && (...)` no `<TabsContent value="members">`
-  - [ ] 1e: Remover a lógica de fallback `tab = requestedTab === 'members' && !accountSharingEnabled ? 'profile' : requestedTab`
-  - [ ] 1f: Se `profile` e `profileLoading` do `useAuth()` não forem usados em nenhum outro lugar no arquivo após a mudança, remover o destructure do `useAuth()` e o import se ficar sem uso
-  - [ ] 1g: Adicionar `UsersRound` (ícone) ao `TabsTrigger` da tab members — verificar se já está presente no JSX existente
-- [ ] **Task 2** — Verificar que `AccountSettingsForm` (também dentro do tab members) não depende da flag
-- [ ] **Task 3** — Rodar `npm run typecheck` e `npm run lint` dentro de `wacrm-multi-ling/`
-- [ ] **Task 4** — Verificar manualmente que Settings abre na tab `profile` por default e que `?tab=members` carrega a tab corretamente
+- [x] **Task 1** — Editar `wacrm-multi-ling/src/app/[locale]/(dashboard)/settings/page.tsx`
+  - [x] 1a: Mover `'members'` de `FLAGGED_TAB_VALUES` para `BASE_TAB_VALUES`
+  - [x] 1b: Remover const `ACCOUNT_SHARING_FLAG = 'account_sharing'`
+  - [x] 1c: Remover `const accountSharingEnabled = ...` (depende de `profile` e `profileLoading`)
+  - [x] 1d: Remover a guarda `{accountSharingEnabled && (...)` no `<TabsContent value="members">`
+  - [x] 1e: Remover a lógica de fallback `tab = requestedTab === 'members' && !accountSharingEnabled ? 'profile' : requestedTab`
+  - [x] 1f: Se `profile` e `profileLoading` do `useAuth()` não forem usados em nenhum outro lugar no arquivo após a mudança, remover o destructure do `useAuth()` e o import se ficar sem uso
+  - [x] 1g: Adicionar `UsersRound` (ícone) ao `TabsTrigger` da tab members — verificar se já está presente no JSX existente
+- [x] **Task 2** — Verificar que `AccountSettingsForm` (também dentro do tab members) não depende da flag
+- [x] **Task 3** — Rodar `npm run typecheck` e `npm run lint` dentro de `wacrm-multi-ling/`
+- [x] **Task 4** — Verificar manualmente que Settings abre na tab `profile` por default e que `?tab=members` carrega a tab corretamente
 
 ---
 
@@ -130,13 +130,17 @@ Dentro do tab `members`, o `AccountSettingsForm` (para editar nome da conta) já
 ## Dev Agent Record
 
 ### Agent Model Used
-_[preencher após implementação]_
+Codex GPT-5
 
 ### Debug Log References
-_[preencher se necessário]_
+`npm run typecheck` concluído sem erros.
+`npm run lint` executado; falhou por erros preexistentes fora do arquivo desta story.
 
 ### Completion Notes List
-_[preencher após implementação]_
+- `members` foi graduada para tab base em `settings/page.tsx`.
+- Removi o gate por `account_sharing` e a lógica de fallback para `profile`.
+- `MembersTab` e `AccountSettingsForm` permanecem renderizados diretamente no tab `members`.
+- `typecheck` passou; `lint` ainda tem erros preexistentes em outros arquivos do projeto.
 
 ### File List
 - `wacrm-multi-ling/src/app/[locale]/(dashboard)/settings/page.tsx` — MODIFIED

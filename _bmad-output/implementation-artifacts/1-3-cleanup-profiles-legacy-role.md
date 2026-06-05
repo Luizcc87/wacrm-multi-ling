@@ -1,6 +1,6 @@
 # Story 1.3: Limpeza do Campo Legado `profiles.role`
 
-## Status: ready-for-dev
+## Status: done
 
 ## Story
 
@@ -23,27 +23,27 @@
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1** — Auditar todos os usos do campo legado `profiles.role`
-  - [ ] 1a: Confirmar lista completa com: `grep -rn "select.*'role'\|\.role\b" src/ --include='*.ts' --include='*.tsx'`
-  - [ ] 1b: Verificar se `conversations/start/route.ts` é o **único** arquivo que faz `SELECT` de `role` da tabela `profiles` (outros resultados do grep são `account_role` ou role de convite — OK)
-  - [ ] 1c: Documentar qualquer outro uso inesperado antes de prosseguir
+- [x] **Task 1** — Auditar todos os usos do campo legado `profiles.role`
+  - [x] 1a: Confirmar lista completa com: `grep -rn "select.*'role'\|\.role\b" src/ --include='*.ts' --include='*.tsx'`
+  - [x] 1b: Verificar se `conversations/start/route.ts` é o **único** arquivo que faz `SELECT` de `role` da tabela `profiles` (outros resultados do grep são `account_role` ou role de convite — OK)
+  - [x] 1c: Documentar qualquer outro uso inesperado antes de prosseguir
 
-- [ ] **Task 2** — Corrigir `src/app/api/conversations/start/route.ts`
-  - [ ] 2a: Substituir o select manual de `profiles` por `getCurrentAccount()` de `src/lib/auth/account.ts` — retorna `ctx.role` (que é `account_role`) já validado
-  - [ ] 2b: Remover o `supabase.from('profiles').select('account_id, role')` manual das linhas 50–54
-  - [ ] 2c: Usar `ctx.accountId` e `ctx.role` do context retornado por `getCurrentAccount()`
-  - [ ] 2d: Manter o guard `canSendMessages(ctx.role)` — a lógica de autorização é a mesma, apenas a fonte muda
-  - [ ] 2e: Tratar `UnauthorizedError` e `ForbiddenError` lançados por `getCurrentAccount()` — mapeá-los para 401/403 com `toErrorResponse(err)` (padrão já usado em outros routes)
+- [x] **Task 2** — Corrigir `src/app/api/conversations/start/route.ts`
+  - [x] 2a: Substituir o select manual de `profiles` por `getCurrentAccount()` de `src/lib/auth/account.ts` — retorna `ctx.role` (que é `account_role`) já validado
+  - [x] 2b: Remover o `supabase.from('profiles').select('account_id, role')` manual das linhas 50–54
+  - [x] 2c: Usar `ctx.accountId` e `ctx.role` do context retornado por `getCurrentAccount()`
+  - [x] 2d: Manter o guard `canSendMessages(ctx.role)` — a lógica de autorização é a mesma, apenas a fonte muda
+  - [x] 2e: Tratar `UnauthorizedError` e `ForbiddenError` lançados por `getCurrentAccount()` — mapeá-los para 401/403 com `toErrorResponse(err)` (padrão já usado em outros routes)
 
-- [ ] **Task 3** — Criar migration
-  - [ ] 3a: Criar `wacrm-multi-ling/supabase/migrations/021_cleanup_profiles_legacy_role.sql`
-  - [ ] 3b: Incluir comentário explicativo sobre por que o campo está sendo removido
-  - [ ] 3c: Usar `ALTER TABLE profiles DROP COLUMN IF EXISTS role;` (idempotente)
+- [x] **Task 3** — Criar migration
+  - [x] 3a: Criar `wacrm-multi-ling/supabase/migrations/023_cleanup_profiles_legacy_role.sql`
+  - [x] 3b: Incluir comentário explicativo sobre por que o campo está sendo removido
+  - [x] 3c: Usar `ALTER TABLE profiles DROP COLUMN IF EXISTS role;` (idempotente)
 
-- [ ] **Task 4** — Verificar TypeScript e testes
-  - [ ] 4a: `npm run typecheck` em `wacrm-multi-ling/`
-  - [ ] 4b: `npm run lint` em `wacrm-multi-ling/`
-  - [ ] 4c: Verificar se há testes para `conversations/start` e executá-los
+- [x] **Task 4** — Verificar TypeScript e testes
+  - [x] 4a: `npm run typecheck` em `wacrm-multi-ling/`
+  - [x] 4b: `npm run lint` em `wacrm-multi-ling/`
+  - [x] 4c: Verificar se há testes para `conversations/start` e executá-los
 
 ---
 
@@ -182,13 +182,19 @@ Se a migration for aplicada antes da correção do código e o código ainda ref
 ## Dev Agent Record
 
 ### Agent Model Used
-_[preencher após implementação]_
+Codex GPT-5
 
 ### Debug Log References
-_[preencher se necessário]_
+`profiles.role` was removed from the shared auth/profile type and from the auth hook data path.
+No active `profiles.role` field reads remain in `src/`.
+No dedicated tests for `conversations/start` were found in the repository.
+`typecheck` and `build` passed.
 
 ### Completion Notes List
-_[preencher após implementação]_
+- Removed the legacy `profiles.role` field from `src/types/index.ts`.
+- Updated `use-auth` to stop selecting and storing `role` from `profiles`.
+- Repointed the profile settings display to `account_role`.
+- Added migration `023_cleanup_profiles_legacy_role.sql` to drop the legacy column.
 
 ### File List
 - `wacrm-multi-ling/src/app/api/conversations/start/route.ts` — MODIFIED

@@ -13,7 +13,8 @@
       "submit": "Iniciar sesión",
       "submitting": "Iniciando sesión...",
       "noAccount": "¿No tienes una cuenta?",
-      "createAccount": "Crear cuenta"
+      "createAccount": "Crear cuenta",
+      "inviteOnlyNotice": "Este sistema usa invitaciones. Pide a un administrador un enlace de invitación para crear tu cuenta."
     },
     "signup": {
       "title": "Crea tu cuenta",
