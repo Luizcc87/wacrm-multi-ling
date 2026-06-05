@@ -11,6 +11,67 @@ and polish.
 
 ## [Unreleased]
 
+### Added
+
+- **WABA template flow in the Inbox.** When the 24-hour WhatsApp session
+  window has expired, the composer shows an amber banner inviting the
+  agent to pick a template. Selecting a template stages a preview in the
+  composer (header, body, buttons shown in read-only form) with a
+  **Confirm & Send** / **Cancel** step before anything is transmitted —
+  no accidental sends. The sent message appears in the thread with a
+  pill badge identifying it as a template.
+  (`src/components/inbox/message-composer.tsx`,
+  `src/components/inbox/template-picker.tsx`,
+  `src/components/inbox/message-thread.tsx`)
+
+- **"Iniciar Conversa" button in the contact sidebar.** When the WABA
+  24h session has expired, an amber button with an `AlertTriangle` icon
+  appears in the right-hand contact panel, opening the New Conversation
+  modal pre-filled with the contact's phone. The button is hidden when
+  the session is still active (the agent can type directly in the
+  composer). Requires `send-messages` permission — viewers see it
+  disabled with a tooltip.
+  (`src/components/inbox/contact-sidebar.tsx`)
+
+- **Save-to-contacts from the Inbox sidebar.** The right-hand panel now
+  always shows a **Salvar em contatos / Editar contato** button. For
+  contacts that are stored only as a phone number (name = phone or
+  blank), tapping the button opens the full `ContactForm` to fill in
+  name, email, company, tags, etc. Changes sync back to the
+  conversation list and contact sidebar instantly without a page reload.
+  (`src/components/inbox/contact-sidebar.tsx`,
+  `src/components/contacts/contact-form.tsx`)
+
+### Fixed
+
+- **Contact form no longer flashes "Carregando tags…" repeatedly.**
+  The `ContactForm` dialog was reinitializing its `useEffect` on every
+  parent re-render (triggered by Supabase Realtime events on the
+  conversation list). Fixed by narrowing the effect dependency array to
+  `[open, contact?.id]` so the form only resets when the dialog opens
+  or the target contact actually changes.
+  (`src/components/contacts/contact-form.tsx`)
+
+- **Theme hydration mismatch warning resolved.** The `<html>` element
+  now carries `suppressHydrationWarning` so React doesn't flag the
+  server/client `data-theme` attribute difference on first paint.
+  (`src/app/[locale]/layout.tsx`)
+
+- **"Iniciar Conversa" disabled when contact has no phone.** In the
+  Contacts list dropdown and Contact Detail sheet, the start-conversation
+  action is now `disabled` (with a tooltip) when `contact.phone` is
+  falsy, preventing a navigation to `/inbox?phone=` with an empty value.
+  (`src/app/[locale]/(dashboard)/contacts/page.tsx`,
+  `src/components/contacts/contact-detail-view.tsx`)
+
+- **"Iniciar Conversa" is now RBAC-gated in the sidebar.** The button
+  uses `GatedButton` + `useCan('send-messages')` — the same pattern
+  already applied to the message composer. Viewer-role users see it
+  disabled with a tooltip rather than silently absent or broken.
+  (`src/components/inbox/contact-sidebar.tsx`)
+
+
+
 Foundation for multi-user accounts. Every wacrm install becomes
 multi-tenant on the database side: a single user's signup creates a
 fresh "account", and every row is scoped to that account rather than
