@@ -1,6 +1,6 @@
 # Story 1.2: Controle de Registro Público via Variável de Ambiente
 
-## Status: ready-for-dev
+## Status: done
 
 ## Story
 
@@ -24,28 +24,28 @@
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1** — Criar Server Component wrapper para `signup/page.tsx`
-  - [ ] 1a: Criar `wacrm-multi-ling/src/app/[locale]/(auth)/signup/layout.tsx` **OU** converter o export default da página para um Server Component pai que faz o check e renderiza o Client Component interno — ver Dev Notes para a abordagem correta
-  - [ ] 1b: Lógica: `if (process.env.ALLOW_PUBLIC_SIGNUP === 'false') redirect(/${locale}/login?reason=invite_only)`
-  - [ ] 1c: Não remover nem alterar o `SignupPageInner` Client Component — só adicionar o guard no nível de Server Component
+- [x] **Task 1** — Criar Server Component wrapper para `signup/page.tsx`
+  - [x] 1a: Criar `wacrm-multi-ling/src/app/[locale]/(auth)/signup/layout.tsx` **OU** converter o export default da página para um Server Component pai que faz o check e renderiza o Client Component interno — ver Dev Notes para a abordagem correta
+  - [x] 1b: Lógica: `if (process.env.ALLOW_PUBLIC_SIGNUP === 'false') redirect(/${locale}/login?reason=invite_only)`
+  - [x] 1c: Não remover nem alterar o `SignupPageInner` Client Component — só adicionar o guard no nível de Server Component
 
-- [ ] **Task 2** — Editar `wacrm-multi-ling/src/app/[locale]/(auth)/login/page.tsx`
-  - [ ] 2a: Adicionar leitura de `searchParams.get('reason')` (já usa `useSearchParams`)
-  - [ ] 2b: Renderizar bloco informativo quando `reason === 'invite_only'` — usar chave i18n `auth.login.inviteOnlyNotice`
-  - [ ] 2c: Controlar visibilidade do link "Criar conta" baseado em `NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP !== 'false'` — **exceto** quando `inviteToken` presente (AC3)
-  - [ ] 2d: Adicionar `NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP` como env var lida no Client Component (prefix `NEXT_PUBLIC_` obrigatório para Client Components)
+- [x] **Task 2** — Editar `wacrm-multi-ling/src/app/[locale]/(auth)/login/page.tsx`
+  - [x] 2a: Adicionar leitura de `searchParams.get('reason')` (já usa `useSearchParams`)
+  - [x] 2b: Renderizar bloco informativo quando `reason === 'invite_only'` — usar chave i18n `auth.login.inviteOnlyNotice`
+  - [x] 2c: Controlar visibilidade do link "Criar conta" baseado em `NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP !== 'false'` — **exceto** quando `inviteToken` presente (AC3)
+  - [x] 2d: Adicionar `NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP` como env var lida no Client Component (prefix `NEXT_PUBLIC_` obrigatório para Client Components)
 
-- [ ] **Task 3** — Adicionar chaves i18n
-  - [ ] 3a: `messages/pt-BR.json` → `auth.login.inviteOnlyNotice`
-  - [ ] 3b: `messages/en.json` → `auth.login.inviteOnlyNotice`
-  - [ ] 3c: `messages/es.json` → `auth.login.inviteOnlyNotice`
+- [x] **Task 3** — Adicionar chaves i18n
+  - [x] 3a: `messages/pt-BR.json` → `auth.login.inviteOnlyNotice`
+  - [x] 3b: `messages/en.json` → `auth.login.inviteOnlyNotice`
+  - [x] 3c: `messages/es.json` → `auth.login.inviteOnlyNotice`
 
-- [ ] **Task 4** — Documentar no `.env.example`
-  - [ ] 4a: Adicionar bloco comentado com `# ALLOW_PUBLIC_SIGNUP=false` e explicação
+- [x] **Task 4** — Documentar no `.env.example`
+  - [x] 4a: Adicionar bloco comentado com `# ALLOW_PUBLIC_SIGNUP=false` e explicação
 
-- [ ] **Task 5** — Verificar build
-  - [ ] 5a: `npm run typecheck` em `wacrm-multi-ling/`
-  - [ ] 5b: `npm run build` para confirmar que o Server Component não quebra o bundle
+- [x] **Task 5** — Verificar build
+  - [x] 5a: `npm run typecheck` em `wacrm-multi-ling/`
+  - [x] 5b: `npm run build` para confirmar que o Server Component não quebra o bundle
 
 ---
 
@@ -204,13 +204,17 @@ const signupLinkVisible =
 ## Dev Agent Record
 
 ### Agent Model Used
-_[preencher após implementação]_
+Codex GPT-5
 
 ### Debug Log References
-_[preencher se necessário]_
+`npm run typecheck` concluído sem erros.
+`npm run build` concluído com sucesso; Next.js gerou todas as páginas sem falha.
 
 ### Completion Notes List
-_[preencher após implementação]_
+- Convertemos `/signup` para Server Component wrapper com redirect quando `ALLOW_PUBLIC_SIGNUP === 'false'`.
+- Extraí o conteúdo atual para `src/app/[locale]/(auth)/signup/signup-client.tsx` com `Suspense` mantido no client.
+- `login/page.tsx` agora oculta o link de cadastro quando a flag pública está desativada, exceto quando há `inviteToken`.
+- Adicionei o aviso `invite_only` via i18n nos três arquivos de mensagens e documentei as duas variáveis no exemplo de ambiente.
 
 ### File List
 - `wacrm-multi-ling/src/app/[locale]/(auth)/signup/page.tsx` — MODIFIED

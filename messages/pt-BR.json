@@ -13,7 +13,8 @@
       "submit": "Entrar",
       "submitting": "Entrando...",
       "noAccount": "Não tem uma conta?",
-      "createAccount": "Criar conta"
+      "createAccount": "Criar conta",
+      "inviteOnlyNotice": "Este sistema usa convites. Peça um link ao administrador para criar sua conta."
     },
     "signup": {
       "title": "Crie sua conta",

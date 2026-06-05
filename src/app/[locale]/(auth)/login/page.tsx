@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { BrandLogo } from "@/components/brand-logo";
 import {
   Card,
   CardContent,
@@ -15,7 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MessageSquare, UsersRound } from "lucide-react";
 
 export default function LoginPage() {
   return (
@@ -29,6 +29,7 @@ function LoginPageInner() {
   const t = useTranslations("auth.login");
   const searchParams = useSearchParams();
   const inviteToken = searchParams.get("invite");
+  const reason = searchParams.get("reason");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,6 +37,8 @@ function LoginPageInner() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+  const signupLinkVisible =
+    process.env.NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP !== 'false' || !!inviteToken;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,12 +67,13 @@ function LoginPageInner() {
     <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
       <Card className="w-full max-w-md border-slate-800 bg-slate-900">
         <CardHeader className="items-center text-center">
-          <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-            {inviteToken ? (
-              <UsersRound className="h-6 w-6 text-primary" />
-            ) : (
-              <MessageSquare className="h-6 w-6 text-primary" />
-            )}
+          {reason === 'invite_only' && (
+            <div className="w-full rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
+              {t("inviteOnlyNotice")}
+            </div>
+          )}
+          <div className="mx-auto mb-2 flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-[#081c3b] p-2">
+            <BrandLogo className="block h-full w-full object-contain object-center" />
           </div>
           <CardTitle className="text-xl text-white">
             {inviteToken ? t("subtitleInvite") : t("title")}
@@ -133,19 +137,21 @@ function LoginPageInner() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-400">
-            {t("noAccount")}{" "}
-            <Link
-              href={
-                inviteToken
-                  ? `/signup?invite=${encodeURIComponent(inviteToken)}`
-                  : "/signup"
-              }
-              className="text-primary hover:text-primary/80"
-            >
-              {t("createAccount")}
-            </Link>
-          </p>
+          {signupLinkVisible && (
+            <p className="mt-6 text-center text-sm text-slate-400">
+              {t("noAccount")}{" "}
+              <Link
+                href={
+                  inviteToken
+                    ? `/signup?invite=${encodeURIComponent(inviteToken)}`
+                    : "/signup"
+                }
+                className="text-primary hover:text-primary/80"
+              >
+                {t("createAccount")}
+              </Link>
+            </p>
+          )}
         </CardContent>
       </Card>
     </div>

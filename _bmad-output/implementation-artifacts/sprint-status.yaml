@@ -13,8 +13,8 @@ sprint_name: "wacrm-multi-ling — Users & Permissions"
 last_updated: "2026-06-04"
 
 development_status:
-  epic-1: in-progress
+  epic-1: done
 
-  1-1-graduate-team-tab: ready-for-dev
-  1-2-allow-public-signup-env: ready-for-dev
-  1-3-cleanup-profiles-legacy-role: ready-for-dev
+  1-1-graduate-team-tab: done
+  1-2-allow-public-signup-env: done
+  1-3-cleanup-profiles-legacy-role: done
