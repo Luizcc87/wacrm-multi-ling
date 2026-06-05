@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import type { Contact, Tag, ContactTag } from '@/types';
@@ -40,6 +42,7 @@ import {
   Users,
   ChevronLeft,
   ChevronRight,
+  MessageSquarePlus,
 } from 'lucide-react';
 import { ContactForm } from '@/components/contacts/contact-form';
 import { ContactDetailView } from '@/components/contacts/contact-detail-view';
@@ -54,6 +57,9 @@ interface ContactWithTags extends Contact {
 }
 
 export default function ContactsPage() {
+  const t = useTranslations('contacts');
+  const locale = useLocale();
+  const router = useRouter();
   const supabase = createClient();
   const canEdit = useCan('send-messages');
 
@@ -106,7 +112,7 @@ export default function ContactsPage() {
     const { data, count, error } = await query;
 
     if (error) {
-      toast.error('Failed to load contacts');
+      toast.error(t('failedLoad'));
       setLoading(false);
       return;
     }
@@ -141,7 +147,7 @@ export default function ContactsPage() {
 
     setContacts(enriched);
     setLoading(false);
-  }, [supabase, page, search, tagsMap]);
+  }, [supabase, page, search, tagsMap, t]);
 
   // Load-once-on-mount-ish data fetches. Each setter inside runs
   // inside an async promise completion (Supabase await), not
@@ -193,9 +199,9 @@ export default function ContactsPage() {
       .eq('id', deleteTarget.id);
 
     if (error) {
-      toast.error('Failed to delete contact');
+      toast.error(t('failedDelete'));
     } else {
-      toast.success('Contact deleted');
+      toast.success(t('contactDeleted'));
       fetchContacts();
     }
 
@@ -213,9 +219,9 @@ export default function ContactsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Contacts</h1>
+          <h1 className="text-2xl font-bold text-white">{t('title')}</h1>
           <p className="text-sm text-slate-400 mt-1">
-            Manage your contact list. {totalCount > 0 && `${totalCount} total contacts.`}
+            {t('pageDescription')} {totalCount > 0 && t('totalContacts', { count: totalCount })}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -227,7 +233,7 @@ export default function ContactsPage() {
             className="border-slate-700 text-slate-300 hover:bg-slate-800"
           >
             <Upload className="size-4" />
-            Import
+            {t('import')}
           </GatedButton>
           <GatedButton
             canAct={canEdit}
@@ -236,7 +242,7 @@ export default function ContactsPage() {
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             <Plus className="size-4" />
-            Add Contact
+            {t('addContactButton')}
           </GatedButton>
         </div>
       </div>
@@ -252,7 +258,7 @@ export default function ContactsPage() {
             // set shrinks/grows, page N may no longer be valid.
             setPage(0);
           }}
-          placeholder="Search by name, phone, or email..."
+          placeholder={t('searchPlaceholder')}
           className="pl-8 bg-slate-900 border-slate-700 text-white placeholder:text-slate-500"
         />
       </div>
@@ -262,12 +268,12 @@ export default function ContactsPage() {
         <Table>
           <TableHeader>
             <TableRow className="border-slate-800 hover:bg-transparent">
-              <TableHead className="text-slate-400">Name</TableHead>
-              <TableHead className="text-slate-400">Phone</TableHead>
-              <TableHead className="text-slate-400 hidden md:table-cell">Email</TableHead>
-              <TableHead className="text-slate-400 hidden lg:table-cell">Company</TableHead>
-              <TableHead className="text-slate-400 hidden md:table-cell">Tags</TableHead>
-              <TableHead className="text-slate-400 hidden lg:table-cell">Created</TableHead>
+              <TableHead className="text-slate-400">{t('name')}</TableHead>
+              <TableHead className="text-slate-400">{t('phone')}</TableHead>
+              <TableHead className="text-slate-400 hidden md:table-cell">{t('email')}</TableHead>
+              <TableHead className="text-slate-400 hidden lg:table-cell">{t('company')}</TableHead>
+              <TableHead className="text-slate-400 hidden md:table-cell">{t('tagsLabel')}</TableHead>
+              <TableHead className="text-slate-400 hidden lg:table-cell">{t('created')}</TableHead>
               <TableHead className="text-slate-400 w-12" />
             </TableRow>
           </TableHeader>
@@ -277,7 +283,7 @@ export default function ContactsPage() {
                 <TableCell colSpan={7} className="text-center py-12">
                   <div className="flex flex-col items-center gap-2">
                     <Loader2 className="size-6 animate-spin text-primary" />
-                    <p className="text-sm text-slate-500">Loading contacts...</p>
+                    <p className="text-sm text-slate-500">{t('loadingContacts')}</p>
                   </div>
                 </TableCell>
               </TableRow>
@@ -287,7 +293,7 @@ export default function ContactsPage() {
                   <div className="flex flex-col items-center gap-2">
                     <Users className="size-8 text-slate-600" />
                     <p className="text-sm text-slate-500">
-                      {search ? 'No contacts match your search.' : 'No contacts yet.'}
+                      {search ? t('noContactsMatch') : t('noContactsYet')}
                     </p>
                     {!search && (
                       <Button
@@ -297,7 +303,7 @@ export default function ContactsPage() {
                         className="mt-2 border-slate-700 text-slate-300 hover:bg-slate-800"
                       >
                         <Plus className="size-3.5" />
-                        Add your first contact
+                        {t('addFirstContact')}
                       </Button>
                     )}
                   </div>
@@ -311,7 +317,7 @@ export default function ContactsPage() {
                   onClick={() => openDetail(contact.id)}
                 >
                   <TableCell className="text-white font-medium">
-                    {contact.name || <span className="text-slate-500 italic">Unnamed</span>}
+                    {contact.name || <span className="text-slate-500 italic">{t('unnamed')}</span>}
                   </TableCell>
                   <TableCell className="text-slate-300 font-mono text-xs">
                     {contact.phone}
@@ -348,7 +354,7 @@ export default function ContactsPage() {
                     </div>
                   </TableCell>
                   <TableCell className="text-slate-500 text-xs hidden lg:table-cell">
-                    {new Date(contact.created_at).toLocaleDateString('en-US', {
+                    {new Date(contact.created_at).toLocaleDateString(locale, {
                       month: 'short',
                       day: 'numeric',
                       year: 'numeric',
@@ -375,12 +381,24 @@ export default function ContactsPage() {
                         <DropdownMenuItem
                           onClick={(e) => {
                             e.stopPropagation();
+                            if (!contact.phone) return;
+                            router.push(`/${locale}/inbox?c=new&phone=${encodeURIComponent(contact.phone)}`);
+                          }}
+                          disabled={!contact.phone}
+                          className="text-slate-300 focus:bg-slate-800 focus:text-white disabled:pointer-events-none disabled:opacity-50"
+                        >
+                          <MessageSquarePlus className="size-4" />
+                          {t('startConversation')}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={(e) => {
+                            e.stopPropagation();
                             openEditForm(contact);
                           }}
                           className="text-slate-300 focus:bg-slate-800 focus:text-white"
                         >
                           <Pencil className="size-4" />
-                          Edit
+                          {t('edit')}
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="bg-slate-700" />
                         <DropdownMenuItem
@@ -391,7 +409,7 @@ export default function ContactsPage() {
                           }}
                         >
                           <Trash2 className="size-4" />
-                          Delete
+                          {t('delete')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -407,8 +425,11 @@ export default function ContactsPage() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-xs text-slate-500">
-            Showing {page * PAGE_SIZE + 1}-{Math.min((page + 1) * PAGE_SIZE, totalCount)} of{' '}
-            {totalCount}
+            {t('showing', {
+              from: page * PAGE_SIZE + 1,
+              to: Math.min((page + 1) * PAGE_SIZE, totalCount),
+              total: totalCount,
+            })}
           </p>
           <div className="flex items-center gap-1">
             <Button
@@ -421,7 +442,7 @@ export default function ContactsPage() {
               <ChevronLeft className="size-4" />
             </Button>
             <span className="text-xs text-slate-400 px-2">
-              Page {page + 1} of {totalPages}
+              {t('pageOf', { page: page + 1, totalPages })}
             </span>
             <Button
               variant="outline"
@@ -467,13 +488,11 @@ export default function ContactsPage() {
       <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
         <DialogContent className="bg-slate-900 border-slate-700 text-slate-200 sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-white">Delete Contact</DialogTitle>
+            <DialogTitle className="text-white">{t('deleteContactTitle')}</DialogTitle>
             <DialogDescription className="text-slate-400">
-              Are you sure you want to delete{' '}
-              <span className="text-slate-200 font-medium">
-                {deleteTarget?.name || deleteTarget?.phone}
-              </span>
-              ? This action cannot be undone.
+              {t('deleteContactDescription', {
+                name: deleteTarget?.name || deleteTarget?.phone || t('unnamed'),
+              })}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="bg-slate-900 border-slate-700">
@@ -482,7 +501,7 @@ export default function ContactsPage() {
               onClick={() => setDeleteConfirmOpen(false)}
               className="border-slate-700 text-slate-300 hover:bg-slate-800"
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               variant="destructive"
@@ -490,7 +509,7 @@ export default function ContactsPage() {
               disabled={deleting}
             >
               {deleting && <Loader2 className="size-4 animate-spin" />}
-              Delete
+              {t('delete')}
             </Button>
           </DialogFooter>
         </DialogContent>

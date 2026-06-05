@@ -260,7 +260,8 @@ export async function POST() {
         .eq('account_id', accountId)
         .eq('name', t.name)
         .eq('language', t.language)
-        .maybeSingle()
+        .order('updated_at', { ascending: false })
+        .limit(1)
 
       if (lookupErr) {
         errors.push({
@@ -271,11 +272,13 @@ export async function POST() {
         continue
       }
 
-      if (existing?.id) {
+      const existingId = existing?.[0]?.id
+
+      if (existingId) {
         const { error: updErr } = await supabase
           .from('message_templates')
           .update(row)
-          .eq('id', existing.id)
+          .eq('id', existingId)
         if (updErr) {
           errors.push({
             name: t.name,

@@ -5,7 +5,7 @@ echo "======================================"
 echo " Multi-Architecture Docker Build      "
 echo "======================================"
 
-IMAGE_NAME="lc1868/wacrm:latest"
+IMAGE_NAME="lc1868/wacrm-multi-ling:latest"
 
 # Setup buildx builder if it doesn't exist
 docker buildx create --name multiarch-builder --use || true

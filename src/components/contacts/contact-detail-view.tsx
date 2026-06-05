@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import type { Contact, Tag, ContactTag, ContactNote, CustomField, ContactCustomValue, Deal } from '@/types';
@@ -32,6 +33,7 @@ import {
   Save,
   X,
   DollarSign,
+  MessageSquarePlus,
 } from 'lucide-react';
 
 interface ContactDetailViewProps {
@@ -48,6 +50,8 @@ export function ContactDetailView({
   onUpdated,
 }: ContactDetailViewProps) {
   const t = useTranslations('contacts');
+  const locale = useLocale();
+  const router = useRouter();
   const supabase = createClient();
 
   const [contact, setContact] = useState<Contact | null>(null);
@@ -339,46 +343,62 @@ export function ContactDetailView({
           <div className="flex flex-col h-full">
             {/* Header */}
             <SheetHeader className="p-4 border-b border-slate-700/50">
-              <div className="flex items-center gap-3">
-                <Avatar className="size-12 bg-slate-800 border border-slate-700">
-                  <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
-                    {getInitials(contact.name)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <SheetTitle className="text-white truncate">
-                    {contact.name || 'Unknown'}
-                  </SheetTitle>
-                  <SheetDescription className="text-slate-400 text-xs mt-0.5">
-                    {t('contactDetails')}
-                  </SheetDescription>
-                  <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-slate-400">
-                    <button
-                      onClick={copyPhone}
-                      className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer"
-                    >
-                      <Phone className="size-3" />
-                      {contact.phone}
-                      {copiedPhone ? (
-                        <Check className="size-3 text-primary" />
-                      ) : (
-                        <Copy className="size-3" />
-                      )}
-                    </button>
-                    {contact.email && (
-                      <span className="flex items-center gap-1">
-                        <Mail className="size-3" />
-                        {contact.email}
-                      </span>
-                    )}
-                    {contact.company && (
-                      <span className="flex items-center gap-1">
-                        <Building2 className="size-3" />
-                        {contact.company}
-                      </span>
-                    )}
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div className="flex items-center gap-3 min-w-0">
+                  <Avatar className="size-12 bg-slate-800 border border-slate-700">
+                    <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+                      {getInitials(contact.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0">
+                    <SheetTitle className="text-white truncate text-base">
+                      {contact.name || 'Unknown'}
+                    </SheetTitle>
+                    <SheetDescription className="text-slate-400 text-xs mt-0.5">
+                      {t('contactDetails')}
+                    </SheetDescription>
                   </div>
                 </div>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    if (!contact.phone) return;
+                    router.push(`/${locale}/inbox?c=new&phone=${encodeURIComponent(contact.phone)}`);
+                  }}
+                  disabled={!contact.phone}
+                  title={!contact.phone ? t('noPhoneForConversation') || 'Contato sem telefone' : undefined}
+                  className="border-slate-700 text-slate-300 hover:bg-slate-800 shrink-0 gap-1.5 self-start sm:self-center disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <MessageSquarePlus className="size-4" />
+                  <span>{t('startConversation')}</span>
+                </Button>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-slate-400">
+                <button
+                  onClick={copyPhone}
+                  className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer"
+                >
+                  <Phone className="size-3" />
+                  {contact.phone}
+                  {copiedPhone ? (
+                    <Check className="size-3 text-primary" />
+                  ) : (
+                    <Copy className="size-3" />
+                  )}
+                </button>
+                {contact.email && (
+                  <span className="flex items-center gap-1">
+                    <Mail className="size-3" />
+                    {contact.email}
+                  </span>
+                )}
+                {contact.company && (
+                  <span className="flex items-center gap-1">
+                    <Building2 className="size-3" />
+                    {contact.company}
+                  </span>
+                )}
               </div>
             </SheetHeader>
 

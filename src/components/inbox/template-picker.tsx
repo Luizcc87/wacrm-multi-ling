@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { MessageTemplate } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -80,6 +81,8 @@ export function TemplatePicker({
   onSelect,
 }: TemplatePickerProps) {
   const t = useTranslations('inbox');
+  const locale = useLocale();
+  const router = useRouter();
   const [templates, setTemplates] = useState<MessageTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<MessageTemplate | null>(null);
@@ -205,11 +208,23 @@ export function TemplatePicker({
                 <Loader2 className="h-5 w-5 animate-spin text-primary" />
               </div>
             ) : templates.length === 0 ? (
-              <div className="rounded-md border border-slate-800 bg-slate-950/50 p-6 text-center">
-                <p className="text-sm text-slate-300">{t('noApprovedTemplates')}</p>
-                <p className="mt-1 text-xs text-slate-500">
-                  {t('noApprovedTemplatesHint')}
-                </p>
+              <div className="rounded-md border border-slate-800 bg-slate-950/50 p-6 text-center space-y-4">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-slate-300">{t('noApprovedTemplates')}</p>
+                  <p className="text-xs text-slate-500">
+                    {t('noApprovedTemplatesHint')}
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    handleOpenChange(false);
+                    router.push(`/${locale}/settings?tab=templates`);
+                  }}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                >
+                  {t('configureTemplates')}
+                </Button>
               </div>
             ) : (
               templates.map((t) => (

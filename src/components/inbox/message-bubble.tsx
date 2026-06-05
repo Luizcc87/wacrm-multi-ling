@@ -190,10 +190,14 @@ function MessageContent({ message }: { message: Message }) {
         </a>
       );
 
-    case "template":
+    case "template": {
+      const isAgent = message.sender_type === "agent" || message.sender_type === "bot";
       return (
         <div>
-          <span className="mb-1 inline-flex items-center gap-1 rounded bg-primary/20 px-1.5 py-0.5 text-[10px] font-medium text-primary">
+          <span className={cn(
+            "mb-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium",
+            isAgent ? "bg-white/20 text-white" : "bg-primary/20 text-primary"
+          )}>
             <LayoutTemplate className="h-3 w-3" />
             Template
           </span>
@@ -204,6 +208,7 @@ function MessageContent({ message }: { message: Message }) {
           )}
         </div>
       );
+    }
 
     case "location":
       return (

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { differenceInHours } from "date-fns";
 import type { Conversation, Message, Contact, ConversationStatus } from "@/types";
 import { useRealtime } from "@/hooks/use-realtime";
 import { ConversationList } from "@/components/inbox/conversation-list";
@@ -339,6 +340,23 @@ export default function InboxPage() {
     };
   }, []);
 
+  // Auto-select deep-linked conversation when it appears in the list, or update contact info when hydrated
+  useEffect(() => {
+    if (!deepLinkConvId || conversations.length === 0) return;
+    const match = conversations.find((c) => c.id === deepLinkConvId);
+    if (!match) return;
+
+    if (activeConversation?.id !== deepLinkConvId) {
+      setActiveConversation(match);
+      setActiveContact(match.contact ?? null);
+      setMessages([]);
+      autoSelectedForDeepLinkRef.current = deepLinkConvId;
+    } else if (match.contact && !activeContact) {
+      // Backfill contact details once hydration finishes
+      setActiveContact(match.contact);
+    }
+  }, [deepLinkConvId, conversations, activeConversation?.id, activeContact]);
+
   /**
    * Manual refresh trigger for the thread-header refresh button.
    * Bumps the same resyncToken the reconnect / visibility paths use,
@@ -503,6 +521,30 @@ export default function InboxPage() {
     [activeConversation]
   );
 
+  const handleContactUpdated = useCallback((updated: Contact) => {
+    setActiveContact(updated);
+    setConversations((prev) =>
+      prev.map((c) =>
+        c.contact_id === updated.id
+          ? { ...c, contact: c.contact ? { ...c.contact, ...updated } : updated }
+          : c
+      )
+    );
+  }, []);
+
+  // Compute WABA 24h session status from the current message list.
+  // Mirrors the identical logic in MessageThread.sessionInfo so the
+  // ContactSidebar can show an amber warning BEFORE the user clicks
+  // "Iniciar Conversa" and the modal verifies the window.
+  const sessionExpired = useMemo(() => {
+    if (!messages.length) return false;
+    const lastCustomerMsg = [...messages]
+      .reverse()
+      .find((m) => m.sender_type === 'customer');
+    if (!lastCustomerMsg) return true;
+    return differenceInHours(new Date(), new Date(lastCustomerMsg.created_at)) >= 24;
+  }, [messages]);
+
   // On mobile (<lg) we show a SINGLE pane — either the list or the
   // thread — rather than cramming both side-by-side. Selecting a
   // conversation slides the thread in; the thread's back button pops
@@ -575,7 +617,7 @@ export default function InboxPage() {
 
         {/* Right panel: Contact sidebar — desktop only. */}
         <div className="hidden lg:block">
-          <ContactSidebar contact={activeContact} />
+          <ContactSidebar contact={activeContact} onContactUpdated={handleContactUpdated} sessionExpired={sessionExpired} />
         </div>
       </div>
     </div>

@@ -59,6 +59,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       lang={locale}
       data-theme={DEFAULT_THEME}
       className={`${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
         {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
