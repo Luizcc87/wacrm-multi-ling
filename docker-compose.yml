@@ -32,6 +32,13 @@ services:
       # WhatsApp / Meta security
       ENCRYPTION_KEY: ${ENCRYPTION_KEY} # Example: 64 hex chars from `openssl rand -hex 32`
       META_APP_SECRET: ${META_APP_SECRET} # Example: Meta Developers > App settings > Basic > App secret
+
+      # WhatsApp Business API
+      WHATSAPP_TOKEN: EAASaDempGn0BRv...
+      WHATSAPP_PHONE_NUMBER_ID: 1169162979611082
+      WHATSAPP_WABA_ID: 2437744160034905
+      WEBHOOK_VERIFY_TOKEN: minha-mei-wh-2026
+
     # Ports disabled on the host to prevent conflicts with Traefik/Cloudflare Tunnel.
     # Traffic routing is done directly via the internal Swarm network (network_swarm_public).
     # ports:
