@@ -34,7 +34,7 @@ const PRESET_COLORS = [
 
 export function TagManager() {
   const supabase = createClient();
-  const { user, loading: authLoading } = useAuth();
+  const { user, accountId, loading: authLoading } = useAuth();
   const t = useTranslations('settings');
 
   const [loading, setLoading] = useState(true);
@@ -85,7 +85,7 @@ export function TagManager() {
 
     try {
       setSaving(true);
-      if (!user) {
+      if (!user || !accountId) {
         toast.error(t('tags.toasts.notAuthenticated'));
         return;
       }
@@ -94,6 +94,7 @@ export function TagManager() {
         .from('tags')
         .insert({
           user_id: user.id,
+          account_id: accountId,
           name: newTagName.trim(),
           color: selectedColor,
         });

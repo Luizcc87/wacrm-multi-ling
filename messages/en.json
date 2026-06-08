@@ -230,6 +230,10 @@
     "noContacts": "No contacts yet",
     "deleteConfirm": "Delete this contact?",
     "phoneRequired": "Phone number is required",
+    "phoneDuplicate": "A contact with this phone number already exists.",
+    "duplicateAlertExact": "A contact with this phone number already exists.",
+    "duplicateAlertFuzzy": "A contact with a very similar number already exists.",
+    "viewContact": "View",
     "contactUpdated": "Contact updated",
     "contactCreated": "Contact created",
     "failedSave": "Failed to save contact",
@@ -557,7 +561,17 @@
         "url": "URL",
         "bodyTemplate": "Body template (JSON)",
         "keywords": "Keywords (comma-separated)",
-        "matchType": "Match type"
+        "matchType": "Match type",
+        "tag": "Tag",
+        "agent": "Agent",
+        "template": "Template",
+        "selectTag": "Select a tag...",
+        "selectAgent": "Select an agent...",
+        "selectTemplate": "Select a template...",
+        "unknownTag": "unknown tag",
+        "unknownAgent": "unknown agent",
+        "unknownLanguage": "unknown",
+        "notInApprovedList": "not in approved list"
       },
       "steps": {
         "sendMessage": "Send Message",
@@ -709,7 +723,8 @@
       "whatsapp": "WhatsApp Config",
       "appearance": "Appearance",
       "sessions": "Sessions",
-      "tags": "Tags"
+      "tags": "Tags",
+      "deals": "Deals"
     },
     "profile": {
       "title": "Profile",

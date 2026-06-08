@@ -57,6 +57,31 @@ export interface DispatchInput {
 export async function runAutomationsForTrigger(input: DispatchInput): Promise<void> {
   try {
     const db = supabaseAdmin()
+
+    // Tenant isolation. `contactId` can be caller-supplied (the manual
+    // POST /api/automations/engine entrypoint reads it straight from the
+    // request body), and every step below runs through the service-role
+    // client, which bypasses RLS. So before any step can touch the
+    // contact, verify it actually belongs to this account. A foreign or
+    // forged id is refused silently — callers are fire-and-forget, and a
+    // distinct error would leak whether a given contact UUID exists.
+    if (input.contactId) {
+      const { data: owned, error: ownErr } = await db
+        .from('contacts')
+        .select('id')
+        .eq('id', input.contactId)
+        .eq('account_id', input.accountId)
+        .maybeSingle()
+      if (ownErr) {
+        console.error('[automations] contact ownership check failed:', ownErr)
+        return
+      }
+      if (!owned) {
+        console.warn('[automations] contact not in account, refusing dispatch', input.contactId)
+        return
+      }
+    }
+
     const { data: automations, error } = await db
       .from('automations')
       .select('*')
@@ -368,6 +393,9 @@ async function runStep(step: AutomationStep, args: ExecuteArgs): Promise<string>
     }
 
     case 'add_tag': {
+      // contact_tags has no account_id column; cross-tenant protection for
+      // the attacker-supplied contactId comes from the ownership guard in
+      // runAutomationsForTrigger.
       const cfg = step.step_config as TagStepConfig
       if (!args.contactId || !cfg.tag_id) throw new Error('add_tag needs contact + tag_id')
       await db
@@ -380,6 +408,8 @@ async function runStep(step: AutomationStep, args: ExecuteArgs): Promise<string>
     }
 
     case 'remove_tag': {
+      // See add_tag: tenant scoping relies on the runAutomationsForTrigger
+      // ownership guard, since contact_tags carries no account_id.
       const cfg = step.step_config as TagStepConfig
       if (!args.contactId || !cfg.tag_id) throw new Error('remove_tag needs contact + tag_id')
       await db
@@ -421,16 +451,30 @@ async function runStep(step: AutomationStep, args: ExecuteArgs): Promise<string>
       if (!allowed.has(cfg.field)) {
         return `field ${cfg.field} not writable from automations`
       }
+      // Defense in depth: scope the service-role write to the account so
+      // a future caller that skips the entry-point ownership guard still
+      // cannot write across tenants.
       await db
         .from('contacts')
         .update({ [cfg.field]: cfg.value, updated_at: new Date().toISOString() })
         .eq('id', args.contactId)
+        .eq('account_id', args.automation.account_id)
       return `${cfg.field} updated`
     }
 
     case 'create_deal': {
       const cfg = step.step_config as CreateDealStepConfig
       if (!cfg.pipeline_id || !cfg.stage_id) throw new Error('create_deal needs pipeline + stage')
+      // Match the account's configured default currency rather than
+      // the static `deals.currency` DB default — keeps automation-
+      // created deals consistent with the one-currency-per-account
+      // rule (issue #218). Fall back to USD if the row is somehow
+      // missing the value (pre-021 forks).
+      const { data: acct } = await db
+        .from('accounts')
+        .select('default_currency')
+        .eq('id', args.automation.account_id)
+        .maybeSingle()
       await db.from('deals').insert({
         // Tenancy + audit, same split as automation_logs above.
         account_id: args.automation.account_id,
@@ -440,6 +484,7 @@ async function runStep(step: AutomationStep, args: ExecuteArgs): Promise<string>
         contact_id: args.contactId,
         title: interpolate(cfg.title, args),
         value: cfg.value ?? 0,
+        currency: acct?.default_currency ?? 'USD',
         status: 'open',
       })
       return 'deal created'
@@ -517,6 +562,9 @@ async function evaluateCondition(cfg: ConditionStepConfig, args: ExecuteArgs): P
   switch (cfg.subject) {
     case 'tag_presence': {
       if (!args.contactId || !cfg.operand) return false
+      // contact_tags has no account_id column (its RLS keys off the parent
+      // contact), so tenant scoping here relies on the contact-ownership
+      // guard in runAutomationsForTrigger.
       const { count } = await db
         .from('contact_tags')
         .select('id', { count: 'exact', head: true })
@@ -526,10 +574,13 @@ async function evaluateCondition(cfg: ConditionStepConfig, args: ExecuteArgs): P
     }
     case 'contact_field': {
       if (!args.contactId || !cfg.operand) return false
+      // Scope to the account so the condition can't be turned into a
+      // cross-tenant read oracle via the service-role client.
       const { data } = await db
         .from('contacts')
         .select(cfg.operand)
         .eq('id', args.contactId)
+        .eq('account_id', args.automation.account_id)
         .maybeSingle()
       const v = (data as Record<string, unknown> | null)?.[cfg.operand]
       return v != null && String(v) === String(cfg.value ?? '')

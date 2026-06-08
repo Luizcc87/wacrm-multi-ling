@@ -3,8 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@/lib/supabase/client';
+import { useAuth } from '@/hooks/use-auth';
 import { toast } from 'sonner';
 import type { Contact, Tag, ContactTag } from '@/types';
+import {
+  findExistingContact,
+  isExactMatch,
+  isUniqueViolation,
+  type ExistingContact,
+} from '@/lib/contacts/dedupe';
 import {
   Dialog,
   DialogContent,
@@ -17,7 +24,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertTriangle } from 'lucide-react';
 
 interface ContactFormProps {
   open: boolean;
@@ -25,6 +32,9 @@ interface ContactFormProps {
   contact?: Contact | null;
   contactTags?: ContactTag[];
   onSaved: () => void;
+  /** Open an existing contact's detail view — used by the duplicate
+   *  notice to jump to the contact that already owns this number. */
+  onViewExisting?: (contactId: string) => void;
 }
 
 export function ContactForm({
@@ -33,9 +43,11 @@ export function ContactForm({
   contact,
   contactTags = [],
   onSaved,
+  onViewExisting,
 }: ContactFormProps) {
   const t = useTranslations('contacts');
   const supabase = createClient();
+  const { accountId } = useAuth();
   const isEdit = !!contact;
 
   const [name, setName] = useState('');
@@ -43,6 +55,15 @@ export function ContactForm({
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [saving, setSaving] = useState(false);
+
+  // Duplicate-phone detection for NEW contacts. `exact` (same digits)
+  // hard-blocks the save; a fuzzy trunk-variant match only warns. The
+  // DB unique index (migration 022) is the real backstop — this is the
+  // friendly heads-up before we get there.
+  const [dupMatch, setDupMatch] = useState<
+    { contact: ExistingContact; exact: boolean } | null
+  >(null);
+  const [checkingDup, setCheckingDup] = useState(false);
 
   const [tags, setTags] = useState<Tag[]>([]);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
@@ -55,9 +76,32 @@ export function ContactForm({
       setEmail(contact?.email ?? '');
       setCompany(contact?.company ?? '');
       setSelectedTagIds(contactTags.map((ct) => ct.tag_id));
+      setDupMatch(null);
       fetchTags();
     }
   }, [open, contact]);
+
+  // Look up an existing contact with this number (new contacts only).
+  // Runs on blur so we don't query on every keystroke.
+  async function checkDuplicate() {
+    if (isEdit || !accountId) return;
+    const value = phone.trim();
+    if (!value) {
+      setDupMatch(null);
+      return;
+    }
+    setCheckingDup(true);
+    try {
+      const existing = await findExistingContact(supabase, accountId, value);
+      setDupMatch(
+        existing
+          ? { contact: existing, exact: isExactMatch(existing, value) }
+          : null,
+      );
+    } finally {
+      setCheckingDup(false);
+    }
+  }
 
   async function fetchTags() {
     setLoadingTags(true);
@@ -85,6 +129,13 @@ export function ContactForm({
       return;
     }
 
+    // Hard-block an exact duplicate on create (the DB unique index is
+    // the real backstop; this avoids a round-trip + a raw error toast).
+    if (!isEdit && dupMatch?.exact) {
+      toast.error('A contact with this phone number already exists');
+      return;
+    }
+
     setSaving(true);
 
     try {
@@ -93,16 +144,7 @@ export function ContactForm({
       } = await supabase.auth.getSession();
       const user = session?.user;
       if (!user) throw new Error('Not authenticated');
-
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('account_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (profileError || !profile?.account_id) {
-        throw new Error('Account profile not found');
-      }
+      if (!accountId) throw new Error('Your profile is not linked to an account.');
 
       let contactId = contact?.id;
 
@@ -122,8 +164,8 @@ export function ContactForm({
         const { data, error } = await supabase
           .from('contacts')
           .insert({
-            account_id: profile.account_id,
             user_id: user.id,
+            account_id: accountId,
             name: name.trim() || null,
             phone: phone.trim(),
             email: email.trim() || null,
@@ -158,6 +200,18 @@ export function ContactForm({
       onOpenChange(false);
       onSaved();
     } catch (err: unknown) {
+      if (isUniqueViolation(err)) {
+        toast.error(t('phoneDuplicate') || 'Um contato com este número de telefone já existe.');
+        if (!isEdit && accountId) {
+          const existing = await findExistingContact(
+            supabase,
+            accountId,
+            phone.trim(),
+          );
+          if (existing) setDupMatch({ contact: existing, exact: true });
+        }
+        return;
+      }
       const message = err instanceof Error ? err.message : t('failedSave');
       toast.error(message);
     } finally {
@@ -200,13 +254,45 @@ export function ContactForm({
             <Input
               id="cf-phone"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                if (dupMatch) setDupMatch(null);
+              }}
+              onBlur={checkDuplicate}
               placeholder={t('phonePlaceholder')}
               className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
             />
-            <p className="text-xs text-slate-500">
-              {t('phoneHint')}
-            </p>
+            {dupMatch ? (
+              <div
+                className={`flex items-start gap-2 rounded-md border px-2.5 py-2 text-xs ${
+                  dupMatch.exact
+                    ? 'border-red-500/40 bg-red-500/10 text-red-300'
+                    : 'border-amber-500/40 bg-amber-500/10 text-amber-300'
+                }`}
+              >
+                <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
+                <div className="space-y-1">
+                  <p>
+                    {dupMatch.exact
+                      ? t('duplicateAlertExact') || 'Um contato com este número de telefone já existe.'
+                      : t('duplicateAlertFuzzy') || 'Um contato com um número muito parecido já existe.'}
+                  </p>
+                  {onViewExisting && (
+                    <button
+                      type="button"
+                      onClick={() => onViewExisting(dupMatch.contact.id)}
+                      className="font-medium underline underline-offset-2 hover:no-underline"
+                    >
+                      {t('viewContact') || 'Ver'} {dupMatch.contact.name || dupMatch.contact.phone}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-slate-500">
+                {t('phoneHint')}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -286,7 +372,7 @@ export function ContactForm({
             </Button>
             <Button
               type="submit"
-              disabled={saving}
+              disabled={saving || checkingDup || (!isEdit && !!dupMatch?.exact)}
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               {saving && <Loader2 className="size-4 animate-spin" />}

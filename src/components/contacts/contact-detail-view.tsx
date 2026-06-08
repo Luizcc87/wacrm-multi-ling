@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import { useAuth } from '@/hooks/use-auth';
+import { formatCurrency } from '@/lib/currency';
 import { toast } from 'sonner';
 import type { Contact, Tag, ContactTag, ContactNote, CustomField, ContactCustomValue, Deal } from '@/types';
 import {
@@ -53,6 +55,7 @@ export function ContactDetailView({
   const locale = useLocale();
   const router = useRouter();
   const supabase = createClient();
+  const { accountId, defaultCurrency } = useAuth();
 
   const [contact, setContact] = useState<Contact | null>(null);
   const [loading, setLoading] = useState(false);
@@ -250,7 +253,7 @@ export function ContactDetailView({
       data: { session },
     } = await supabase.auth.getSession();
     const user = session?.user;
-    if (!user) {
+    if (!user || !accountId) {
       toast.error('Not authenticated');
       setSavingNote(false);
       return;
@@ -258,6 +261,7 @@ export function ContactDetailView({
 
     const { error } = await supabase.from('contact_notes').insert({
       contact_id: contactId,
+      account_id: accountId,
       user_id: user.id,
       note_text: newNote.trim(),
     });
@@ -675,11 +679,10 @@ export function ContactDetailView({
                         <div className="mt-1.5 flex items-center justify-between text-xs text-slate-400">
                           <span className="flex items-center gap-1">
                             <DollarSign className="size-3" />
-                            {new Intl.NumberFormat('en-US', {
-                              style: 'currency',
-                              currency: deal.currency || 'USD',
-                              maximumFractionDigits: 0,
-                            }).format(Number(deal.value || 0))}
+                            {formatCurrency(
+                              deal.value ?? 0,
+                              deal.currency || defaultCurrency,
+                            )}
                           </span>
                           {deal.status && deal.status !== 'open' && (
                             <span

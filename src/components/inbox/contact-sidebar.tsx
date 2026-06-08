@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslations } from 'next-intl';
 import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import type { Contact, Deal, ContactNote, Tag } from "@/types";
 import {
@@ -38,6 +39,7 @@ export function ContactSidebar({ contact, onContactUpdated, sessionExpired = fal
   const tStart = useTranslations('startConversation');
   const tContacts = useTranslations('contacts');
   const canSend = useCan('send-messages');
+  const { accountId } = useAuth();
   const [copied, setCopied] = useState(false);
   const [newConvOpen, setNewConvOpen] = useState(false);
   const [editFormOpen, setEditFormOpen] = useState(false);
@@ -125,6 +127,7 @@ export function ContactSidebar({ contact, onContactUpdated, sessionExpired = fal
 
   const handleAddNote = useCallback(async () => {
     if (!localContact || !newNote.trim()) return;
+    if (!accountId) return;
     setAddingNote(true);
 
     const supabase = createClient();
@@ -137,6 +140,7 @@ export function ContactSidebar({ contact, onContactUpdated, sessionExpired = fal
       .from("contact_notes")
       .insert({
         contact_id: localContact.id,
+        account_id: accountId,
         user_id: user?.id,
         note_text: newNote.trim(),
       })
@@ -148,7 +152,7 @@ export function ContactSidebar({ contact, onContactUpdated, sessionExpired = fal
       setNewNote("");
     }
     setAddingNote(false);
-  }, [localContact, newNote]);
+  }, [localContact, newNote, accountId]);
 
   if (!localContact) {
     return (

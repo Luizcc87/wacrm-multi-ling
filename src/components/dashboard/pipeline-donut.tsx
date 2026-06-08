@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl'
 import { GitBranch } from 'lucide-react'
 import type { PipelineDonutData } from '@/lib/dashboard/types'
+import { formatCurrencyShort } from '@/lib/currency'
 import { EmptyState } from './empty-state'
 import { Skeleton } from './skeleton'
 import { useCurrency } from '@/hooks/use-currency'
@@ -14,7 +15,8 @@ interface PipelineDonutProps {
 
 export function PipelineDonut({ data, loading }: PipelineDonutProps) {
   const t = useTranslations('dashboard.pipelineDonut')
-  const { formatCurrency } = useCurrency()
+  const { formatCurrency, currency } = useCurrency()
+
   return (
     <section className="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900">
       <header className="border-b border-slate-800 px-5 py-4">
@@ -35,7 +37,7 @@ export function PipelineDonut({ data, loading }: PipelineDonutProps) {
           />
         ) : (
           <>
-            <Donut data={data} totalLabel={t('total')} formatValue={formatCurrency} />
+            <Donut data={data} totalLabel={t('total')} currency={currency} />
             <ul className="mt-5 space-y-2">
               {data.stages.map((s) => (
                 <li key={s.id} className="flex items-center gap-3 text-xs">
@@ -49,7 +51,7 @@ export function PipelineDonut({ data, loading }: PipelineDonutProps) {
                     {s.dealCount} {s.dealCount === 1 ? t('deal') : t('deals')}
                   </span>
                   <span className="w-20 text-right text-slate-300 tabular-nums">
-                    {formatCurrency(s.totalValue)}
+                    {formatCurrencyShort(s.totalValue, currency)}
                   </span>
                 </li>
               ))}
@@ -67,7 +69,7 @@ export function PipelineDonut({ data, loading }: PipelineDonutProps) {
 // between segments are implied by a thin slate-900 stroke between
 // them for a cleaner look.
 // ------------------------------------------------------------
-function Donut({ data, totalLabel, formatValue }: { data: PipelineDonutData; totalLabel: string; formatValue: (v: number) => string }) {
+function Donut({ data, totalLabel, currency }: { data: PipelineDonutData; totalLabel: string; currency: string }) {
   const size = 200
   const r = 80
   const ringWidth = 18
@@ -125,7 +127,7 @@ function Donut({ data, totalLabel, formatValue }: { data: PipelineDonutData; tot
           textAnchor="middle"
           className="fill-white text-[18px] font-semibold tabular-nums"
         >
-          {formatValue(data.totalValue)}
+          {formatCurrencyShort(data.totalValue, currency)}
         </text>
       </svg>
     </div>
@@ -140,4 +142,3 @@ function arcPath(cx: number, cy: number, r: number, startRad: number, endRad: nu
   const largeArc = endRad - startRad > Math.PI ? 1 : 0
   return `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2}`
 }
-

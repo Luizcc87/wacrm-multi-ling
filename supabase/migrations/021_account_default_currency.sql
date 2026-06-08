@@ -1,15 +1,23 @@
 -- ============================================================
--- 021_account_default_currency.sql
+-- 021_account_default_currency
 --
--- Adds `default_currency` to `accounts` so all members of an
--- account share a single default currency for deals and monetary
--- displays (dashboard, pipeline analytics, etc.).
+-- Make the default deal currency configurable per account.
 --
--- The column is TEXT to remain compatible with ISO 4217 codes
--- (BRL, USD, EUR, …) without a rigid enum that would require
--- another migration every time a new code is needed.
+-- Before this, the app hardcoded USD everywhere — deal-value
+-- formatters, the new-deal form, and automation-created deals all
+-- assumed USD. wacrm is self-hostable and used globally, so a fixed
+-- USD default made deal tracking unhelpful for non-US businesses
+-- (issue #218).
 --
--- Idempotent — safe to run multiple times.
+-- We add a single `default_currency` column to `accounts`. New deals
+-- and all aggregated totals (pipeline/dashboard) format in this
+-- currency; existing deals keep their own saved `deals.currency`.
+-- We enforce one currency per account (no FX conversion) — the
+-- issue's recommended first pass.
+--
+-- RLS: no change needed. The existing `accounts_update` policy
+-- (017) already restricts writes to admins+, which is exactly who
+-- should change an account-wide setting.
 -- ============================================================
 
 ALTER TABLE accounts
@@ -19,3 +27,11 @@ COMMENT ON COLUMN accounts.default_currency IS
   'ISO 4217 currency code used as default for new deals and monetary '
   'displays. Members see the same value; individual deals may still '
   'carry their own currency override.';
+
+-- Keep the value an ISO-4217-shaped 3-letter uppercase code without
+-- pinning to a fixed enum — forks can use any currency Intl supports.
+ALTER TABLE accounts
+  DROP CONSTRAINT IF EXISTS accounts_default_currency_format;
+ALTER TABLE accounts
+  ADD CONSTRAINT accounts_default_currency_format
+  CHECK (default_currency ~ '^[A-Z]{3}$');

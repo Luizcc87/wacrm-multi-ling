@@ -81,6 +81,7 @@ export interface AccountInvitation {
 export interface Contact {
   id: string;
   user_id: string;
+  account_id?: string;
   phone: string;
   name?: string;
   email?: string;

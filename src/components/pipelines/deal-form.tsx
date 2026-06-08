@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
+import { CURRENCIES } from "@/lib/currency";
 import type {
   Contact,
   Conversation,
@@ -53,13 +55,15 @@ export function DealForm({
 }: DealFormProps) {
   const t = useTranslations("pipelines");
   const supabase = createClient();
-  const { currency: accountCurrency } = useCurrency();
-  const currencySymbol = new Intl.NumberFormat(undefined, { style: "currency", currency: accountCurrency, minimumFractionDigits: 0 })
-    .formatToParts(0)
-    .find((p) => p.type === "currency")?.value ?? accountCurrency;
+  const { accountId, defaultCurrency } = useAuth();
 
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
+  const [currency, setCurrency] = useState(defaultCurrency);
+
+  const currencySymbol = new Intl.NumberFormat(undefined, { style: "currency", currency, minimumFractionDigits: 0 })
+    .formatToParts(0)
+    .find((p) => p.type === "currency")?.value ?? currency;
   const [contactId, setContactId] = useState("");
   const [stageId, setStageId] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
@@ -86,6 +90,7 @@ export function DealForm({
     if (deal) {
       setTitle(deal.title);
       setValue(String(deal.value ?? ""));
+      setCurrency(deal.currency || defaultCurrency);
       // contact_id is nullable when the contact has been deleted
       // (migration 004: ON DELETE SET NULL). "" means "no selection".
       setContactId(deal.contact_id ?? "");
@@ -96,13 +101,14 @@ export function DealForm({
     } else {
       setTitle("");
       setValue("");
+      setCurrency(defaultCurrency);
       setContactId("");
       setStageId(defaultStageId || stages[0]?.id || "");
       setAssignedTo("");
       setExpectedCloseDate("");
       setNotes("");
     }
-  }, [open, deal, defaultStageId, stages, accountCurrency]);
+  }, [open, deal, defaultStageId, stages, defaultCurrency]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   // Load supporting data once the sheet is open
@@ -155,11 +161,10 @@ export function DealForm({
       return;
     }
     setSaving(true);
-
     const payload = {
       title: title.trim(),
       value: parseFloat(value) || 0,
-      currency: accountCurrency,
+      currency: currency,
       contact_id: contactId,
       pipeline_id: pipelineId,
       stage_id: stageId,
@@ -188,9 +193,14 @@ export function DealForm({
         setSaving(false);
         return;
       }
+      if (!accountId) {
+        toast.error("Your profile is not linked to an account.");
+        setSaving(false);
+        return;
+      }
       const { error } = await supabase
         .from("deals")
-        .insert({ ...payload, user_id: user.id, status: "open" });
+        .insert({ ...payload, user_id: user.id, account_id: accountId, status: "open" });
       if (error) {
         toast.error(t("toast.failedCreateDeal"));
         setSaving(false);
@@ -307,6 +317,20 @@ export function DealForm({
                     className="border-slate-700 bg-slate-800 pl-7 text-white"
                   />
                 </div>
+              </div>
+              <div className="grid gap-2">
+                <Label className="text-slate-300">{t("deal.currency")}</Label>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="h-9 w-full rounded-lg border border-slate-700 bg-slate-800 px-2.5 text-sm text-white outline-none focus:border-primary"
+                >
+                  {CURRENCIES.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.code}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 

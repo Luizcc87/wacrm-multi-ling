@@ -230,6 +230,10 @@
     "noContacts": "Nenhum contato ainda",
     "deleteConfirm": "Excluir este contato?",
     "phoneRequired": "Número de telefone é obrigatório",
+    "phoneDuplicate": "Um contato com este número de telefone já existe.",
+    "duplicateAlertExact": "Um contato com este número de telefone já existe.",
+    "duplicateAlertFuzzy": "Um contato com um número muito parecido já existe.",
+    "viewContact": "Ver",
     "contactUpdated": "Contato atualizado",
     "contactCreated": "Contato criado",
     "failedSave": "Falha ao salvar o contato",
@@ -557,7 +561,17 @@
         "url": "URL",
         "bodyTemplate": "Template do corpo (JSON)",
         "keywords": "Palavras-chave (separadas por vírgula)",
-        "matchType": "Tipo de correspondência"
+        "matchType": "Tipo de correspondência",
+        "tag": "Tag",
+        "agent": "Agente",
+        "template": "Template",
+        "selectTag": "Selecionar uma tag...",
+        "selectAgent": "Selecionar um agente...",
+        "selectTemplate": "Selecionar um template...",
+        "unknownTag": "tag desconhecida",
+        "unknownAgent": "agente desconhecido",
+        "unknownLanguage": "desconhecido",
+        "notInApprovedList": "não está na lista de aprovados"
       },
       "steps": {
         "sendMessage": "Enviar mensagem",
@@ -709,7 +723,8 @@
       "whatsapp": "Configuração do WhatsApp",
       "appearance": "Aparência",
       "sessions": "Sessões",
-      "tags": "Tags"
+      "tags": "Tags",
+      "deals": "Negócios"
     },
     "profile": {
       "title": "Perfil",

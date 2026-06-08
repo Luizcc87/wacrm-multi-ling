@@ -19,6 +19,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useAuth } from "@/hooks/use-auth";
+import { formatCurrency } from "@/lib/currency";
 
 interface PipelineAnalyticsProps {
   stages: PipelineStage[];
