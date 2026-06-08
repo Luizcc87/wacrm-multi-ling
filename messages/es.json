@@ -771,7 +771,21 @@
       "title": "Tema de color",
       "description": "Elige el color de acento usado en la aplicación. Todos los temas son oscuros — solo cambia el color primario (botones, navegación activa, insignias). Guardado en este dispositivo.",
       "active": "Activo",
-      "useTheme": "Usar tema {name}"
+      "useTheme": "Usar tema {name}",
+      "branding": {
+        "title": "Identidad Visual",
+        "description": "Personaliza el nombre, logo y colores del sistema",
+        "appName": "Nombre del sistema",
+        "appNamePlaceholder": "WaCRM",
+        "logoUrl": "URL del logo",
+        "faviconUrl": "URL del favicon",
+        "primaryColor": "Color primario",
+        "sidebarColor": "Color del sidebar",
+        "save": "Guardar",
+        "saveSuccess": "Configuración guardada",
+        "saveError": "Error al guardar",
+        "readonlyHint": "Solo los administradores pueden editar la identidad visual"
+      }
     },
     "members": {
       "title": "Miembros de la cuenta",

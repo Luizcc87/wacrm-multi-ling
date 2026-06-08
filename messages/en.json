@@ -771,7 +771,21 @@
       "title": "Color theme",
       "description": "Pick the accent color used across the app. All themes stay dark - only the primary color (buttons, active nav, badges) changes. Saved to this device.",
       "active": "Active",
-      "useTheme": "Use {name} theme"
+      "useTheme": "Use {name} theme",
+      "branding": {
+        "title": "Brand Identity",
+        "description": "Customize the system name, logo and colors",
+        "appName": "System name",
+        "appNamePlaceholder": "WaCRM",
+        "logoUrl": "Logo URL",
+        "faviconUrl": "Favicon URL",
+        "primaryColor": "Primary color",
+        "sidebarColor": "Sidebar color",
+        "save": "Save",
+        "saveSuccess": "Settings saved",
+        "saveError": "Error saving",
+        "readonlyHint": "Only administrators can edit brand settings"
+      }
     },
     "members": {
       "title": "Account members",
