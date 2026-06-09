@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -9,6 +9,8 @@ import { AuthLegalFooter } from '@/components/auth/legal-footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { getBrandingEnv, resolveBranding } from '@/lib/branding';
+import type { ResolvedBranding } from '@/types/branding';
 import {
   Card,
   CardContent,
@@ -28,6 +30,9 @@ export default function LoginPage() {
 
 function LoginPageInner() {
   const t = useTranslations('auth.login');
+  const [branding, setBranding] = useState<ResolvedBranding>(() =>
+    resolveBranding(null, getBrandingEnv()),
+  );
   const searchParams = useSearchParams();
   const inviteToken = searchParams.get('invite');
   const reason = searchParams.get('reason');
@@ -40,6 +45,47 @@ function LoginPageInner() {
   const supabase = createClient();
   const signupLinkVisible =
     process.env.NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP !== 'false' || !!inviteToken;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadPublicBranding() {
+      try {
+        const res = await fetch('/api/public/branding', {
+          cache: 'no-store',
+        });
+        if (!res.ok) return;
+
+        const payload = (await res.json()) as {
+          branding?: ResolvedBranding;
+        };
+        if (!cancelled && payload.branding) {
+          setBranding(payload.branding);
+        }
+      } catch {
+        // Keep env/default branding when the public endpoint is unavailable.
+      }
+    }
+
+    loadPublicBranding();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!branding.faviconUrl) return;
+
+    const selectors = [
+      "link[rel='icon']",
+      "link[rel='shortcut icon']",
+      "link[rel='apple-touch-icon']",
+    ];
+    document.querySelectorAll<HTMLLinkElement>(selectors.join(',')).forEach((link) => {
+      link.href = branding.faviconUrl!;
+    });
+  }, [branding.faviconUrl]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,12 +120,26 @@ function LoginPageInner() {
                 {t('inviteOnlyNotice')}
               </div>
             )}
-            <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
-              {inviteToken ? (
-                <UsersRound className="text-primary h-6 w-6" />
+            <div className="mb-2 flex items-center justify-center gap-3">
+              {branding.logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={branding.logoUrl}
+                  alt={branding.appName}
+                  className="h-12 w-12 rounded-xl object-contain"
+                />
               ) : (
-                <MessageSquare className="text-primary h-6 w-6" />
+                <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-xl">
+                  {inviteToken ? (
+                    <UsersRound className="text-primary h-6 w-6" />
+                  ) : (
+                    <MessageSquare className="text-primary h-6 w-6" />
+                  )}
+                </div>
               )}
+              <p className="text-xl font-semibold leading-none text-white">
+                {branding.appName}
+              </p>
             </div>
             <CardTitle className="text-xl text-white">
               {inviteToken ? t('subtitleInvite') : t('title')}
