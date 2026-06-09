@@ -149,7 +149,11 @@ function BrandingForm() {
   const [primaryColor, setPrimaryColor] = useState("#000000");
   const [sidebarColor, setSidebarColor] = useState("#000000");
   const [saving, setSaving] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadingFavicon, setUploadingFavicon] = useState(false);
   const initializedRef = useRef(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const faviconInputRef = useRef<HTMLInputElement>(null);
 
   // Populate fields only on first load — not on every realtime update —
   // so in-progress edits are not overwritten when a realtime event fires.
@@ -193,6 +197,41 @@ function BrandingForm() {
       toast.error(t("appearance.branding.saveError"));
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleAssetUpload(type: "logo" | "favicon", file: File | null) {
+    if (!file) return;
+
+    const setUploading = type === "logo" ? setUploadingLogo : setUploadingFavicon;
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("type", type);
+      formData.append("file", file);
+
+      const res = await fetch("/api/account/branding/assets", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error(await res.text());
+
+      const payload = (await res.json()) as { publicUrl?: string };
+      if (payload.publicUrl) {
+        if (type === "logo") {
+          setLogoUrl(payload.publicUrl);
+        } else {
+          setFaviconUrl(payload.publicUrl);
+        }
+      }
+      toast.success(t("appearance.branding.uploadSuccess"));
+    } catch {
+      toast.error(t("appearance.branding.uploadError"));
+    } finally {
+      setUploading(false);
+      const input = type === "logo" ? logoInputRef.current : faviconInputRef.current;
+      if (input) input.value = "";
     }
   }
 
@@ -242,7 +281,7 @@ function BrandingForm() {
           <label className="block text-sm font-medium text-slate-300">
             {t("appearance.branding.logoUrl")}
           </label>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <input
               type="url"
               value={logoUrl}
@@ -250,11 +289,36 @@ function BrandingForm() {
               disabled={!canEdit}
               placeholder="https://"
               className={cn(
-                "flex-1 rounded-md border border-slate-700 bg-slate-800/60 px-3 py-2 text-sm text-white placeholder:text-slate-500",
+                "min-w-0 flex-1 rounded-md border border-slate-700 bg-slate-800/60 px-3 py-2 text-sm text-white placeholder:text-slate-500",
                 "focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary",
                 !canEdit && "cursor-not-allowed opacity-50",
               )}
             />
+            {canEdit && (
+              <>
+                <input
+                  ref={logoInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  className="sr-only"
+                  onChange={(e) => handleAssetUpload("logo", e.target.files?.[0] ?? null)}
+                />
+                <button
+                  type="button"
+                  disabled={uploadingLogo}
+                  onClick={() => logoInputRef.current?.click()}
+                  className={cn(
+                    "inline-flex shrink-0 items-center justify-center rounded-md border border-slate-700 px-3 py-2 text-sm font-medium text-slate-200",
+                    "hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900",
+                    uploadingLogo && "cursor-not-allowed opacity-60",
+                  )}
+                >
+                  {uploadingLogo
+                    ? t("appearance.branding.uploading")
+                    : t("appearance.branding.logoUpload")}
+                </button>
+              </>
+            )}
             {logoPreviewValid && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -267,6 +331,9 @@ function BrandingForm() {
               />
             )}
           </div>
+          <p className="text-xs text-slate-500">
+            {t("appearance.branding.logoHint")}
+          </p>
         </div>
 
         {/* Favicon URL */}
@@ -274,7 +341,7 @@ function BrandingForm() {
           <label className="block text-sm font-medium text-slate-300">
             {t("appearance.branding.faviconUrl")}
           </label>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <input
               type="url"
               value={faviconUrl}
@@ -282,11 +349,36 @@ function BrandingForm() {
               disabled={!canEdit}
               placeholder="https://"
               className={cn(
-                "flex-1 rounded-md border border-slate-700 bg-slate-800/60 px-3 py-2 text-sm text-white placeholder:text-slate-500",
+                "min-w-0 flex-1 rounded-md border border-slate-700 bg-slate-800/60 px-3 py-2 text-sm text-white placeholder:text-slate-500",
                 "focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary",
                 !canEdit && "cursor-not-allowed opacity-50",
               )}
             />
+            {canEdit && (
+              <>
+                <input
+                  ref={faviconInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/x-icon,image/vnd.microsoft.icon"
+                  className="sr-only"
+                  onChange={(e) => handleAssetUpload("favicon", e.target.files?.[0] ?? null)}
+                />
+                <button
+                  type="button"
+                  disabled={uploadingFavicon}
+                  onClick={() => faviconInputRef.current?.click()}
+                  className={cn(
+                    "inline-flex shrink-0 items-center justify-center rounded-md border border-slate-700 px-3 py-2 text-sm font-medium text-slate-200",
+                    "hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-slate-900",
+                    uploadingFavicon && "cursor-not-allowed opacity-60",
+                  )}
+                >
+                  {uploadingFavicon
+                    ? t("appearance.branding.uploading")
+                    : t("appearance.branding.faviconUpload")}
+                </button>
+              </>
+            )}
             {faviconPreviewValid && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -299,6 +391,9 @@ function BrandingForm() {
               />
             )}
           </div>
+          <p className="text-xs text-slate-500">
+            {t("appearance.branding.faviconHint")}
+          </p>
         </div>
 
         {/* Color pickers row */}

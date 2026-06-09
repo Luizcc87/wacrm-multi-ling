@@ -3,10 +3,12 @@
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
+import { useLegalIdentity } from '@/components/auth/legal-identity-provider';
 
 export function AuthLegalFooter({ className = '' }: { className?: string }) {
   const t = useTranslations('auth.legal');
   const locale = useLocale();
+  const { companyLegalName, cnpj } = useLegalIdentity();
   const legalLangSuffix = locale === 'pt-BR' ? '?lang=pt-BR' : '';
 
   return (
@@ -14,9 +16,8 @@ export function AuthLegalFooter({ className = '' }: { className?: string }) {
       <p>
         {t('footerCopyright', {
           year: new Date().getFullYear(),
-          companyLegalName:
-            process.env.NEXT_PUBLIC_LEGAL_COMPANY_LEGAL_NAME ?? '',
-          cnpj: process.env.NEXT_PUBLIC_LEGAL_CNPJ ?? '',
+          companyLegalName,
+          cnpj,
         })}
       </p>
       <p className="mt-1">

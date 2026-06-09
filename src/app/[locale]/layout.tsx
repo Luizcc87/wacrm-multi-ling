@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { LocalePreferenceSync } from '@/components/layout/locale-preference-sync';
+import { LegalIdentityProvider } from '@/components/auth/legal-identity-provider';
 import { getBrandingEnv, resolveBranding } from '@/lib/branding';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -81,23 +82,29 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   const messages = await getMessages();
+  const legalIdentity = {
+    companyLegalName: process.env.NEXT_PUBLIC_LEGAL_COMPANY_LEGAL_NAME ?? '',
+    cnpj: process.env.NEXT_PUBLIC_LEGAL_CNPJ ?? '',
+  };
 
   return (
     <NextIntlClientProvider messages={messages}>
       <ThemeProvider>
-        <LocalePreferenceSync />
-        {children}
-        <Toaster
-          theme="dark"
-          position="top-right"
-          toastOptions={{
-            style: {
-              background: 'rgb(30 41 59)',
-              border: '1px solid rgb(51 65 85)',
-              color: 'white',
-            },
-          }}
-        />
+        <LegalIdentityProvider value={legalIdentity}>
+          <LocalePreferenceSync />
+          {children}
+          <Toaster
+            theme="dark"
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: 'rgb(30 41 59)',
+                border: '1px solid rgb(51 65 85)',
+                color: 'white',
+              },
+            }}
+          />
+        </LegalIdentityProvider>
       </ThemeProvider>
     </NextIntlClientProvider>
   );
