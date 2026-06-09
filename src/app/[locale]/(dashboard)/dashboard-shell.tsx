@@ -1,20 +1,21 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import { AuthProvider, useAuth } from "@/hooks/use-auth";
-import { BrandingProvider } from "@/contexts/branding-context";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
-import { DynamicFavicon } from "@/components/layout/dynamic-favicon";
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { AuthProvider, useAuth } from '@/hooks/use-auth';
+import { BrandingProvider } from '@/contexts/branding-context';
+import { Sidebar } from '@/components/layout/sidebar';
+import { Header } from '@/components/layout/header';
+import { DynamicFavicon } from '@/components/layout/dynamic-favicon';
+import { AuthLegalFooter } from '@/components/auth/legal-footer';
 
 // Auth-gated dashboard shell. Extracted from the layout so the layout
 // itself can stay a server component and export metadata (noindex) —
 // client components can't export Next's metadata object.
 
 function DashboardShellInner({ children }: { children: React.ReactNode }) {
-  const t = useTranslations("common");
+  const t = useTranslations('common');
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -25,7 +26,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/login");
+      router.push('/login');
     }
   }, [user, loading, router]);
 
@@ -33,8 +34,8 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
     return (
       <div className="flex h-screen items-center justify-center bg-slate-950">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-          <p className="text-sm text-slate-400">{t("loading")}</p>
+          <div className="border-primary h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" />
+          <p className="text-sm text-slate-400">{t('loading')}</p>
         </div>
       </div>
     );
@@ -44,15 +45,18 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
 
   return (
     <BrandingProvider>
-    <div className="flex h-screen overflow-hidden bg-slate-950">
-      <DynamicFavicon />
-      <Sidebar open={sidebarOpen} onClose={closeSidebar} />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Header onOpenSidebar={() => setSidebarOpen(true)} />
-        {/* Thinner horizontal padding on mobile so cards have room to breathe. */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6">{children}</main>
+      <div className="flex h-screen overflow-hidden bg-slate-950">
+        <DynamicFavicon />
+        <Sidebar open={sidebarOpen} onClose={closeSidebar} />
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <Header onOpenSidebar={() => setSidebarOpen(true)} />
+          {/* Thinner horizontal padding on mobile so cards have room to breathe. */}
+          <main className="flex-1 overflow-y-auto p-4 sm:p-6">
+            {children}
+            <AuthLegalFooter className="border-t border-slate-800 pt-6 pb-2" />
+          </main>
+        </div>
       </div>
-    </div>
     </BrandingProvider>
   );
 }

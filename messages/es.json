@@ -32,7 +32,12 @@
       "alreadyAccount": "¿Ya tienes una cuenta?",
       "signIn": "Iniciar sesión",
       "checkEmail": "Revisa tu correo",
-      "checkEmailHint": "Enviamos un enlace de confirmación a tu correo electrónico."
+      "checkEmailHint": "Enviamos un enlace de confirmación a tu correo electrónico.",
+      "consentText": "He leído y acepto los",
+      "consentTextTerms": "Términos de Servicio",
+      "consentTextAnd": "y la",
+      "consentTextPrivacy": "Política de Privacidad",
+      "consentTextSuffix": ", y consiento el tratamiento de mis datos personales según se describe allí."
     },
     "forgotPassword": {
       "title": "Restablecer contraseña",
@@ -44,6 +49,288 @@
       "backToLogin": "Volver al inicio de sesión",
       "successMessage": "Revisa tu correo",
       "successHint": "Hemos enviado un enlace para restablecer la contraseña a tu correo electrónico. Revisa tu bandeja de entrada."
+    },
+    "legal": {
+      "privacyPolicy": "Política de Privacidad",
+      "termsOfService": "Términos de Servicio",
+      "acceptableUse": "Uso Aceptable",
+      "footerCopyright": "© {year} {companyLegalName} · CNPJ {cnpj}"
+    }
+  },
+  "legal": {
+    "common": {
+      "effectiveDate": "Fecha de vigencia",
+      "legalName": "Razón social",
+      "tradeName": "Nombre comercial",
+      "address": "Dirección",
+      "email": "Correo electrónico",
+      "footer": {
+        "privacyPolicy": "Política de Privacidad",
+        "termsOfService": "Términos de Servicio",
+        "acceptableUse": "Uso Aceptable"
+      },
+      "languageSwitch": {
+        "viewInEnglish": "Ver esta página en inglés",
+        "viewInPortuguese": "Ver esta página en portugués"
+      }
+    },
+    "privacy": {
+      "title": "Política de Privacidad",
+      "controller": { "title": "1. Controlador de Datos" },
+      "dataCollected": {
+        "title": "2. Datos que Recopilamos",
+        "intro": "Recopilamos los siguientes datos en el contexto de nuestra plataforma CRM para WhatsApp:",
+        "items": [
+          "Datos de cuenta: nombre, correo electrónico y hash de contraseña",
+          "Datos de contactos de WhatsApp recibidos por WhatsApp Cloud API: número de teléfono, nombre visible y foto de perfil cuando esté disponible",
+          "Contenido de mensajes: texto, archivos multimedia, documentos y audio intercambiados por WhatsApp",
+          "Metadatos de mensajes: marcas de tiempo, estado de entrega y confirmaciones de lectura",
+          "Datos de uso: registros de acceso, dirección IP y datos de sesión"
+        ]
+      },
+      "use": {
+        "title": "3. Cómo Usamos sus Datos",
+        "items": [
+          "Gestión de atención al cliente mediante bandeja compartida",
+          "Automatización de mensajes y entrega de notificaciones",
+          "CRM: gestión de contactos, embudos e historial de conversaciones",
+          "Analíticas y métricas de rendimiento",
+          "Cumplimiento legal y prevención de fraude"
+        ],
+        "noAiAds": "Los datos de mensajes de WhatsApp nunca se usan para entrenar modelos de IA ni para publicidad dirigida."
+      },
+      "sharing": {
+        "title": "4. Compartición de Datos",
+        "intro": "Compartimos datos solo con:",
+        "items": [
+          "Meta Platforms Inc. (WhatsApp): operador de infraestructura de mensajería bajo los Términos de WhatsApp Business",
+          "Supabase Inc.: proveedor de base de datos y autenticación",
+          "Autoridades competentes: cuando lo exija la ley o una orden judicial"
+        ],
+        "outro": "No vendemos, alquilamos ni compartimos datos personales con terceros con fines comerciales."
+      },
+      "international": {
+        "title": "5. Transferencia Internacional",
+        "body": "Los datos de mensajes pueden transferirse a servidores de Meta Platforms Inc. en Estados Unidos para su procesamiento mediante WhatsApp Cloud API, sujetos a las cláusulas contractuales estándar de Meta y en cumplimiento del art. 33 de la LGPD."
+      },
+      "retention": {
+        "title": "6. Retención de Datos",
+        "items": [
+          "Datos de cuenta y contactos: conservados mientras la cuenta esté activa",
+          "Datos de mensajes de WhatsApp: conservados durante 12 meses desde la fecha de la conversación",
+          "Todos los datos se eliminan dentro de los 30 días posteriores al cierre de la cuenta o ante solicitud verificada",
+          "Registros de seguridad: conservados hasta 12 meses según lo exija la ley"
+        ]
+      },
+      "rights": {
+        "title": "7. Sus Derechos (LGPD art. 18)",
+        "intro": "Usted tiene derecho a:",
+        "items": [
+          "Acceso: confirmar si sus datos son tratados y obtener una copia",
+          "Corrección: corregir datos incompletos o inexactos",
+          "Eliminación: solicitar la eliminación de datos innecesarios o tratados ilícitamente",
+          "Portabilidad: recibir sus datos en formato estructurado",
+          "Revocación del consentimiento: revocar el consentimiento en cualquier momento",
+          "Oposición: oponerse al tratamiento basado en interés legítimo",
+          "Información: saber qué terceros reciben sus datos"
+        ],
+        "outro": "Para ejercer cualquier derecho, contáctenos en {email}. Respondemos dentro de 15 días hábiles."
+      },
+      "dpo": {
+        "title": "8. Delegado de Protección de Datos (DPO)",
+        "anpd": "También puede presentar una reclamación ante la autoridad brasileña de protección de datos (ANPD):"
+      },
+      "security": {
+        "title": "9. Seguridad",
+        "items": [
+          "Cifrado AES-256-GCM para tokens y credenciales en reposo",
+          "HTTPS/TLS para todas las comunicaciones",
+          "Autenticación de dos factores (2FA) exigida para cuentas administradoras",
+          "Control de acceso basado en roles"
+        ]
+      },
+      "updates": {
+        "title": "10. Actualizaciones de esta Política",
+        "body": "Podemos actualizar esta política periódicamente. Los cambios significativos se comunicarán por correo electrónico o notificación dentro de la aplicación. La fecha de vigencia al inicio refleja la versión más reciente."
+      },
+      "contact": { "title": "11. Contacto" }
+    },
+    "terms": {
+      "title": "Términos de Servicio",
+      "acceptance": {
+        "title": "1. Aceptación",
+        "body": "Al acceder o usar {companyName}, usted acepta estos Términos de Servicio. Si no está de acuerdo, no use el servicio."
+      },
+      "provider": { "title": "2. Proveedor del Servicio" },
+      "service": {
+        "title": "3. Descripción del Servicio",
+        "body": "{companyName} es una plataforma SaaS de CRM y comunicación basada en WhatsApp Business API (Meta), que permite:",
+        "items": [
+          "Atención al cliente mediante bandeja compartida",
+          "Automatización de mensajes y flujos",
+          "Gestión de contactos, embudos y campañas de difusión",
+          "Gestión de plantillas mediante WhatsApp Cloud API"
+        ],
+        "outro": "{companyName} opera como Meta Tech Provider, conectando cuentas de WhatsApp Business de clientes con la Cloud API oficial."
+      },
+      "permitted": {
+        "title": "4. Uso Permitido",
+        "body": "Usted acepta:",
+        "items": [
+          "Usar la plataforma solo para fines comerciales lícitos y legítimos",
+          "Cumplir con la Política de WhatsApp Business",
+          "Obtener consentimiento opt-in explícito antes de enviar mensajes de marketing",
+          "Mantener sus credenciales confidenciales y no compartir el acceso",
+          "Garantizar que todo contenido sea exacto, legal y no engañoso"
+        ]
+      },
+      "prohibited": {
+        "title": "5. Uso Prohibido",
+        "body": "Está estrictamente prohibido:",
+        "items": [
+          "Enviar spam o mensajes no solicitados a contactos sin opt-in",
+          "Usar la plataforma en industrias restringidas listadas en la Política de Uso Aceptable",
+          "Comprar, vender o alquilar listas de contactos",
+          "Suplantar a cualquier persona, empresa o marca",
+          "Intentar eludir límites de WhatsApp Cloud API",
+          "Cualquier actividad fraudulenta, ilegal o abusiva",
+          "Revender o sublicenciar el acceso sin autorización escrita",
+          "Realizar ingeniería inversa, descompilar o extraer código fuente"
+        ]
+      },
+      "responsibilities": {
+        "title": "6. Responsabilidades",
+        "provider": "El proveedor del servicio ({companyName}) es responsable de:",
+        "providerItems": [
+          "Mantener la disponibilidad y seguridad de la plataforma",
+          "Cumplir los requisitos de Meta/WhatsApp Tech Provider",
+          "Proteger los datos según la Política de Privacidad"
+        ],
+        "customer": "El cliente es responsable de:",
+        "customerItems": [
+          "Todo el contenido de los mensajes enviados por la plataforma",
+          "Obtener y mantener el consentimiento opt-in de sus contactos finales",
+          "Cumplir las políticas de WhatsApp al comunicarse con sus propios clientes",
+          "Garantizar que su uso no viole leyes aplicables"
+        ]
+      },
+      "ip": {
+        "title": "7. Propiedad Intelectual",
+        "body": "El software, las marcas y el contenido de {companyName} están protegidos por la ley aplicable. El uso del servicio no transfiere derechos de propiedad intelectual al cliente."
+      },
+      "termination": {
+        "title": "8. Suspensión y Terminación",
+        "body": "{companyName} puede suspender o terminar el acceso de inmediato y sin aviso previo en casos de:",
+        "items": [
+          "Violación de estos Términos o de la Política de Uso Aceptable",
+          "Abuso de la plataforma o daño a terceros",
+          "Requerimiento de Meta/WhatsApp o autoridades competentes",
+          "Falta de pago cuando corresponda"
+        ]
+      },
+      "liability": {
+        "title": "9. Limitación de Responsabilidad",
+        "body": "{companyName} no es responsable por daños derivados de:",
+        "items": [
+          "Indisponibilidad de la infraestructura de Meta/WhatsApp",
+          "Uso indebido de la plataforma por el cliente o sus usuarios finales",
+          "Cambios en políticas o API de Meta que afecten el servicio",
+          "Eventos fuera de control razonable (fuerza mayor)"
+        ]
+      },
+      "law": {
+        "title": "10. Ley Aplicable",
+        "body": "Estos Términos se rigen por la ley brasileña. Cualquier disputa se resolverá en los tribunales de {city}, Brasil, con exclusión de cualquier otra jurisdicción."
+      },
+      "changes": {
+        "title": "11. Cambios",
+        "body": "Podemos actualizar estos Términos en cualquier momento. Los usuarios serán notificados por correo electrónico sobre cambios materiales. El uso continuado después de la fecha de vigencia constituye aceptación."
+      },
+      "contact": { "title": "12. Contacto" }
+    },
+    "acceptableUse": {
+      "title": "Política de Uso Aceptable",
+      "scope": {
+        "title": "1. Alcance",
+        "body": "Esta Política de Uso Aceptable se aplica a todos los clientes, usuarios y organizaciones que acceden a los servicios de {companyName}. {companyName}, operado por {companyLegalName} (CNPJ {cnpj}), es una plataforma Meta Tech Provider. Somos responsables de aplicar estas reglas en todas las cuentas y garantizar el cumplimiento de las políticas de Meta.",
+        "outro": "La violación de esta política puede resultar en suspensión inmediata y reporte a Meta."
+      },
+      "prohibited": {
+        "title": "2. Industrias y Contenidos Prohibidos",
+        "body": "Las siguientes industrias, productos y tipos de contenido están estrictamente prohibidos en esta plataforma, en línea con las políticas comerciales y publicitarias de Meta:",
+        "items": [
+          "Juegos de azar no regulados o casinos en línea sin licencia válida",
+          "Armas de fuego, municiones, explosivos o armas de cualquier tipo",
+          "Contenido adulto o pornografía",
+          "Medicamentos bajo receta, sustancias controladas o farmacéuticos vendidos sin receta",
+          "Criptoactivos no regulados, esquemas piramidales o ofertas de inversión fraudulentas",
+          "Tabaco, cigarrillos electrónicos y vapeo donde la ley lo prohíba",
+          "Discurso de odio, violencia o discriminación por características protegidas",
+          "Productos falsificados o infracción de propiedad intelectual",
+          "Trata de personas o explotación",
+          "Cualquier producto, servicio o contenido ilegal en la jurisdicción del destinatario"
+        ]
+      },
+      "consent": {
+        "title": "3. Requisitos de Consentimiento (Opt-In)",
+        "body": "Todos los clientes deben cumplir las siguientes reglas de consentimiento:",
+        "items": [
+          "Todo contacto que reciba mensajes de marketing o automatizados debe haber dado opt-in explícito antes del primer mensaje",
+          "El opt-in no puede presumirse de una relación comercial previa para mensajes de marketing",
+          "Debe conservarse evidencia del opt-in: fecha, canal y texto exacto del consentimiento",
+          "Los contactos deben poder darse de baja en cualquier momento; las solicitudes deben cumplirse dentro de 24 horas",
+          "Las listas compradas, alquiladas o extraídas están prohibidas"
+        ]
+      },
+      "messaging": {
+        "title": "4. Reglas de Mensajería",
+        "items": [
+          "No enviar mensajes con volumen o frecuencia que constituya spam",
+          "Usar solo plantillas aprobadas por Meta para mensajes salientes fuera de la ventana de 24 horas",
+          "No intentar eludir límites o puntuaciones de calidad de WhatsApp Cloud API",
+          "No enviar mensajes masivos idénticos fuera de flujos de difusión aprobados",
+          "El contenido debe coincidir con la categoría de plantilla aprobada"
+        ]
+      },
+      "technical": {
+        "title": "5. Acciones Técnicas Prohibidas",
+        "items": [
+          "Ingeniería inversa, descompilación o extracción del código fuente",
+          "Intentar acceso no autorizado a otras cuentas o datos",
+          "Inyectar código malicioso, scripts o payloads mediante la plataforma",
+          "Usar herramientas automatizadas para extraer datos",
+          "Revender o sublicenciar acceso API a terceros sin autorización escrita"
+        ]
+      },
+      "impersonation": {
+        "title": "6. Suplantación",
+        "body": "Está prohibido usar la plataforma para suplantar a cualquier persona, empresa, entidad gubernamental o marca, incluido el uso no autorizado de logotipos, marcas o nombres de remitente."
+      },
+      "abuse": {
+        "title": "7. Reporte de Abuso",
+        "body": "Para reportar violaciones de esta política, contacte a nuestro equipo de abuso:",
+        "response": "Nos comprometemos a responder dentro de 48 horas hábiles.",
+        "meta": "Los reportes a Meta también pueden enviarse directamente en:"
+      },
+      "consequences": {
+        "title": "8. Consecuencias de la Violación",
+        "body": "Las violaciones de esta política pueden resultar en:",
+        "items": [
+          "Suspensión inmediata del acceso sin reembolso",
+          "Terminación permanente de la cuenta",
+          "Reporte a Meta Platforms Inc. según nuestro acuerdo de Tech Provider",
+          "Reporte a autoridades regulatorias o policiales cuando la ley lo exija",
+          "Acciones legales civiles o penales cuando corresponda"
+        ]
+      },
+      "operator": {
+        "title": "9. Responsabilidad del Operador",
+        "body": "{companyName} ({companyLegalName}) es responsable, como Meta Tech Provider, de aplicar esta política en todas las cuentas de clientes de la plataforma. Nos reservamos el derecho de revisar actividad, retirar contenido y suspender cuentas que violen esta política o los términos de Meta, sin aviso previo."
+      },
+      "updates": {
+        "title": "10. Actualizaciones",
+        "body": "Esta política puede actualizarse para reflejar cambios en los requisitos de Meta o en la ley aplicable. La fecha de vigencia al inicio refleja la versión actual."
+      }
     }
   },
   "nav": {

@@ -5,19 +5,60 @@ version: '3.8'
 # -------------------------------------------------------------
 # Variáveis principais (configure no .env):
 # - APP_URL: A URL pública da aplicação
+# - NEXT_PUBLIC_APP_URL: URL canônica pública usada nas páginas legais
 # - DATABASE_URL: URL do connection pooler fornecido pelo Supabase.
 #   Ex: postgres://postgres.[projeto]:[senha]@aws-0-[regiao].pooler.supabase.com:6543/postgres
+# - NEXT_PUBLIC_LEGAL_*: Identidade legal pública usada no App Review Meta e LGPD
 # -------------------------------------------------------------
 
 services:
   web:
     image: lc1868/wacrm:latest
     environment:
+      # URLs públicas da aplicação
       APP_URL: ${APP_URL}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+
+      # Supabase Cloud / banco
       DATABASE_URL: ${DATABASE_URL}
       NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+
+      # WhatsApp / Meta
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY} # Gere com: openssl rand -hex 32
+      META_APP_SECRET: ${META_APP_SECRET} # Meta Developers > App settings > Basic
+      META_APP_ID: ${META_APP_ID} # Opcional: upload resumível/futuro
+      WHATSAPP_TEMPLATES_DRY_RUN: ${WHATSAPP_TEMPLATES_DRY_RUN} # Opcional: true em local/CI
+
+      # Cadastro público / convites
+      # Defina ambos como false para tornar o app somente por convite.
+      ALLOW_PUBLIC_SIGNUP: ${ALLOW_PUBLIC_SIGNUP}
+      NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP: ${NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP}
+      ALLOWED_INVITE_HOSTS: ${ALLOWED_INVITE_HOSTS} # Opcional: hosts permitidos separados por vírgula
+
+      # Cron de automações e flows
+      # Obrigatório se usar Wait steps ou varredura de timeouts.
+      AUTOMATION_CRON_SECRET: ${AUTOMATION_CRON_SECRET}
+
+      # Identidade legal pública (Meta Tech Provider + LGPD)
+      NEXT_PUBLIC_LEGAL_COMPANY_NAME: ${NEXT_PUBLIC_LEGAL_COMPANY_NAME}
+      NEXT_PUBLIC_LEGAL_COMPANY_LEGAL_NAME: ${NEXT_PUBLIC_LEGAL_COMPANY_LEGAL_NAME}
+      NEXT_PUBLIC_LEGAL_CNPJ: ${NEXT_PUBLIC_LEGAL_CNPJ}
+      NEXT_PUBLIC_LEGAL_EMAIL: ${NEXT_PUBLIC_LEGAL_EMAIL}
+      NEXT_PUBLIC_LEGAL_ABUSE_EMAIL: ${NEXT_PUBLIC_LEGAL_ABUSE_EMAIL}
+      NEXT_PUBLIC_LEGAL_ADDRESS: ${NEXT_PUBLIC_LEGAL_ADDRESS}
+      NEXT_PUBLIC_LEGAL_DPO_NAME: ${NEXT_PUBLIC_LEGAL_DPO_NAME}
+      NEXT_PUBLIC_LEGAL_CITY: ${NEXT_PUBLIC_LEGAL_CITY}
+
+      # White-label / branding global (opcional; settings por conta têm prioridade)
+      NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME}
+      NEXT_PUBLIC_APP_LOGO_URL: ${NEXT_PUBLIC_APP_LOGO_URL}
+      NEXT_PUBLIC_APP_FAVICON_URL: ${NEXT_PUBLIC_APP_FAVICON_URL}
+      NEXT_PUBLIC_APP_PRIMARY_COLOR: ${NEXT_PUBLIC_APP_PRIMARY_COLOR}
+      NEXT_PUBLIC_SIDEBAR_COLOR: ${NEXT_PUBLIC_SIDEBAR_COLOR}
     # Portas desativadas no host para evitar conflito com Traefik/Cloudflare Tunnel
     # O acesso ocorre diretamente via rede interna do Swarm (network_swarm_public)
     # ports:

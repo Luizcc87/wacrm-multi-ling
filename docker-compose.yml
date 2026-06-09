@@ -4,12 +4,13 @@ version: '3.8'
 # Stack: Supabase Cloud (Managed DB)
 # -------------------------------------------------------------
 # Key variables (configure them in your .env file or Portainer stack env):
-# - APP_URL / NEXT_PUBLIC_SITE_URL: Public URL of the application.
+# - APP_URL / NEXT_PUBLIC_APP_URL / NEXT_PUBLIC_SITE_URL: Public URL of the application.
 # - DATABASE_URL: Connection pooler URL provided by Supabase.
 #   E.g., postgres://postgres.[project]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
 # - ENCRYPTION_KEY: 64-character hex key used to encrypt WhatsApp tokens.
 #   Generate with: openssl rand -hex 32
 # - META_APP_SECRET: Meta App Secret used to validate WhatsApp webhook signatures.
+# - NEXT_PUBLIC_LEGAL_*: Public legal identity used by /privacy, /terms and /acceptable-use.
 # -------------------------------------------------------------
 
 services:
@@ -19,7 +20,10 @@ services:
     image: lc1868/wacrm-multi-ling:latest
     environment:
       # App public URLs
+      # APP_URL is used by the container/runtime. NEXT_PUBLIC_APP_URL is used by legal page canonicals.
+      # NEXT_PUBLIC_SITE_URL is used for generated public links when request-derived origin is unavailable.
       APP_URL: ${APP_URL}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
 
       # Supabase database
@@ -32,6 +36,35 @@ services:
       # WhatsApp / Meta security
       ENCRYPTION_KEY: ${ENCRYPTION_KEY} # Example: 64 hex chars from `openssl rand -hex 32`
       META_APP_SECRET: ${META_APP_SECRET} # Example: Meta Developers > App settings > Basic > App secret
+      META_APP_ID: ${META_APP_ID} # Optional: required only for future resumable upload flows
+      WHATSAPP_TEMPLATES_DRY_RUN: ${WHATSAPP_TEMPLATES_DRY_RUN} # Optional: true for local/CI template tests
+
+      # Signup / invitation controls
+      # Set both to false to make the app invite-only.
+      ALLOW_PUBLIC_SIGNUP: ${ALLOW_PUBLIC_SIGNUP}
+      NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP: ${NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP}
+      ALLOWED_INVITE_HOSTS: ${ALLOWED_INVITE_HOSTS} # Optional: comma-separated host allow-list
+
+      # Cron security
+      # Required when using automation Wait steps or flow timeout sweeps.
+      AUTOMATION_CRON_SECRET: ${AUTOMATION_CRON_SECRET}
+
+      # Legal identity (public; required for Meta Tech Provider review and LGPD)
+      NEXT_PUBLIC_LEGAL_COMPANY_NAME: ${NEXT_PUBLIC_LEGAL_COMPANY_NAME}
+      NEXT_PUBLIC_LEGAL_COMPANY_LEGAL_NAME: ${NEXT_PUBLIC_LEGAL_COMPANY_LEGAL_NAME}
+      NEXT_PUBLIC_LEGAL_CNPJ: ${NEXT_PUBLIC_LEGAL_CNPJ}
+      NEXT_PUBLIC_LEGAL_EMAIL: ${NEXT_PUBLIC_LEGAL_EMAIL}
+      NEXT_PUBLIC_LEGAL_ABUSE_EMAIL: ${NEXT_PUBLIC_LEGAL_ABUSE_EMAIL}
+      NEXT_PUBLIC_LEGAL_ADDRESS: ${NEXT_PUBLIC_LEGAL_ADDRESS}
+      NEXT_PUBLIC_LEGAL_DPO_NAME: ${NEXT_PUBLIC_LEGAL_DPO_NAME}
+      NEXT_PUBLIC_LEGAL_CITY: ${NEXT_PUBLIC_LEGAL_CITY}
+
+      # White-label / branding fallback (optional; account settings override these)
+      NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME}
+      NEXT_PUBLIC_APP_LOGO_URL: ${NEXT_PUBLIC_APP_LOGO_URL}
+      NEXT_PUBLIC_APP_FAVICON_URL: ${NEXT_PUBLIC_APP_FAVICON_URL}
+      NEXT_PUBLIC_APP_PRIMARY_COLOR: ${NEXT_PUBLIC_APP_PRIMARY_COLOR}
+      NEXT_PUBLIC_SIDEBAR_COLOR: ${NEXT_PUBLIC_SIDEBAR_COLOR}
     # Ports disabled on the host to prevent conflicts with Traefik/Cloudflare Tunnel.
     # Traffic routing is done directly via the internal Swarm network (network_swarm_public).
     # ports:

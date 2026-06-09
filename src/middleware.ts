@@ -5,7 +5,14 @@ import { routing } from '@/i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
+const LEGAL_ROUTES = ['/privacy', '/terms', '/acceptable-use'];
+
 export async function middleware(request: NextRequest) {
+  // Legal pages: public, no auth, no locale redirect, indexable by Meta reviewer
+  if (LEGAL_ROUTES.includes(request.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
+
   // API routes não têm locale — passam direto para auth check
   if (request.nextUrl.pathname.startsWith('/api')) {
     // Auth check para API routes protegidas
