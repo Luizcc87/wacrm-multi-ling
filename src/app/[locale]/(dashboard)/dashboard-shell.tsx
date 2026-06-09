@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { AuthProvider, useAuth } from '@/hooks/use-auth';
 import { BrandingProvider } from '@/contexts/branding-context';
 import { Sidebar } from '@/components/layout/sidebar';
@@ -18,6 +18,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
   const t = useTranslations('common');
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   // Sidebar drawer state — only used on mobile. On lg+ the sidebar is
   // always visible and this stays at `false` (ignored by the component).
@@ -43,6 +44,10 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
 
   if (!user) return null;
 
+  const sectionPath = pathname.replace(/^\/(?:en|es|pt-BR)(?=\/|$)/, '') || '/';
+  const showLegalFooter =
+    sectionPath === '/dashboard' || sectionPath === '/settings';
+
   return (
     <BrandingProvider>
       <div className="flex h-screen overflow-hidden bg-slate-950">
@@ -53,7 +58,9 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
           {/* Thinner horizontal padding on mobile so cards have room to breathe. */}
           <main className="flex-1 overflow-y-auto p-4 sm:p-6">
             {children}
-            <AuthLegalFooter className="border-t border-slate-800 pt-6 pb-2" />
+            {showLegalFooter && (
+              <AuthLegalFooter className="border-t border-slate-800 pt-6 pb-2" />
+            )}
           </main>
         </div>
       </div>
