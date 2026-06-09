@@ -13,7 +13,7 @@ version: '3.8'
 
 services:
   web:
-    image: lc1868/wacrm:latest
+    image: lc1868/wacrm-multi-ling:latest
     environment:
       # URLs públicas da aplicação
       APP_URL: ${APP_URL}
