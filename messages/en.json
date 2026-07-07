@@ -508,6 +508,10 @@
   },
   "contacts": {
     "title": "Contacts",
+    "sendTemplate": "Send template",
+    "noPhoneForConversation": "Contact has no phone",
+    "duplicatesSkipped": "duplicates skipped",
+    "importFailed": "Import failed",
     "startConversation": "Start conversation",
     "newContact": "New contact",
     "importContacts": "Import contacts",

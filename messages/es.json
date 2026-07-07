@@ -508,6 +508,10 @@
   },
   "contacts": {
     "title": "Contactos",
+    "sendTemplate": "Enviar plantilla",
+    "noPhoneForConversation": "El contacto no tiene teléfono",
+    "duplicatesSkipped": "duplicados omitidos",
+    "importFailed": "Error al importar",
     "startConversation": "Iniciar conversación",
     "newContact": "Nuevo contacto",
     "importContacts": "Importar contactos",
