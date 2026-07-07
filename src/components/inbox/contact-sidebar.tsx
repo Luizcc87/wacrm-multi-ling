@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,19 @@ import { NewConversationModal } from "./new-conversation-modal";
 import { ContactForm } from "@/components/contacts/contact-form";
 import { useCan } from "@/hooks/use-can";
 import { format } from "date-fns";
+import { ptBR, es, enUS } from "date-fns/locale";
+
+const localesMap: Record<string, any> = {
+  'pt-BR': ptBR,
+  es: es,
+  en: enUS,
+};
+
+const formatPatterns: Record<string, string> = {
+  'pt-BR': "d 'de' MMM 'de' yyyy HH:mm",
+  es: "d 'de' MMM 'de' yyyy HH:mm",
+  en: "MMM d, yyyy HH:mm",
+};
 
 interface ContactSidebarProps {
   contact: Contact | null;
@@ -36,6 +49,7 @@ interface ContactSidebarProps {
 
 export function ContactSidebar({ contact, onContactUpdated, sessionExpired = false }: ContactSidebarProps) {
   const t = useTranslations('inbox');
+  const locale = useLocale();
   const tStart = useTranslations('startConversation');
   const tContacts = useTranslations('contacts');
   const canSend = useCan('send-messages');
@@ -376,7 +390,7 @@ export function ContactSidebar({ contact, onContactUpdated, sessionExpired = fal
                       {note.note_text}
                     </p>
                     <p className="mt-1 text-[10px] text-muted-foreground">
-                      {format(new Date(note.created_at), "MMM d, yyyy HH:mm")}
+                      {format(new Date(note.created_at), formatPatterns[locale] || "MMM d, yyyy HH:mm", { locale: localesMap[locale] || enUS })}
                     </p>
                   </div>
                 ))}

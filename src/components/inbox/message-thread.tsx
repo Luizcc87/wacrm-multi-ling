@@ -30,6 +30,19 @@ import {
   PanelRightClose,
 } from "lucide-react";
 import { format, isToday, isYesterday, differenceInHours } from "date-fns";
+import { ptBR, es, enUS } from "date-fns/locale";
+
+const localesMap: Record<string, any> = {
+  'pt-BR': ptBR,
+  es: es,
+  en: enUS,
+};
+
+const formatPatterns: Record<string, string> = {
+  'pt-BR': "d 'de' MMMM 'de' yyyy",
+  es: "d 'de' MMMM 'de' yyyy",
+  en: "MMMM d, yyyy",
+};
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -120,11 +133,13 @@ interface MessageThreadProps {
   onToggleContactPanel?: () => void;
 }
 
-function formatDateSeparator(dateStr: string): string {
+function formatDateSeparator(dateStr: string, t: any, locale: string): string {
   const date = new Date(dateStr);
-  if (isToday(date)) return "Today";
-  if (isYesterday(date)) return "Yesterday";
-  return format(date, "MMMM d, yyyy");
+  if (isToday(date)) return t('today') || "Today";
+  if (isYesterday(date)) return t('yesterday') || "Yesterday";
+  return format(date, formatPatterns[locale] || "MMMM d, yyyy", {
+    locale: localesMap[locale] || enUS,
+  });
 }
 
 function groupMessagesByDate(messages: Message[]) {
@@ -1144,7 +1159,7 @@ export function MessageThread({
                 {/* Date separator */}
                 <div className="mb-4 flex items-center justify-center">
                   <span className="rounded-full bg-muted px-3 py-1 text-[10px] font-medium text-muted-foreground">
-                    {formatDateSeparator(group.date)}
+                    {formatDateSeparator(group.date, t, locale)}
                   </span>
                 </div>
                 {/* Messages */}

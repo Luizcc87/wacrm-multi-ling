@@ -13,6 +13,13 @@ import { cn } from "@/lib/utils";
 import type { Conversation, ConversationStatus, Tag } from "@/types";
 import { Search, ChevronDown, MessageSquarePlus, X } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { ptBR, es, enUS } from "date-fns/locale";
+
+const localesMap: Record<string, any> = {
+  'pt-BR': ptBR,
+  es: es,
+  en: enUS,
+};
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -196,7 +203,12 @@ export function ConversationList({
       });
     }
 
-    return result;
+    // Sort conversations so the one with the most recent message is at the top
+    return [...result].sort((a, b) => {
+      const aTime = a.last_message_at ? new Date(a.last_message_at).getTime() : 0;
+      const bTime = b.last_message_at ? new Date(b.last_message_at).getTime() : 0;
+      return bTime - aTime;
+    });
   }, [conversations, filter, search, selectedTagIds, selectedCompany]);
 
   const toggleTag = useCallback((id: string) => {
@@ -470,6 +482,7 @@ function ConversationItem({
   onSelect,
 }: ConversationItemProps) {
   const t = useTranslations('inbox');
+  const locale = useLocale();
   const contact = conversation.contact;
   const displayName = contact?.name || contact?.phone || "Unknown";
   const initials = displayName.charAt(0).toUpperCase();
@@ -481,6 +494,7 @@ function ConversationItem({
   const timeAgo = conversation.last_message_at
     ? formatDistanceToNow(new Date(conversation.last_message_at), {
         addSuffix: false,
+        locale: localesMap[locale] || enUS,
       })
     : "";
 

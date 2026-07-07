@@ -14,6 +14,9 @@ version: '3.8'
 services:
   web:
     image: lc1868/wacrm-multi-ling:latest
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     environment:
       # URLs públicas da aplicação
       APP_URL: ${APP_URL}

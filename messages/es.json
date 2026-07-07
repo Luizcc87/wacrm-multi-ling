@@ -613,7 +613,10 @@
     "hoursRemaining": "h restantes",
     "minutesRemaining": "m restantes",
     "noCustomerMessages": "Sin mensajes del cliente",
-    "whatsappNotConnected": "WhatsApp® no está conectado. Vaya a Configuración para conectar su cuenta."
+    "whatsappNotConnected": "WhatsApp® no está conectado. Vaya a Configuración para conectar su cuenta.",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "aiNotConfigured": "La IA aún no está configurada — actívela en Configuración → Asistente de IA."
   },
   "contacts": {
     "title": "Contactos",
