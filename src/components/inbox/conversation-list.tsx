@@ -75,13 +75,6 @@ export function ConversationList({
   const [loading, setLoading] = useState(true);
   const [newConvOpen, setNewConvOpen] = useState(cParam === "new");
 
-  // Sync state if URL query param changes
-  useEffect(() => {
-    if (cParam === "new") {
-      setNewConvOpen(true);
-    }
-  }, [cParam]);
-
   // Contact-based filters (issue #272). Tags use OR logic (a conversation
   // matches if its contact carries any selected tag), consistent with
   // Broadcast audience filtering. Company is an exact match on the field.

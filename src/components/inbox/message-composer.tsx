@@ -73,7 +73,10 @@ interface ReplyDraft {
 }
 
 interface StagedTemplateInfo {
-  template: any;
+  template: {
+    name: string;
+    buttons?: Array<{ type: string; text: string }>;
+  };
   values: {
     body: string[];
     headerText?: string;
@@ -469,7 +472,7 @@ export function MessageComposer({
           </div>
           {stagedTemplate.template.buttons && stagedTemplate.template.buttons.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {stagedTemplate.template.buttons.map((btn: any, idx: number) => (
+              {stagedTemplate.template.buttons.map((btn, idx: number) => (
                 <div
                   key={idx}
                   className="rounded-lg border border-border bg-muted px-2.5 py-1 text-xs text-muted-foreground"

@@ -127,7 +127,7 @@ export function ProfileForm() {
             <div className="rounded-lg border border-border bg-muted p-4">
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('profile.accountDetails')}</p>
               <dl className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
-                <div><dt className="text-muted-foreground">{t('profile.role')}</dt><dd className="mt-0.5 font-mono text-foreground">{profile?.account_role ? t(`members.roles.${profile.account_role}` as any) : '—'}</dd></div>
+                <div><dt className="text-muted-foreground">{t('profile.role')}</dt><dd className="mt-0.5 font-mono text-foreground">{profile?.account_role ? t(`members.roles.${profile.account_role}` as Parameters<typeof t>[0]) : '—'}</dd></div>
                 <div><dt className="text-muted-foreground">{t('profile.joined')}</dt><dd className="mt-0.5 text-foreground">{user?.created_at ? new Date(user.created_at).toLocaleDateString() : '—'}</dd></div>
                 <div className="sm:col-span-2"><dt className="text-muted-foreground">{t('profile.userId')}</dt><dd className="mt-0.5 break-all font-mono text-xs text-muted-foreground">{user?.id ?? '—'}</dd></div>
               </dl>

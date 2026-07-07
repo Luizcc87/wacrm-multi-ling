@@ -296,7 +296,7 @@ export default function JoinPage() {
         {t('joinAs')}{' '}
         <span className="inline-flex items-center gap-1 text-white">
           <ShieldCheck className="size-3.5 text-primary" />
-          {t(`roles.${peek.role}` as any)}
+          {t(`roles.${peek.role}` as Parameters<typeof t>[0])}
         </span>
         . {t('linkValidUntil')}{' '}
         {new Date(peek.expires_at).toLocaleDateString(undefined, {

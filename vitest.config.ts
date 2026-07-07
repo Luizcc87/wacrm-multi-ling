@@ -2,6 +2,9 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   resolve: {
+    alias: {
+      "next/server": "next/server.js",
+    },
     tsconfigPaths: true,
   },
   test: {

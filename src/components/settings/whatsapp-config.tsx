@@ -41,7 +41,7 @@ export function WhatsAppConfig() {
   const [pin, setPin] = useState('');
   const [tokenEdited, setTokenEdited] = useState(false);
   const [verifyingRegistration, setVerifyingRegistration] = useState(false);
-  const [registrationProbe, setRegistrationProbe] = useState<any>(null);
+  const [registrationProbe, setRegistrationProbe] = useState<{ live?: boolean } | null>(null);
   const isRegistered = Boolean(config?.registered_at);
   const lastRegistrationError = config?.last_registration_error ?? null;
   const webhookUrl = typeof window !== 'undefined' ? `${window.location.origin}/api/whatsapp/webhook` : '';
@@ -123,8 +123,8 @@ export function WhatsAppConfig() {
     try {
       const res = await fetch('/api/whatsapp/config/verify-registration');
       const data = await res.json();
-      setRegistrationProbe(data);
-      toast[data.live ? 'success' : 'error'](data.live ? t('whatsapp.toasts.verifySuccess') : t('whatsapp.toasts.verifyFailed'));
+      setRegistrationProbe(data as { live?: boolean });
+      toast[(data as { live?: boolean }).live ? 'success' : 'error']((data as { live?: boolean }).live ? t('whatsapp.toasts.verifySuccess') : t('whatsapp.toasts.verifyFailed'));
     } catch {
       toast.error(t('whatsapp.toasts.verifyEndpointError'));
     } finally {

@@ -79,7 +79,7 @@ export function GatedButton({
   const effectivelyDisabled = disabled || !canAct;
 
   const localizedReason = gateReason
-    ? t(`gateReasons.${gateReason}` as any, { default: gateReason })
+    ? t(`gateReasons.${gateReason}` as Parameters<typeof t>[0], { default: gateReason })
     : gateReason;
 
   const tooltip = !canAct && localizedReason

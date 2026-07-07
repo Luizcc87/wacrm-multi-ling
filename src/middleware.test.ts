@@ -35,6 +35,10 @@ vi.mock("@supabase/ssr", () => ({
   }),
 }));
 
+vi.mock("next-intl/middleware", () => ({
+  default: () => () => undefined,
+}));
+
 // Imported after the mock is registered.
 const { middleware } = await import("./middleware");
 

@@ -119,7 +119,7 @@ export function MembersTab() {
         toast.error(payload.error || t('members.toasts.updateRoleFailed'));
         return;
       }
-      toast.success(t('members.toasts.updateRoleSuccess', { name: member.full_name || t('members.untitledInvite'), role: t(`members.roles.${nextRole}` as any) }));
+      toast.success(t('members.toasts.updateRoleSuccess', { name: member.full_name || t('members.untitledInvite'), role: t(`members.roles.${nextRole}` as Parameters<typeof t>[0]) }));
     } catch {
       setMembers((prev) => prev.map((m) => (m.user_id === member.user_id ? { ...m, role: previousRole } : m)));
       toast.error(t('members.toasts.networkError'));
