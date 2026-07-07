@@ -1284,6 +1284,10 @@
       "description": "Elige el color de acento usado en la aplicación. Todos los temas son oscuros — solo cambia el color primario (botones, navegación activa, insignias). Guardado en este dispositivo.",
       "active": "Activo",
       "useTheme": "Usar tema {name}",
+      "modeTitle": "Modo de interfaz",
+      "modeAria": "Elige el modo de interfaz",
+      "useMode": "Usar modo {mode}",
+      "accentTitle": "Color de acento",
       "branding": {
         "title": "Identidad Visual",
         "description": "Personaliza el nombre, logo y colores del sistema",

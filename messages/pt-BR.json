@@ -1284,6 +1284,10 @@
       "description": "Escolha a cor de destaque usada no aplicativo. Todos os temas são oscuros — apenas a cor primária (botões, navegação ativa, badges) muda. Salvo neste dispositivo.",
       "active": "Ativo",
       "useTheme": "Usar tema {name}",
+      "modeTitle": "Modo de interface",
+      "modeAria": "Escolha o modo de interface",
+      "useMode": "Usar modo {mode}",
+      "accentTitle": "Cor de destaque",
       "branding": {
         "title": "Identidade Visual",
         "description": "Personalize o nome, logo e cores do sistema",

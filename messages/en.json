@@ -1284,6 +1284,10 @@
       "description": "Pick the accent color used across the app. All themes stay dark - only the primary color (buttons, active nav, badges) changes. Saved to this device.",
       "active": "Active",
       "useTheme": "Use {name} theme",
+      "modeTitle": "Interface mode",
+      "modeAria": "Choose interface mode",
+      "useMode": "Use {mode} mode",
+      "accentTitle": "Accent color",
       "branding": {
         "title": "Brand Identity",
         "description": "Customize the system name, logo and colors",
