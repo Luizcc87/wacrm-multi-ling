@@ -89,6 +89,9 @@ export interface Contact {
   avatar_url?: string;
   created_at: string;
   updated_at: string;
+  /** Hydrated by queries that embed `contact_tags(tags(*))` (e.g. the
+   *  Inbox conversation list, for tag filtering). Absent otherwise. */
+  tags?: Tag[];
 }
 
 export interface Tag {
@@ -108,6 +111,8 @@ export interface ContactTag {
 export interface CustomField {
   id: string;
   user_id: string;
+  /** Tenancy key — NOT NULL since migration 017. */
+  account_id: string;
   field_name: string;
   field_type: string;
   field_options?: Record<string, unknown>;
@@ -143,6 +148,28 @@ export interface Conversation {
   created_at: string;
   updated_at: string;
   contact?: Contact;
+}
+
+// ============================================================
+// Notifications (migration 027)
+// ============================================================
+
+export type NotificationType = 'conversation_assigned';
+
+export interface Notification {
+  id: string;
+  account_id: string;
+  /** Recipient — the agent this notification is for. */
+  user_id: string;
+  type: NotificationType;
+  conversation_id?: string;
+  contact_id?: string;
+  /** Who triggered it. Null when an automation/system assigned it. */
+  actor_user_id?: string;
+  title: string;
+  body?: string;
+  read_at?: string;
+  created_at: string;
 }
 
 export type SenderType = 'customer' | 'agent' | 'bot';
@@ -422,7 +449,15 @@ export interface AssignConversationStepConfig {
 }
 
 export interface UpdateContactFieldStepConfig {
+  /**
+   * Either a built-in contact column (`name` | `email` | `company`) or a
+   * custom field encoded as `custom:<custom_field_id>`. The `custom:` prefix
+   * is how the engine distinguishes a `contact_custom_values` write from a
+   * direct `contacts` column update. Older configs store the bare column name,
+   * so this stays backward compatible.
+   */
   field: string;
+  /** Supports `{{ vars.* }}` / `{{ message.text }}` interpolation at runtime. */
   value: string;
 }
 
