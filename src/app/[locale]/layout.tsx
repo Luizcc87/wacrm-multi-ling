@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Toaster } from 'sonner';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -7,6 +6,7 @@ import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/hooks/use-theme';
 import { LocalePreferenceSync } from '@/components/layout/locale-preference-sync';
 import { LegalIdentityProvider } from '@/components/auth/legal-identity-provider';
+import { ThemedToaster } from '@/components/themed-toaster';
 import { getBrandingEnv, resolveBranding } from '@/lib/branding';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -93,17 +93,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <LegalIdentityProvider value={legalIdentity}>
           <LocalePreferenceSync />
           {children}
-          <Toaster
-            theme="dark"
-            position="top-right"
-            toastOptions={{
-              style: {
-                background: 'rgb(30 41 59)',
-                border: '1px solid rgb(51 65 85)',
-                color: 'white',
-              },
-            }}
-          />
+          <ThemedToaster />
         </LegalIdentityProvider>
       </ThemeProvider>
     </NextIntlClientProvider>

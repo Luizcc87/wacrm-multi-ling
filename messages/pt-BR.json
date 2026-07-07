@@ -1847,5 +1847,20 @@
     "contactNoPhone": "Este contato não possui telefone válido",
     "viewerRestricted": "Visualizadores não podem iniciar conversas",
     "windowExpiredHint": "Janela de 24h expirada — será necessário usar um template"
+  },
+  "LoginPage": {
+    "titleAccept": "Entrar para aceitar",
+    "titleWelcome": "Bem-vindo de volta",
+    "descAccept": "Entre e vamos te levar ao convite.",
+    "descWelcome": "Entre na sua conta",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "voce@exemplo.com.br",
+    "passwordLabel": "Senha",
+    "forgotPassword": "Esqueceu a senha?",
+    "passwordPlaceholder": "Digite sua senha",
+    "signingIn": "Entrando...",
+    "signIn": "Entrar",
+    "noAccount": "Não tem uma conta?",
+    "createAccount": "Criar conta"
   }
 }

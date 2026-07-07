@@ -1847,5 +1847,20 @@
     "contactNoPhone": "Este contacto no tiene número de teléfono válido",
     "viewerRestricted": "Los observadores no pueden iniciar conversaciones",
     "windowExpiredHint": "Ventana de 24h expirada — se requiere un template"
+  },
+  "LoginPage": {
+    "titleAccept": "Inicia sesión para aceptar",
+    "titleWelcome": "Bienvenido de vuelta",
+    "descAccept": "Inicia sesión y te llevaremos a la invitación.",
+    "descWelcome": "Inicia sesión en tu cuenta",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "tu@ejemplo.com",
+    "passwordLabel": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "signingIn": "Iniciando sesión...",
+    "signIn": "Iniciar sesión",
+    "noAccount": "¿No tienes una cuenta?",
+    "createAccount": "Crear cuenta"
   }
 }

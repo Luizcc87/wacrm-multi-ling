@@ -1847,5 +1847,20 @@
     "contactNoPhone": "This contact has no valid phone number",
     "viewerRestricted": "Viewers cannot start conversations",
     "windowExpiredHint": "24h window expired — a template will be required"
+  },
+  "LoginPage": {
+    "titleAccept": "Sign in to accept",
+    "titleWelcome": "Welcome back",
+    "descAccept": "Sign in and we'll take you to the invitation.",
+    "descWelcome": "Sign in to your account",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "forgotPassword": "Forgot password?",
+    "passwordPlaceholder": "Enter your password",
+    "signingIn": "Signing in...",
+    "signIn": "Sign in",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create account"
   }
 }

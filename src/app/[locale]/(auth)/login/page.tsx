@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { Suspense, useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import { createClient } from '@/lib/supabase/client';
-import { AuthLegalFooter } from '@/components/auth/legal-footer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { getBrandingEnv, resolveBranding } from '@/lib/branding';
-import type { ResolvedBranding } from '@/types/branding';
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { createClient } from "@/lib/supabase/client";
+import { AuthLegalFooter } from "@/components/auth/legal-footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { MessageSquare, UsersRound } from 'lucide-react';
+} from "@/components/ui/card";
+import { MessageSquare, UsersRound } from "lucide-react";
+import { getBrandingEnv, resolveBranding } from "@/lib/branding";
+import type { ResolvedBranding } from "@/types/branding";
 
 export default function LoginPage() {
   return (
@@ -29,30 +29,29 @@ export default function LoginPage() {
 }
 
 function LoginPageInner() {
-  const t = useTranslations('auth.login');
+  const t = useTranslations("auth.login");
   const [branding, setBranding] = useState<ResolvedBranding>(() =>
     resolveBranding(null, getBrandingEnv()),
   );
   const searchParams = useSearchParams();
-  const inviteToken = searchParams.get('invite');
-  const reason = searchParams.get('reason');
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const inviteToken = searchParams.get("invite");
+  const reason = searchParams.get("reason");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const supabase = createClient();
   const signupLinkVisible =
-    process.env.NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP !== 'false' || !!inviteToken;
+    process.env.NEXT_PUBLIC_ALLOW_PUBLIC_SIGNUP !== "false" || !!inviteToken;
 
   useEffect(() => {
     let cancelled = false;
 
     async function loadPublicBranding() {
       try {
-        const res = await fetch('/api/public/branding', {
-          cache: 'no-store',
+        const res = await fetch("/api/public/branding", {
+          cache: "no-store",
         });
         if (!res.ok) return;
 
@@ -82,9 +81,11 @@ function LoginPageInner() {
       "link[rel='shortcut icon']",
       "link[rel='apple-touch-icon']",
     ];
-    document.querySelectorAll<HTMLLinkElement>(selectors.join(',')).forEach((link) => {
-      link.href = branding.faviconUrl!;
-    });
+    document
+      .querySelectorAll<HTMLLinkElement>(selectors.join(","))
+      .forEach((link) => {
+        link.href = branding.faviconUrl!;
+      });
   }, [branding.faviconUrl]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -106,7 +107,7 @@ function LoginPageInner() {
     if (inviteToken) {
       router.push(`/join/${encodeURIComponent(inviteToken)}`);
     } else {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   };
 
@@ -115,9 +116,9 @@ function LoginPageInner() {
       <div className="w-full max-w-md">
         <Card className="w-full border-border bg-card">
           <CardHeader className="items-center text-center">
-            {reason === 'invite_only' && (
-              <div className="w-full mb-4 rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
-                {t('inviteOnlyNotice')}
+            {reason === "invite_only" && (
+              <div className="mb-4 w-full rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
+                {t("inviteOnlyNotice")}
               </div>
             )}
             <div className="mb-2 flex items-center justify-center gap-3">
@@ -142,10 +143,10 @@ function LoginPageInner() {
               </p>
             </div>
             <CardTitle className="text-xl text-foreground">
-              {inviteToken ? t('subtitleInvite') : t('title')}
+              {inviteToken ? t("subtitleInvite") : t("title")}
             </CardTitle>
             <CardDescription className="text-muted-foreground">
-              {inviteToken ? t('subtitleInviteHint') : t('subtitle')}
+              {inviteToken ? t("subtitleInviteHint") : t("subtitle")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -158,12 +159,12 @@ function LoginPageInner() {
 
               <div className="flex flex-col gap-2">
                 <Label htmlFor="email" className="text-muted-foreground">
-                  {t('email')}
+                  {t("email")}
                 </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder={t('emailPlaceholder')}
+                  placeholder={t("emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -174,19 +175,19 @@ function LoginPageInner() {
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-muted-foreground">
-                    {t('password')}
+                    {t("password")}
                   </Label>
                   <Link
                     href="/forgot-password"
-                    className="text-primary hover:text-primary/80 text-sm"
+                    className="text-primary text-sm hover:text-primary/80"
                   >
-                    {t('forgotPassword')}
+                    {t("forgotPassword")}
                   </Link>
                 </div>
                 <Input
                   id="password"
                   type="password"
-                  placeholder={t('passwordPlaceholder')}
+                  placeholder={t("passwordPlaceholder")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -199,22 +200,22 @@ function LoginPageInner() {
                 disabled={loading}
                 className="mt-2 h-10 w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
               >
-                {loading ? t('submitting') : t('submit')}
+                {loading ? t("submitting") : t("submit")}
               </Button>
             </form>
 
             {signupLinkVisible && (
               <p className="mt-6 text-center text-sm text-muted-foreground">
-                {t('noAccount')}{' '}
+                {t("noAccount")}{" "}
                 <Link
                   href={
                     inviteToken
                       ? `/signup?invite=${encodeURIComponent(inviteToken)}`
-                      : '/signup'
+                      : "/signup"
                   }
                   className="text-primary hover:text-primary/80"
                 >
-                  {t('createAccount')}
+                  {t("createAccount")}
                 </Link>
               </p>
             )}
