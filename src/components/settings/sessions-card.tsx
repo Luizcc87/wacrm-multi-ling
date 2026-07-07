@@ -7,21 +7,8 @@ import { useTranslations } from 'next-intl';
 
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 
 export function SessionsCard() {
   const supabase = createClient();
@@ -32,9 +19,6 @@ export function SessionsCard() {
   const onConfirm = async () => {
     setSigningOut(true);
     try {
-      // scope: 'global' revokes every refresh token for this user
-      // across all devices; the next auth-state change on this tab
-      // triggers the usual redirect.
       const { error } = await supabase.auth.signOut({ scope: 'global' });
       if (error) {
         toast.error(`${t('sessions.signoutFailed')}: ${error.message}`);
@@ -42,8 +26,7 @@ export function SessionsCard() {
       }
       window.location.href = '/login';
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Unknown error';
-      toast.error(msg);
+      toast.error(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setSigningOut(false);
     }
@@ -51,22 +34,18 @@ export function SessionsCard() {
 
   return (
     <>
-      <Card className="bg-slate-900/40 border-slate-800">
+      <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-white">
+          <CardTitle className="flex items-center gap-2 text-foreground">
             <LogOut className="size-4 text-primary" />
             {t('sessions.title')}
           </CardTitle>
-          <CardDescription className="text-slate-400">
+          <CardDescription className="text-muted-foreground">
             {t('sessions.description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => setOpen(true)}
-          >
+          <Button type="button" variant="outline" onClick={() => setOpen(true)}>
             <LogOut className="size-4" />
             {t('sessions.logout')}
           </Button>
@@ -77,28 +56,14 @@ export function SessionsCard() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t('sessions.confirmTitle')}</DialogTitle>
-            <DialogDescription>
-              {t('sessions.confirmDescription')}
-            </DialogDescription>
+            <DialogDescription>{t('sessions.confirmDescription')}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => setOpen(false)}
-              disabled={signingOut}
-            >
+            <Button type="button" variant="ghost" onClick={() => setOpen(false)} disabled={signingOut}>
               {t('invite.cancel')}
             </Button>
             <Button type="button" onClick={onConfirm} disabled={signingOut}>
-              {signingOut ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" />
-                  {t('sessions.signingOut')}
-                </>
-              ) : (
-                t('sessions.confirmSubmit')
-              )}
+              {signingOut ? <><Loader2 className="size-4 animate-spin" />{t('sessions.signingOut')}</> : t('sessions.confirmSubmit')}
             </Button>
           </DialogFooter>
         </DialogContent>
