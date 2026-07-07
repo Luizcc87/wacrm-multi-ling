@@ -111,12 +111,12 @@ function LoginPageInner() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
-        <Card className="w-full border-slate-800 bg-slate-900">
+        <Card className="w-full border-border bg-card">
           <CardHeader className="items-center text-center">
             {reason === 'invite_only' && (
-              <div className="w-full rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
+              <div className="w-full mb-4 rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
                 {t('inviteOnlyNotice')}
               </div>
             )}
@@ -129,22 +129,22 @@ function LoginPageInner() {
                   className="h-12 w-12 rounded-xl object-contain"
                 />
               ) : (
-                <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-xl">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
                   {inviteToken ? (
-                    <UsersRound className="text-primary h-6 w-6" />
+                    <UsersRound className="h-6 w-6 text-primary" />
                   ) : (
-                    <MessageSquare className="text-primary h-6 w-6" />
+                    <MessageSquare className="h-6 w-6 text-primary" />
                   )}
                 </div>
               )}
-              <p className="text-xl font-semibold leading-none text-white">
+              <p className="text-xl font-semibold leading-none text-foreground">
                 {branding.appName}
               </p>
             </div>
-            <CardTitle className="text-xl text-white">
+            <CardTitle className="text-xl text-foreground">
               {inviteToken ? t('subtitleInvite') : t('title')}
             </CardTitle>
-            <CardDescription className="text-slate-400">
+            <CardDescription className="text-muted-foreground">
               {inviteToken ? t('subtitleInviteHint') : t('subtitle')}
             </CardDescription>
           </CardHeader>
@@ -157,7 +157,7 @@ function LoginPageInner() {
               )}
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="email" className="text-slate-300">
+                <Label htmlFor="email" className="text-muted-foreground">
                   {t('email')}
                 </Label>
                 <Input
@@ -167,13 +167,13 @@ function LoginPageInner() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="focus-visible:border-primary focus-visible:ring-primary/20 border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                  className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="text-slate-300">
+                  <Label htmlFor="password" className="text-muted-foreground">
                     {t('password')}
                   </Label>
                   <Link
@@ -190,21 +190,21 @@ function LoginPageInner() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="focus-visible:border-primary focus-visible:ring-primary/20 border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                  className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={loading}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 mt-2 h-10 w-full disabled:opacity-50"
+                className="mt-2 h-10 w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
               >
                 {loading ? t('submitting') : t('submit')}
               </Button>
             </form>
 
             {signupLinkVisible && (
-              <p className="mt-6 text-center text-sm text-slate-400">
+              <p className="mt-6 text-center text-sm text-muted-foreground">
                 {t('noAccount')}{' '}
                 <Link
                   href={
@@ -220,7 +220,6 @@ function LoginPageInner() {
             )}
           </CardContent>
         </Card>
-
         <AuthLegalFooter />
       </div>
     </div>

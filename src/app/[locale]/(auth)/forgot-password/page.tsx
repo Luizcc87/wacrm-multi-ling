@@ -46,17 +46,17 @@ export default function ForgotPasswordPage() {
 
   if (success) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="w-full max-w-md">
-          <Card className="w-full border-slate-800 bg-slate-900">
+          <Card className="w-full border-border bg-card">
             <CardHeader className="items-center text-center">
               <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
                 <CheckCircle className="text-primary h-6 w-6" />
               </div>
-              <CardTitle className="text-xl text-white">
+              <CardTitle className="text-xl text-foreground">
                 {t('successMessage')}
               </CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardDescription className="text-muted-foreground">
                 {t('successHint')}
               </CardDescription>
             </CardHeader>
@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
               <Link href="/login">
                 <Button
                   variant="outline"
-                  className="w-full border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+                  className="w-full border-border text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   {t('backToLogin')}
                 </Button>
@@ -78,15 +78,15 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
-        <Card className="w-full border-slate-800 bg-slate-900">
+        <Card className="w-full border-border bg-card">
           <CardHeader className="items-center text-center">
             <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
               <MessageSquare className="text-primary h-6 w-6" />
             </div>
-            <CardTitle className="text-xl text-white">{t('title')}</CardTitle>
-            <CardDescription className="text-slate-400">
+            <CardTitle className="text-xl text-foreground">{t('title')}</CardTitle>
+            <CardDescription className="text-muted-foreground">
               {t('subtitle')}
             </CardDescription>
           </CardHeader>
@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
               )}
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="email" className="text-slate-300">
+                <Label htmlFor="email" className="text-muted-foreground">
                   {t('email')}
                 </Label>
                 <Input
@@ -109,7 +109,7 @@ export default function ForgotPasswordPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="focus-visible:border-primary focus-visible:ring-primary/20 border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                  className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </div>
 
@@ -124,7 +124,7 @@ export default function ForgotPasswordPage() {
 
             <Link
               href="/login"
-              className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-400 hover:text-slate-300"
+              className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
               {t('backToLogin')}

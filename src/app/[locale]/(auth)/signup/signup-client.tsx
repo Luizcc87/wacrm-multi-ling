@@ -84,17 +84,17 @@ function SignupPageInner() {
 
   if (success) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
         <div className="w-full max-w-md">
-          <Card className="w-full border-slate-800 bg-slate-900">
+          <Card className="w-full border-border bg-card">
             <CardHeader className="items-center text-center">
               <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
                 <CheckCircle className="text-primary h-6 w-6" />
               </div>
-              <CardTitle className="text-xl text-white">
+              <CardTitle className="text-xl text-foreground">
                 {t('checkEmail')}
               </CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardDescription className="text-muted-foreground">
                 {t('checkEmailHint')}
               </CardDescription>
             </CardHeader>
@@ -108,7 +108,7 @@ function SignupPageInner() {
               >
                 <Button
                   variant="outline"
-                  className="w-full border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+                  className="w-full border-border text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   {t('signIn')}
                 </Button>
@@ -122,9 +122,9 @@ function SignupPageInner() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
-        <Card className="w-full border-slate-800 bg-slate-900">
+        <Card className="w-full border-border bg-card">
           <CardHeader className="items-center text-center">
             <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
               {inviteToken ? (
@@ -133,8 +133,8 @@ function SignupPageInner() {
                 <MessageSquare className="text-primary h-6 w-6" />
               )}
             </div>
-            <CardTitle className="text-xl text-white">{t('title')}</CardTitle>
-            <CardDescription className="text-slate-400">
+            <CardTitle className="text-xl text-foreground">{t('title')}</CardTitle>
+            <CardDescription className="text-muted-foreground">
               {t('subtitle')}
             </CardDescription>
           </CardHeader>
@@ -147,7 +147,7 @@ function SignupPageInner() {
               )}
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="fullName" className="text-slate-300">
+                <Label htmlFor="fullName" className="text-muted-foreground">
                   {t('fullName')}
                 </Label>
                 <Input
@@ -157,12 +157,12 @@ function SignupPageInner() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
-                  className="focus-visible:border-primary focus-visible:ring-primary/20 border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                  className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="email" className="text-slate-300">
+                <Label htmlFor="email" className="text-muted-foreground">
                   {t('email')}
                 </Label>
                 <Input
@@ -172,12 +172,12 @@ function SignupPageInner() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="focus-visible:border-primary focus-visible:ring-primary/20 border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                  className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="password" className="text-slate-300">
+                <Label htmlFor="password" className="text-muted-foreground">
                   {t('password')}
                 </Label>
                 <Input
@@ -187,12 +187,12 @@ function SignupPageInner() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="focus-visible:border-primary focus-visible:ring-primary/20 border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                  className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="confirmPassword" className="text-slate-300">
+                <Label htmlFor="confirmPassword" className="text-muted-foreground">
                   {t('confirmPassword')}
                 </Label>
                 <Input
@@ -202,11 +202,11 @@ function SignupPageInner() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  className="focus-visible:border-primary focus-visible:ring-primary/20 border-slate-700 bg-slate-800 text-white placeholder:text-slate-500"
+                  className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
                 />
               </div>
 
-              <label className="flex items-start gap-3 text-sm text-slate-400">
+              <label className="flex items-start gap-3 text-sm text-muted-foreground cursor-pointer">
                 <input
                   type="checkbox"
                   checked={consentGiven}
@@ -240,13 +240,13 @@ function SignupPageInner() {
               <Button
                 type="submit"
                 disabled={loading || !consentGiven}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 mt-2 h-10 w-full disabled:opacity-50"
+                className="mt-2 h-10 w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
               >
                 {loading ? t('submitting') : t('submit')}
               </Button>
             </form>
 
-            <p className="mt-6 text-center text-sm text-slate-400">
+            <p className="mt-6 text-center text-sm text-muted-foreground">
               {t('alreadyAccount')}{' '}
               <Link
                 href={

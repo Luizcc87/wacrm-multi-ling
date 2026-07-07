@@ -72,6 +72,23 @@ export async function middleware(request: NextRequest) {
 
   const locale = request.nextUrl.pathname.match(localePattern)?.[1] ?? routing.defaultLocale;
 
+  // getUser() transparently refreshes an expired access token, which
+  // ROTATES the refresh token and writes the new cookies onto
+  // `supabaseResponse` via setAll() above. Any response we return in
+  // place of `supabaseResponse` (every redirect / JSON branch below)
+  // is a fresh object that does NOT carry those Set-Cookie headers, so
+  // the rotated token never reaches the browser. The next request then
+  // replays the old, now-consumed refresh token, the refresh fails, and
+  // the session wedges — the user gets a broken reload after idling and
+  // can only recover by manually clearing cookies (issue #288). Copy the
+  // refreshed cookies onto whatever response we hand back to fix that.
+  const withRefreshedCookies = <T extends NextResponse>(response: T): T => {
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      response.cookies.set(cookie)
+    })
+    return response
+  }
+
   // Auth pages — redireciona para /dashboard se já logado
   if (user && ['/login', '/signup', '/forgot-password'].includes(pathWithoutLocale)) {
     const url = request.nextUrl.clone();
@@ -82,7 +99,7 @@ export async function middleware(request: NextRequest) {
       url.pathname = `/${locale}/dashboard`;
     }
     url.search = '';
-    return NextResponse.redirect(url);
+    return withRefreshedCookies(NextResponse.redirect(url));
   }
 
   // Protected pages — redireciona para /login se não autenticado
@@ -90,7 +107,7 @@ export async function middleware(request: NextRequest) {
   if (!user && protectedPaths.some(p => pathWithoutLocale.startsWith(p))) {
     const url = request.nextUrl.clone();
     url.pathname = `/${locale}/login`;
-    return NextResponse.redirect(url);
+    return withRefreshedCookies(NextResponse.redirect(url));
   }
 
   return supabaseResponse;
