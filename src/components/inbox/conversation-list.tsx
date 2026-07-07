@@ -14,6 +14,7 @@ import type { Conversation, ConversationStatus, Tag } from "@/types";
 import { Search, ChevronDown, MessageSquarePlus, X } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,

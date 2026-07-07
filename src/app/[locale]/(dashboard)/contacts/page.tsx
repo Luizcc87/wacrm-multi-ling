@@ -792,7 +792,7 @@ export default function ContactsPage() {
             <DialogTitle className="text-popover-foreground">{t('deleteContactTitle')}</DialogTitle>
             <DialogDescription className="text-muted-foreground">
               {t('deleteContactDescription', {
-                name: deleteTarget?.name || deleteTarget?.phone || t('unnamed', 'Unnamed'),
+                name: deleteTarget?.name || deleteTarget?.phone || t('unnamed'),
               })}
             </DialogDescription>
           </DialogHeader>

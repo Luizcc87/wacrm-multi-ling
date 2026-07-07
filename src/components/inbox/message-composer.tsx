@@ -774,7 +774,7 @@ function MediaDraftPreview({
                 onSend();
               }
             }}
-            placeholder={t('addCaption') || "Add a caption…"}
+            placeholder={"Add a caption…"}
             className="flex-1 rounded-xl border border-border bg-muted px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground outline-none transition-colors focus:border-primary/50"
           />
         )}

@@ -26,6 +26,8 @@ interface Step3Props {
   template: MessageTemplate;
   variables: Record<string, VariableMapping>;
   onUpdate: (variables: Record<string, VariableMapping>) => void;
+  headerMediaUrl?: string;
+  onHeaderMediaUrlChange?: (url: string) => void;
   onNext: () => void;
   onBack: () => void;
 }
@@ -46,10 +48,14 @@ export function Step3Personalize({
   template,
   variables,
   onUpdate,
+  headerMediaUrl,
+  onHeaderMediaUrlChange,
   onNext,
   onBack,
 }: Step3Props) {
   const t = useTranslations('broadcasts');
+  void headerMediaUrl;
+  void onHeaderMediaUrlChange;
   const contactFields = [
     { value: 'name', label: t('personalize.contactName') },
     { value: 'phone', label: t('personalize.phoneNumber') },
