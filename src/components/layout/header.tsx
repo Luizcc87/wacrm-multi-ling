@@ -36,6 +36,7 @@ export function Header({ onOpenSidebar }: HeaderProps) {
       '/pipelines': 'pipelines',
       '/broadcasts': 'broadcasts',
       '/automations': 'automations',
+      '/agents': 'agents',
       '/settings': 'settings',
       '/flows': 'flows',
     };

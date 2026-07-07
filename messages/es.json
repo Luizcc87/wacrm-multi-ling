@@ -340,8 +340,117 @@
     "pipelines": "Embudos",
     "broadcasts": "Transmisiones",
     "automations": "Automatizaciones",
+    "agents": "Agentes de IA",
     "flows": "Flujos",
     "settings": "Configuración"
+  },
+  "agents": {
+    "title": "Agentes de IA",
+    "description": "Tu agente de IA con clave propia: configúralo primero y pruébalo en el playground antes de que responda a clientes en la bandeja de entrada.",
+    "playgroundLabel": "Playground",
+    "setupLabel": "Configuración",
+    "playground": {
+      "title": "Playground",
+      "subtitle": "prueba las respuestas como si fueras un cliente",
+      "reset": "Restablecer",
+      "thinking": "Pensando…",
+      "placeholder": "Escribe un mensaje del cliente…",
+      "toasts": {
+        "notConfigured": "Todavía no hay ningún agente configurado. Termina la configuración primero.",
+        "noReply": "No se pudo obtener una respuesta.",
+        "unreachable": "No se pudo conectar con el agente."
+      },
+      "empty": {
+        "title": "Envía un mensaje para ver cómo respondería tu agente.",
+        "description": "Usa tu base de conocimiento y se comporta exactamente como el bot de respuesta automática, incluido el handoff.",
+        "goToSetup": "¿Aún no está configurado? Ve a Configuración"
+      }
+    },
+    "setup": {
+      "title": "Configuración del agente",
+      "description": "Trae tu propia clave de OpenAI o Anthropic. wacrm llama al proveedor directamente con tu clave - sin costos por asiento de IA, y tus datos siguen siendo tuyos. Esto impulsa los borradores de IA en la bandeja de entrada, el bot de respuesta automática y el playground.",
+      "readOnly": "Solo administradores y propietarios pueden cambiar la configuración de IA.",
+      "provider": {
+        "title": "Proveedor y clave",
+        "description": "Tu clave se cifra en reposo (AES-256-GCM) y nunca vuelve a mostrarse después de guardarla.",
+        "provider": "Proveedor",
+        "model": "Modelo",
+        "apiKey": "Clave de API",
+        "testKey": "Probar clave",
+        "embeddingsKey": "Clave de embeddings",
+        "embeddingsHint": "(opcional - habilita la búsqueda semántica en la base de conocimiento)",
+        "embeddingsPlaceholder": "sk-... (OpenAI)",
+        "embeddingsHelp": "Una clave de OpenAI usada solo para generar embeddings de tu base de conocimiento (text-embedding-3-small){sameKey}. Déjala en blanco para usar búsqueda por palabras clave. Límpiala para desactivar la búsqueda semántica.",
+        "sameKey": " - puede ser la misma clave de arriba"
+      },
+      "behavior": {
+        "title": "Comportamiento",
+        "description": "Cuéntale al asistente sobre tu negocio: productos, tono y lo que puede o no prometer. Este contexto alimenta borradores y auto-respuestas.",
+        "instructions": "Contexto del negocio e instrucciones",
+        "placeholder": "p. ej. Somos Acme, una tienda de equipos de café. Sé cálido y conciso. Nunca indiques precios ni fechas de entrega - deriva a un humano para eso."
+      },
+      "toggles": {
+        "enable": "Activar asistente de IA",
+        "enableHint": "Interruptor principal. Activa el botón \"Redactar con IA\" en la bandeja de entrada.",
+        "autoReply": "Responder automáticamente a mensajes entrantes",
+        "autoReplyHint": "El bot responde automáticamente a nuevos mensajes entrantes solo cuando ningún flujo los maneja y no hay un agente asignado. Deriva a un humano cuando no puede ayudar."
+      },
+      "maxReplies": {
+        "label": "Máximo de auto-respuestas por conversación",
+        "hint": "Después de este número de respuestas del bot en un hilo, el bot queda en silencio."
+      },
+      "actions": {
+        "remove": "Eliminar",
+        "save": "Guardar"
+      },
+      "toasts": {
+        "loadFailed": "Error al cargar la configuración de IA",
+        "keyWorks": "La clave funciona - el proveedor respondió.",
+        "providerRejected": "El proveedor rechazó la solicitud.",
+        "providerUnreachable": "No se pudo conectar con el proveedor.",
+        "enterModel": "Ingresa un nombre de modelo.",
+        "enterApiKey": "Ingresa tu clave de API.",
+        "saved": "Asistente de IA guardado.",
+        "saveFailed": "Error al guardar.",
+        "removed": "Configuración de IA eliminada.",
+        "removeFailed": "Error al eliminar."
+      }
+    },
+    "knowledge": {
+      "title": "Base de conocimiento",
+      "description": "Agrega preguntas frecuentes, políticas o detalles de productos. El asistente recupera los fragmentos relevantes al redactar y responder automáticamente para poder contestar en lugar de derivar.",
+      "semanticOn": "La búsqueda semántica está activa (clave de embeddings configurada).",
+      "semanticOff": "Usando búsqueda por palabras clave - añade una clave de embeddings arriba para activar la búsqueda semántica.",
+      "loading": "Cargando…",
+      "empty": "Todavía no hay documentos.",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "fields": {
+        "title": "Título",
+        "titlePlaceholder": "p. ej. Política de devoluciones y reembolsos",
+        "content": "Contenido",
+        "contentPlaceholder": "Pega aquí la respuesta de la FAQ, el texto de la política o los detalles del producto…"
+      },
+      "actions": {
+        "cancel": "Cancelar",
+        "save": "Guardar documento",
+        "add": "Agregar documento",
+        "reindexTitle": "Reindexar todos los documentos (p. ej. después de añadir una clave de embeddings)",
+        "reindex": "Reindexar"
+      },
+      "toasts": {
+        "loadFailed": "Error al cargar la base de conocimiento",
+        "openFailed": "Error al abrir el documento",
+        "required": "El título y el contenido son obligatorios.",
+        "added": "Documento agregado.",
+        "updated": "Documento actualizado.",
+        "saveFailed": "Error al guardar.",
+        "removed": "Documento eliminado.",
+        "removeFailed": "Error al eliminar.",
+        "reindexed": "Se reindexaron {count} documento(s).",
+        "reindexFailed": "Error al reindexar."
+      }
+    }
   },
   "dashboard": {
     "conversations": "Conversaciones",
@@ -627,6 +736,17 @@
   },
   "pipelines": {
     "title": "Embudos",
+    "selectPipeline": "Seleccionar embudo",
+    "noPipelinesYet": "Todavía no hay embudos",
+    "managePipelines": "Administrar embudos",
+    "emptyTitle": "Todavía no hay embudos",
+    "emptyDescription": "Crea un embudo para empezar a hacer seguimiento de negocios",
+    "newPipeline": "Nuevo embudo",
+    "pipelineName": "Nombre del embudo",
+    "pipelineNamePlaceholder": "p. ej. Ventas Enterprise",
+    "defaultStagesHint": "Las etapas predeterminadas (Nuevo lead -> Ganado) se crearán automáticamente.",
+    "cancel": "Cancelar",
+    "creating": "Creando...",
     "addStage": "Agregar etapa",
     "createDeal": "Crear negocio",
     "dropDealHere": "Arrastra un negocio aquí",
@@ -726,6 +846,22 @@
   "broadcasts": {
     "title": "Transmisiones",
     "newBroadcast": "Nueva transmisión",
+    "description": "Crea y envía un mensaje de transmisión a tus contactos.",
+    "retry": "Reintentar",
+    "progressAria": "Transmisión en curso",
+    "description": "Envía mensajes masivos a tus contactos usando plantillas aprobadas.",
+    "emptyTitle": "Todavía no hay transmisiones",
+    "emptyDescription": "Crea tu primera transmisión para llegar a tus contactos a escala.",
+    "errors": { "loadFailed": "Error al cargar transmisiones" },
+    "columns": {
+      "name": "Nombre",
+      "template": "Plantilla",
+      "recipients": "Destinatarios",
+      "delivery": "Entrega",
+      "read": "Leído",
+      "status": "Estado",
+      "date": "Fecha"
+    },
     "steps": {
       "chooseTemplate": "Elegir una plantilla",
       "chooseTemplateSubtitle": "Selecciona una plantilla de mensaje aprobada para tu transmisión.",
@@ -735,6 +871,16 @@
       "personalizeSubtitle": "Mapea las variables de la plantilla a campos de contacto, campos personalizados o valores estáticos.",
       "scheduleSend": "Revisar y enviar",
       "scheduleSendSubtitle": "Nombra tu transmisión, revisa los detalles y envía."
+    },
+    "draft": {
+      "nameRequired": "Dale un nombre a la transmisión antes de guardar un borrador.",
+      "notSignedIn": "No has iniciado sesión.",
+      "noAccount": "Tu perfil no está vinculado a una cuenta.",
+      "saveFailed": "Error al guardar el borrador: {error}",
+      "saved": "Borrador guardado"
+    },
+    "errors": {
+      "broadcastFailed": "Error de transmisión"
     },
     "filters": {
       "all": "Todos",
@@ -838,6 +984,18 @@
   "automations": {
     "title": "Automatizaciones",
     "newAutomation": "Nueva automatización",
+    "description": "Crea flujos de trabajo que reaccionan automáticamente a eventos de WhatsApp®.",
+    "createAutomation": "Crear automatización",
+    "quickStartTemplates": "Plantillas rápidas",
+    "emptyTitle": "Todavía no hay automatizaciones",
+    "emptyDescription": "Elige una plantilla arriba o crea una desde cero.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "errors": { "loadFailed": "Error al cargar automatizaciones", "updateFailed": "Error al actualizar", "duplicateFailed": "Error al duplicar", "deleteFailed": "Error al eliminar" },
+    "toasts": { "activated": "Automatización activada", "paused": "Automatización pausada", "duplicated": "Automatización duplicada", "deleted": "Automatización eliminada" },
+    "aria": { "activate": "Activar", "deactivate": "Desactivar", "openMenu": "Abrir menú" },
+    "menu": { "edit": "Editar", "duplicate": "Duplicar", "viewLogs": "Ver registros", "delete": "Eliminar" },
+    "deleteDialog": { "title": "Eliminar automatización", "descriptionPrefix": "Esto eliminará permanentemente", "descriptionSuffix": "y su historial de ejecución. No se puede deshacer." },
     "builder": {
       "trigger": "Disparador",
       "triggerType": "Tipo de disparador",
@@ -961,6 +1119,19 @@
   "flows": {
     "title": "Flujos",
     "newFlow": "Nuevo flujo",
+    "beta": "Beta",
+    "description": "Crea conversaciones ramificadas con botones en WhatsApp. Útil para menús, FAQ y triage antes de que intervenga una persona.",
+    "errors": { "loadFailed": "No se pudieron cargar los flujos.", "createFailed": "No se pudo crear el flujo.", "cloneFailed": "Fallo al clonar", "deleteFailed": "No se pudo eliminar el flujo." },
+    "deleteConfirm": "¿Eliminar \"{name}\"? Cualquier ejecución activa terminará inmediatamente.",
+    "createDialog": { "title": "Crear un nuevo flujo", "description": "Empieza desde una plantilla o crea desde cero.", "templateSection": "Empezar desde una plantilla", "blankSection": "O empezar en blanco", "placeholder": "p. ej. Menú de bienvenida", "createBlank": "Crear flujo en blanco" },
+    "empty": { "title": "Todavía no hay flujos", "description": "Crea tu primera conversación - un menú de bienvenida, una consulta de pedidos o un bot de preguntas frecuentes. El cliente toca los botones y el bot lo lleva a la respuesta correcta (o al agente correcto).", "createFirst": "Crear tu primer flujo" },
+    "runs": { "one": "ejecución", "other": "ejecuciones" },
+    "nodes": { "one": "nodo", "other": "nodos" },
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "toasts": { "deleted": "Flujo eliminado." },
+    "trigger": { "keywordNone": "Se activa por palabra clave (ninguna definida)", "keywordList": "Se activa en: {keywords}", "firstInbound": "Se activa en el primer mensaje entrante del contacto", "manual": "Activación manual" },
     "save": "Guardar",
     "publish": "Publicar",
     "validationErrors": "Errores de validación",
@@ -1124,6 +1295,9 @@
         "viewer": "Solo lectura en toda la aplicación"
       },
       "you": "Tú",
+      "online": "en línea",
+      "away": "ausente",
+      "offline": "sin conexión",
       "joined": "Se unió el {date}",
       "expired": "vencido",
       "expiresInDays": "vence en {days} día{days, plural, =1 {} other {s}}",
@@ -1376,6 +1550,7 @@
       "description": "Organiza tus contactos con etiquetas codificadas por colores.",
       "newTag": "Nueva etiqueta",
       "noTags": "No hay etiquetas aún.",
+      "noTagsYet": "No hay etiquetas aún - crea la primera abajo.",
       "noTagsHint": "Crea etiquetas para categorizar tus contactos.",
       "newTagTitle": "Nueva etiqueta",
       "newTagDescription": "Crea una nueva etiqueta con un nombre y color.",
@@ -1388,6 +1563,8 @@
       "deleteTitle": "Eliminar etiqueta",
       "deleteDescription": "¿Estás seguro de que deseas eliminar la etiqueta \"{name}\"? Esto la quitará de todos los contactos. Esta acción no se puede deshacer.",
       "deleting": "Eliminando...",
+      "deleteTagAria": "Eliminar etiqueta {name}",
+      "useColorAria": "Usar color {color}",
       "toasts": {
         "loadFailed": "Error al cargar las etiquetas",
         "nameRequired": "El nombre de la etiqueta es obligatorio",
@@ -1396,6 +1573,31 @@
         "createFailed": "Error al crear la etiqueta",
         "deleteSuccess": "Etiqueta eliminada",
         "deleteFailed": "Error al eliminar la etiqueta"
+      }
+    },
+    "fieldsAndTags": {
+      "title": "Campos y etiquetas",
+      "description": "Dos formas de organizar contactos: etiquetas codificadas por color para agrupar rápido y campos personalizados para datos estructurados."
+    },
+    "customFields": {
+      "title": "Campos personalizados",
+      "admin": "Admin",
+      "description": "Campos extra del contacto como código postal o origen del lead. Aparecen en cada contacto y en la acción de automatización “Actualizar campo de contacto”.",
+      "placeholder": "Nuevo nombre del campo…",
+      "add": "Agregar",
+      "loading": "Cargando…",
+      "empty": "Todavía no hay campos personalizados.",
+      "renameAria": "Renombrar campo {name}",
+      "deleteFieldTitle": "Eliminar campo",
+      "deleteConfirm": "¿Eliminar \"{name}\"? Esto también elimina el valor almacenado en cada contacto. No se puede deshacer.",
+      "toasts": {
+        "notLinked": "Tu perfil no está vinculado a una cuenta.",
+        "duplicate": "Ya existe un campo llamado \"{name}\".",
+        "createFailed": "No se pudo crear el campo. Puede que no tengas permiso.",
+        "createSuccess": "Campo \"{name}\" creado.",
+        "renameFailed": "No se pudo renombrar el campo.",
+        "deleteFailed": "No se pudo eliminar el campo.",
+        "deleteSuccess": "Campo \"{name}\" eliminado."
       }
     },
     "account": {
@@ -1512,6 +1714,7 @@
         "pipelines": "Embudos",
         "broadcasts": "Transmisiones",
         "automations": "Automatizaciones",
+        "agents": "Agentes de IA",
         "settings": "Configuración",
         "flows": "Flujos"
       }

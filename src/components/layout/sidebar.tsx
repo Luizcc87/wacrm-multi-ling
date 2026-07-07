@@ -17,6 +17,7 @@ import {
   Radio,
   Settings,
   Shield,
+  Sparkles,
   User,
   UserCog,
   Users,
@@ -81,7 +82,7 @@ interface NavItem {
   beta?: boolean;
 }
 
-const NAV_KEYS = ['dashboard','inbox','contacts','pipelines','broadcasts','automations','flows'] as const;
+const NAV_KEYS = ['dashboard','inbox','contacts','pipelines','broadcasts','automations','agents','flows'] as const;
 
 const navItems: NavItem[] = [
   { href: "/dashboard", labelKey: "dashboard", icon: LayoutDashboard },
@@ -90,6 +91,7 @@ const navItems: NavItem[] = [
   { href: "/pipelines", labelKey: "pipelines", icon: GitBranch },
   { href: "/broadcasts", labelKey: "broadcasts", icon: Radio },
   { href: "/automations", labelKey: "automations", icon: Zap },
+  { href: "/agents", labelKey: "agents", icon: Sparkles },
   { href: "/flows", labelKey: "flows", icon: Workflow, beta: true },
 ];
 

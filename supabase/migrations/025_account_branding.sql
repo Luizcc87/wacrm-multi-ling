@@ -33,6 +33,7 @@ ALTER TABLE account_branding ENABLE ROW LEVEL SECURITY;
 -- Any member of the account can read its branding row.
 -- The `profiles` table carries `account_id` + `user_id`, which is
 -- exactly what is_account_member() uses internally.
+DROP POLICY IF EXISTS "members read branding" ON account_branding;
 CREATE POLICY "members read branding"
   ON account_branding
   FOR SELECT
@@ -45,6 +46,7 @@ CREATE POLICY "members read branding"
   );
 
 -- Only admin / owner may write.
+DROP POLICY IF EXISTS "admin write branding" ON account_branding;
 CREATE POLICY "admin write branding"
   ON account_branding
   FOR ALL

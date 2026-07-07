@@ -340,8 +340,117 @@
     "pipelines": "Pipelines",
     "broadcasts": "Broadcasts",
     "automations": "Automations",
+    "agents": "AI Agents",
     "flows": "Flows",
     "settings": "Settings"
+  },
+  "agents": {
+    "title": "AI Agents",
+    "description": "Your bring-your-own-key AI agent - set it up first, then test it in the playground before it replies to customers in the inbox.",
+    "playgroundLabel": "Playground",
+    "setupLabel": "Setup",
+    "playground": {
+      "title": "Playground",
+      "subtitle": "test replies as if you were a customer",
+      "reset": "Reset",
+      "thinking": "Thinking…",
+      "placeholder": "Type a customer message…",
+      "toasts": {
+        "notConfigured": "No agent configured yet. Finish Setup first.",
+        "noReply": "Couldn't get a reply.",
+        "unreachable": "Couldn't reach the agent."
+      },
+      "empty": {
+        "title": "Send a message to see how your agent would reply.",
+        "description": "It uses your knowledge base and behaves exactly like the auto-reply bot - including handoff.",
+        "goToSetup": "Not set up yet? Go to Setup"
+      }
+    },
+    "setup": {
+      "title": "Agent setup",
+      "description": "Bring your own OpenAI or Anthropic key. wacrm calls the provider directly with your key - no per-seat AI fees, and your data stays yours. This powers AI-drafted replies in the inbox, the auto-reply bot, and the playground.",
+      "readOnly": "Only admins and owners can change the AI configuration.",
+      "provider": {
+        "title": "Provider & key",
+        "description": "Your key is encrypted at rest (AES-256-GCM) and never shown again after saving.",
+        "provider": "Provider",
+        "model": "Model",
+        "apiKey": "API key",
+        "testKey": "Test key",
+        "embeddingsKey": "Embeddings key",
+        "embeddingsHint": "(optional - enables semantic knowledge-base search)",
+        "embeddingsPlaceholder": "sk-... (OpenAI)",
+        "embeddingsHelp": "An OpenAI key used only to embed your knowledge base (text-embedding-3-small){sameKey}. Leave blank to use keyword search instead. Clear it to turn semantic search off.",
+        "sameKey": " - can be the same key as above"
+      },
+      "behavior": {
+        "title": "Behaviour",
+        "description": "Tell the assistant about your business - products, tone, what it may and may not promise. This context feeds both drafts and auto-replies.",
+        "instructions": "Business context & instructions",
+        "placeholder": "e.g. We are Acme, a coffee-equipment store. Be warm and concise. Never quote prices or delivery dates - hand off to a human for those."
+      },
+      "toggles": {
+        "enable": "Enable AI assistant",
+        "enableHint": "Master switch. Turns on the \"Draft with AI\" button in the inbox.",
+        "autoReply": "Auto-reply to inbound messages",
+        "autoReplyHint": "The bot answers new inbound messages automatically (only when no flow handles them and no agent is assigned). Hands off to a human when it can’t help."
+      },
+      "maxReplies": {
+        "label": "Max auto-replies per conversation",
+        "hint": "After this many bot replies in one thread, the bot goes quiet."
+      },
+      "actions": {
+        "remove": "Remove",
+        "save": "Save"
+      },
+      "toasts": {
+        "loadFailed": "Failed to load AI configuration",
+        "keyWorks": "Key works - the provider responded.",
+        "providerRejected": "The provider rejected the request.",
+        "providerUnreachable": "Could not reach the provider.",
+        "enterModel": "Enter a model name.",
+        "enterApiKey": "Enter your API key.",
+        "saved": "AI assistant saved.",
+        "saveFailed": "Failed to save.",
+        "removed": "AI configuration removed.",
+        "removeFailed": "Failed to remove."
+      }
+    },
+    "knowledge": {
+      "title": "Knowledge base",
+      "description": "Add FAQs, policies, or product details. The assistant retrieves the relevant pieces when drafting and auto-replying, so it can answer instead of handing off.",
+      "semanticOn": "Semantic search is on (embeddings key set).",
+      "semanticOff": "Using keyword search - add an embeddings key above for semantic search.",
+      "loading": "Loading…",
+      "empty": "No documents yet.",
+      "edit": "Edit",
+      "delete": "Delete",
+      "fields": {
+        "title": "Title",
+        "titlePlaceholder": "e.g. Returns & refunds policy",
+        "content": "Content",
+        "contentPlaceholder": "Paste the FAQ answer, policy text, or product details…"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "save": "Save document",
+        "add": "Add document",
+        "reindexTitle": "Re-embed all documents (e.g. after adding an embeddings key)",
+        "reindex": "Reindex"
+      },
+      "toasts": {
+        "loadFailed": "Failed to load knowledge base",
+        "openFailed": "Failed to open document",
+        "required": "Title and content are required.",
+        "added": "Document added.",
+        "updated": "Document updated.",
+        "saveFailed": "Failed to save.",
+        "removed": "Document removed.",
+        "removeFailed": "Failed to remove.",
+        "reindexed": "Reindexed {count} document(s).",
+        "reindexFailed": "Reindex failed."
+      }
+    }
   },
   "dashboard": {
     "conversations": "Conversations",
@@ -627,6 +736,17 @@
   },
   "pipelines": {
     "title": "Pipelines",
+    "selectPipeline": "Select pipeline",
+    "noPipelinesYet": "No pipelines yet",
+    "managePipelines": "Manage pipelines",
+    "emptyTitle": "No pipelines yet",
+    "emptyDescription": "Create a pipeline to start tracking deals",
+    "newPipeline": "New Pipeline",
+    "pipelineName": "Pipeline Name",
+    "pipelineNamePlaceholder": "e.g. Enterprise Sales",
+    "defaultStagesHint": "Default stages (New Lead -> Won) will be created automatically.",
+    "cancel": "Cancel",
+    "creating": "Creating...",
     "addStage": "Add stage",
     "createDeal": "Create deal",
     "dropDealHere": "Drop a deal here",
@@ -726,6 +846,22 @@
   "broadcasts": {
     "title": "Broadcasts",
     "newBroadcast": "New broadcast",
+    "description": "Create and send a broadcast message to your contacts.",
+    "retry": "Retry",
+    "progressAria": "Broadcast in progress",
+    "description": "Send bulk messages to your contacts using approved templates.",
+    "emptyTitle": "No broadcasts yet",
+    "emptyDescription": "Create your first broadcast to reach your contacts at scale.",
+    "errors": { "loadFailed": "Failed to load broadcasts" },
+    "columns": {
+      "name": "Name",
+      "template": "Template",
+      "recipients": "Recipients",
+      "delivery": "Delivery",
+      "read": "Read",
+      "status": "Status",
+      "date": "Date"
+    },
     "steps": {
       "chooseTemplate": "Choose a Template",
       "chooseTemplateSubtitle": "Select an approved message template for your broadcast.",
@@ -735,6 +871,16 @@
       "personalizeSubtitle": "Map template variables to contact fields, custom fields, or static values.",
       "scheduleSend": "Review & Send",
       "scheduleSendSubtitle": "Name your broadcast, review the details, and send."
+    },
+    "draft": {
+      "nameRequired": "Give the broadcast a name before saving a draft.",
+      "notSignedIn": "Not signed in.",
+      "noAccount": "Your profile is not linked to an account.",
+      "saveFailed": "Failed to save draft: {error}",
+      "saved": "Draft saved"
+    },
+    "errors": {
+      "broadcastFailed": "Broadcast failed"
     },
     "filters": {
       "all": "All",
@@ -838,6 +984,18 @@
   "automations": {
     "title": "Automations",
     "newAutomation": "New automation",
+    "description": "Build workflows that react to WhatsApp® events automatically.",
+    "createAutomation": "Create Automation",
+    "quickStartTemplates": "Quick-start templates",
+    "emptyTitle": "No automations yet",
+    "emptyDescription": "Pick a template above or create one from scratch.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "errors": { "loadFailed": "Failed to load automations", "updateFailed": "Failed to update", "duplicateFailed": "Failed to duplicate", "deleteFailed": "Failed to delete" },
+    "toasts": { "activated": "Automation activated", "paused": "Automation paused", "duplicated": "Automation duplicated", "deleted": "Automation deleted" },
+    "aria": { "activate": "Activate", "deactivate": "Deactivate", "openMenu": "Open menu" },
+    "menu": { "edit": "Edit", "duplicate": "Duplicate", "viewLogs": "View Logs", "delete": "Delete" },
+    "deleteDialog": { "title": "Delete automation", "descriptionPrefix": "This permanently removes", "descriptionSuffix": "and its execution history. This cannot be undone." },
     "builder": {
       "trigger": "Trigger",
       "triggerType": "Trigger type",
@@ -1124,6 +1282,9 @@
         "viewer": "Read-only across the app"
       },
       "you": "You",
+      "online": "online",
+      "away": "away",
+      "offline": "offline",
       "joined": "Joined {date}",
       "expired": "expired",
       "expiresInDays": "expires in {days} day{days, plural, =1 {} other {s}}",
@@ -1376,6 +1537,7 @@
       "description": "Organize your contacts with color-coded tags.",
       "newTag": "New Tag",
       "noTags": "No tags yet.",
+      "noTagsYet": "No tags yet - create your first one below.",
       "noTagsHint": "Create tags to categorize your contacts.",
       "newTagTitle": "New Tag",
       "newTagDescription": "Create a new tag with a name and color.",
@@ -1388,6 +1550,8 @@
       "deleteTitle": "Delete Tag",
       "deleteDescription": "Are you sure you want to delete the tag \"{name}\"? This will remove it from all contacts. This action cannot be undone.",
       "deleting": "Deleting...",
+      "deleteTagAria": "Delete tag {name}",
+      "useColorAria": "Use color {color}",
       "toasts": {
         "loadFailed": "Failed to load tags",
         "nameRequired": "Tag name is required",
@@ -1397,6 +1561,15 @@
         "deleteSuccess": "Tag deleted",
         "deleteFailed": "Failed to delete tag"
       }
+    },
+    "fieldsAndTags": {
+      "title": "Fields & tags",
+      "description": "Two ways to organize contacts: color-coded tags for quick grouping, and custom fields for structured data."
+    },
+    "customFields": {
+      "title": "Custom fields",
+      "admin": "Admin",
+      "description": "Extra contact fields such as ZIP code or lead source. They appear on every contact and in the “Update Contact Field” automation action."
     },
     "account": {
       "title": "Account settings",
@@ -1512,6 +1685,7 @@
         "pipelines": "Pipelines",
         "broadcasts": "Broadcasts",
         "automations": "Automations",
+        "agents": "AI Agents",
         "settings": "Settings",
         "flows": "Flows"
       }

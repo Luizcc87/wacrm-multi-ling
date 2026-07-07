@@ -52,6 +52,29 @@ CREATE TABLE IF NOT EXISTS api_keys (
   created_at   timestamptz NOT NULL DEFAULT now()
 );
 
+-- Existing production databases may already have an older `api_keys`
+-- table. CREATE TABLE IF NOT EXISTS does not add missing columns, so
+-- keep this migration safe to apply over that shape too.
+ALTER TABLE api_keys
+  ADD COLUMN IF NOT EXISTS created_by uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS revoked_at timestamptz;
+
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1
+      FROM information_schema.columns
+     WHERE table_schema = 'public'
+       AND table_name = 'api_keys'
+       AND column_name = 'is_active'
+  ) THEN
+    UPDATE api_keys
+       SET revoked_at = now()
+     WHERE is_active = false
+       AND revoked_at IS NULL;
+  END IF;
+END $$;
+
 -- account_id: every "list this account's keys" query filters on it.
 CREATE INDEX IF NOT EXISTS api_keys_account_id_idx ON api_keys (account_id);
 -- key_hash: the hot path is the per-request auth lookup by hash. The
