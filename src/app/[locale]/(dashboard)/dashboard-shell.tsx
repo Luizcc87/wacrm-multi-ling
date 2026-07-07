@@ -9,6 +9,7 @@ import { Sidebar } from '@/components/layout/sidebar';
 import { Header } from '@/components/layout/header';
 import { DynamicFavicon } from '@/components/layout/dynamic-favicon';
 import { AuthLegalFooter } from '@/components/auth/legal-footer';
+import { PresenceHeartbeat } from '@/components/presence/presence-heartbeat';
 
 // Auth-gated dashboard shell. Extracted from the layout so the layout
 // itself can stay a server component and export metadata (noindex) —
@@ -33,10 +34,10 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-950">
+      <div className="flex h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3">
-          <div className="border-primary h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" />
-          <p className="text-sm text-slate-400">{t('loading')}</p>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          <p className="text-sm text-muted-foreground">{t('loading')}</p>
         </div>
       </div>
     );
@@ -50,8 +51,11 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
 
   return (
     <BrandingProvider>
-      <div className="flex h-screen overflow-hidden bg-slate-950">
+      <div className="flex h-screen overflow-hidden bg-background">
         <DynamicFavicon />
+        {/* Reports this tab's online/away presence once we know a user is
+            signed in. Headless — renders nothing. */}
+        <PresenceHeartbeat />
         <Sidebar open={sidebarOpen} onClose={closeSidebar} />
         <div className="flex flex-1 flex-col overflow-hidden">
           <Header onOpenSidebar={() => setSidebarOpen(true)} />
@@ -59,7 +63,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
           <main className="flex-1 overflow-y-auto p-4 sm:p-6">
             {children}
             {showLegalFooter && (
-              <AuthLegalFooter className="border-t border-slate-800 pt-6 pb-2" />
+              <AuthLegalFooter className="border-t border-border pt-6 pb-2" />
             )}
           </main>
         </div>
