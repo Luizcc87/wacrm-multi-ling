@@ -1614,7 +1614,23 @@
     "customFields": {
       "title": "Custom fields",
       "admin": "Admin",
-      "description": "Extra contact fields such as ZIP code or lead source. They appear on every contact and in the “Update Contact Field” automation action."
+      "description": "Extra contact fields such as ZIP code or lead source. They appear on every contact and in the “Update Contact Field” automation action.",
+      "placeholder": "e.g. ZIP Code",
+      "add": "Add",
+      "loading": "Loading custom fields...",
+      "empty": "No custom fields defined yet.",
+      "deleteConfirm": "Delete the custom field \"{name}\"? This will delete its values across all contacts. This cannot be undone.",
+      "renameAria": "Rename {name}",
+      "deleteFieldTitle": "Delete custom field",
+      "toasts": {
+        "notLinked": "Your profile is not linked to an account.",
+        "duplicate": "A field named \"{name}\" already exists.",
+        "createFailed": "Failed to create custom field.",
+        "createSuccess": "Created custom field \"{name}\".",
+        "renameFailed": "Failed to rename custom field.",
+        "deleteFailed": "Failed to delete custom field.",
+        "deleteSuccess": "Deleted custom field \"{name}\"."
+      }
     },
     "account": {
       "title": "Account settings",

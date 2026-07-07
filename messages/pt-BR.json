@@ -1614,7 +1614,23 @@
     "customFields": {
       "title": "Campos personalizados",
       "admin": "Admin",
-      "description": "Campos extras do contato, como CEP ou origem do lead. Eles aparecem em cada contato e na ação de automação “Atualizar campo de contato”."
+      "description": "Campos extras do contato, como CEP ou origem do lead. Eles aparecem em cada contato e na ação de automação “Atualizar campo de contato”.",
+      "placeholder": "Ex: CEP",
+      "add": "Adicionar",
+      "loading": "Carregando campos personalizados...",
+      "empty": "Nenhum campo personalizado definido ainda.",
+      "deleteConfirm": "Excluir o campo personalizado \"{name}\"? Isso apagará seus valores em todos os contatos. Esta ação não pode ser desfeita.",
+      "renameAria": "Renomear {name}",
+      "deleteFieldTitle": "Excluir campo personalizado",
+      "toasts": {
+        "notLinked": "Seu perfil não está vinculado a uma conta.",
+        "duplicate": "Um campo chamado \"{name}\" já existe.",
+        "createFailed": "Falha ao criar campo personalizado.",
+        "createSuccess": "Campo personalizado \"{name}\" criado.",
+        "renameFailed": "Falha ao renomear campo personalizado.",
+        "deleteFailed": "Falha ao excluir campo personalizado.",
+        "deleteSuccess": "Campo personalizado \"{name}\" excluído."
+      }
     },
     "account": {
       "title": "Configurações da conta",
