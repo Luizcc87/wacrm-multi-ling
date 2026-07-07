@@ -1121,24 +1121,61 @@
     "newFlow": "Nuevo flujo",
     "beta": "Beta",
     "description": "Crea conversaciones ramificadas con botones en WhatsApp. Útil para menús, FAQ y triage antes de que intervenga una persona.",
-    "errors": { "loadFailed": "No se pudieron cargar los flujos.", "createFailed": "No se pudo crear el flujo.", "cloneFailed": "Fallo al clonar", "deleteFailed": "No se pudo eliminar el flujo." },
+    "errors": {
+      "loadFailed": "No se pudieron cargar los flujos.",
+      "createFailed": "No se pudo crear el flujo.",
+      "cloneFailed": "Fallo al clonar",
+      "deleteFailed": "No se pudo eliminar el flujo."
+    },
     "deleteConfirm": "¿Eliminar \"{name}\"? Cualquier ejecución activa terminará inmediatamente.",
-    "createDialog": { "title": "Crear un nuevo flujo", "description": "Empieza desde una plantilla o crea desde cero.", "templateSection": "Empezar desde una plantilla", "blankSection": "O empezar en blanco", "placeholder": "p. ej. Menú de bienvenida", "createBlank": "Crear flujo en blanco" },
-    "empty": { "title": "Todavía no hay flujos", "description": "Crea tu primera conversación - un menú de bienvenida, una consulta de pedidos o un bot de preguntas frecuentes. El cliente toca los botones y el bot lo lleva a la respuesta correcta (o al agente correcto).", "createFirst": "Crear tu primer flujo" },
-    "runs": { "one": "ejecución", "other": "ejecuciones" },
-    "nodes": { "one": "nodo", "other": "nodos" },
+    "createDialog": {
+      "title": "Crear un nuevo flujo",
+      "description": "Empieza desde una plantilla o crea desde cero.",
+      "templateSection": "Empezar desde una plantilla",
+      "blankSection": "O empezar en blanco",
+      "placeholder": "p. ej. Menú de bienvenida",
+      "createBlank": "Crear flujo en blanco"
+    },
+    "empty": {
+      "title": "Todavía no hay flujos",
+      "description": "Crea tu primera conversación - un menú de bienvenida, una consulta de pedidos o un bot de preguntas frecuentes. El cliente toca los botones y el bot lo lleva a la respuesta correcta (o al agente correcto).",
+      "createFirst": "Crear tu primer flujo"
+    },
+    "runs": {
+      "title": "Ejecuciones del flujo",
+      "noRuns": "Sin ejecuciones aún",
+      "one": "ejecución",
+      "other": "ejecuciones"
+    },
+    "nodes": {
+      "one": "nodo",
+      "other": "nodos",
+      "start": "Inicio",
+      "sendMessage": "Enviar mensaje",
+      "sendButtons": "Enviar botones",
+      "sendList": "Enviar lista",
+      "sendMedia": "Enviar multimedia",
+      "collectInput": "Recopilar entrada",
+      "condition": "Condición",
+      "setTag": "Establecer etiqueta",
+      "handoff": "Transferir",
+      "end": "Fin"
+    },
     "edit": "Editar",
     "delete": "Eliminar",
     "cancel": "Cancelar",
-    "toasts": { "deleted": "Flujo eliminado." },
-    "trigger": { "keywordNone": "Se activa por palabra clave (ninguna definida)", "keywordList": "Se activa en: {keywords}", "firstInbound": "Se activa en el primer mensaje entrante del contacto", "manual": "Activación manual" },
+    "toasts": {
+      "deleted": "Flujo eliminado."
+    },
+    "trigger": {
+      "keywordNone": "Se activa por palabra clave (ninguna definida)",
+      "keywordList": "Se activa en: {keywords}",
+      "firstInbound": "Se activa en el primer mensaje entrante del contacto",
+      "manual": "Activación manual"
+    },
     "save": "Guardar",
     "publish": "Publicar",
     "validationErrors": "Errores de validación",
-    "runs": {
-      "title": "Ejecuciones del flujo",
-      "noRuns": "Sin ejecuciones aún"
-    },
     "noResults": "Sin flujos aún",
     "header": {
       "backToFlows": "Flujos",
@@ -1163,18 +1200,6 @@
       "warnings": "advertencia",
       "warningsPlural": "advertencias",
       "jumpToNode": "Ir al nodo"
-    },
-    "nodes": {
-      "start": "Inicio",
-      "sendMessage": "Enviar mensaje",
-      "sendButtons": "Enviar botones",
-      "sendList": "Enviar lista",
-      "sendMedia": "Enviar multimedia",
-      "collectInput": "Recopilar entrada",
-      "condition": "Condición",
-      "setTag": "Establecer etiqueta",
-      "handoff": "Transferir",
-      "end": "Fin"
     },
     "builder": {
       "trigger": "Disparador",

@@ -1119,13 +1119,63 @@
   "flows": {
     "title": "Fluxos",
     "newFlow": "Novo fluxo",
+    "beta": "Beta",
+    "description": "Crie conversas ramificadas com botões no WhatsApp. Útil para menus, FAQs e triagem antes de um humano intervir.",
+    "errors": {
+      "loadFailed": "Não foi possível carregar os fluxos.",
+      "createFailed": "Não foi possível criar o fluxo.",
+      "cloneFailed": "Falha ao clonar.",
+      "deleteFailed": "Não foi possível excluir o fluxo."
+    },
+    "deleteConfirm": "Excluir \"{name}\"? Qualquer execução ativa será encerrada imediatamente.",
+    "createDialog": {
+      "title": "Criar um novo fluxo",
+      "description": "Comece a partir de um modelo ou crie do zero.",
+      "templateSection": "Começar a partir de um modelo",
+      "blankSection": "Ou começar em branco",
+      "placeholder": "ex. Menu de Boas-vindas",
+      "createBlank": "Criar fluxo em branco"
+    },
+    "empty": {
+      "title": "Nenhum fluxo ainda",
+      "description": "Crie sua primeira conversa - um menu de boas-vindas, consulta de pedidos ou bot de perguntas frequentes. O cliente toca nos botões e o bot o direciona para a resposta correta (ou o agente correto).",
+      "createFirst": "Criar seu primeiro fluxo"
+    },
+    "runs": {
+      "title": "Execuções do fluxo",
+      "noRuns": "Nenhuma execução ainda",
+      "one": "execução",
+      "other": "execuções"
+    },
+    "nodes": {
+      "one": "nó",
+      "other": "nós",
+      "start": "Início",
+      "sendMessage": "Enviar mensagem",
+      "sendButtons": "Enviar botões",
+      "sendList": "Enviar lista",
+      "sendMedia": "Enviar mídia",
+      "collectInput": "Coletar entrada",
+      "condition": "Condição",
+      "setTag": "Definir tag",
+      "handoff": "Transferir",
+      "end": "Fim"
+    },
+    "edit": "Editar",
+    "delete": "Excluir",
+    "cancel": "Cancelar",
+    "toasts": {
+      "deleted": "Fluxo excluído."
+    },
+    "trigger": {
+      "keywordNone": "Ativado por palavra-chave (nenhuma definida)",
+      "keywordList": "Ativado em: {keywords}",
+      "firstInbound": "Ativado na primeira mensagem recebida do contato",
+      "manual": "Ativação manual"
+    },
     "save": "Salvar",
     "publish": "Publicar",
     "validationErrors": "Erros de validação",
-    "runs": {
-      "title": "Execuções do fluxo",
-      "noRuns": "Nenhuma execução ainda"
-    },
     "noResults": "Nenhum fluxo ainda",
     "header": {
       "backToFlows": "Fluxos",
@@ -1150,18 +1200,6 @@
       "warnings": "aviso",
       "warningsPlural": "avisos",
       "jumpToNode": "Ir ao nó"
-    },
-    "nodes": {
-      "start": "Início",
-      "sendMessage": "Enviar mensagem",
-      "sendButtons": "Enviar botões",
-      "sendList": "Enviar lista",
-      "sendMedia": "Enviar mídia",
-      "collectInput": "Coletar entrada",
-      "condition": "Condição",
-      "setTag": "Definir tag",
-      "handoff": "Transferir",
-      "end": "Fim"
     },
     "builder": {
       "trigger": "Gatilho",

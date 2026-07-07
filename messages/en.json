@@ -1119,13 +1119,63 @@
   "flows": {
     "title": "Flows",
     "newFlow": "New flow",
+    "beta": "Beta",
+    "description": "Create branched conversations with buttons on WhatsApp. Useful for menus, FAQs, and triage before a human steps in.",
+    "errors": {
+      "loadFailed": "Failed to load flows.",
+      "createFailed": "Failed to create flow.",
+      "cloneFailed": "Failed to clone",
+      "deleteFailed": "Failed to delete flow."
+    },
+    "deleteConfirm": "Delete \"{name}\"? Any active runs will end immediately.",
+    "createDialog": {
+      "title": "Create a new flow",
+      "description": "Start from a template or create from scratch.",
+      "templateSection": "Start from a template",
+      "blankSection": "Or start blank",
+      "placeholder": "e.g. Welcome Menu",
+      "createBlank": "Create blank flow"
+    },
+    "empty": {
+      "title": "No flows yet",
+      "description": "Create your first conversation - a welcome menu, order lookup, or FAQ bot. The customer taps buttons and the bot drives them to the right response (or right agent).",
+      "createFirst": "Create your first flow"
+    },
+    "runs": {
+      "title": "Flow runs",
+      "noRuns": "No runs yet",
+      "one": "run",
+      "other": "runs"
+    },
+    "nodes": {
+      "one": "node",
+      "other": "nodes",
+      "start": "Start",
+      "sendMessage": "Send message",
+      "sendButtons": "Send buttons",
+      "sendList": "Send list",
+      "sendMedia": "Send media",
+      "collectInput": "Collect input",
+      "condition": "Condition",
+      "setTag": "Set tag",
+      "handoff": "Handoff",
+      "end": "End"
+    },
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "toasts": {
+      "deleted": "Flow deleted."
+    },
+    "trigger": {
+      "keywordNone": "Triggers on keyword (none defined)",
+      "keywordList": "Triggers on: {keywords}",
+      "firstInbound": "Triggers on contact's first inbound message",
+      "manual": "Manual trigger"
+    },
     "save": "Save",
     "publish": "Publish",
     "validationErrors": "Validation errors",
-    "runs": {
-      "title": "Flow runs",
-      "noRuns": "No runs yet"
-    },
     "noResults": "No flows yet",
     "header": {
       "backToFlows": "Flows",
@@ -1150,18 +1200,6 @@
       "warnings": "warning",
       "warningsPlural": "warnings",
       "jumpToNode": "Jump to node"
-    },
-    "nodes": {
-      "start": "Start",
-      "sendMessage": "Send message",
-      "sendButtons": "Send buttons",
-      "sendList": "Send list",
-      "sendMedia": "Send media",
-      "collectInput": "Collect input",
-      "condition": "Condition",
-      "setTag": "Set tag",
-      "handoff": "Handoff",
-      "end": "End"
     },
     "builder": {
       "trigger": "Trigger",
