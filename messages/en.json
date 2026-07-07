@@ -606,7 +606,20 @@
     "failedDelete": "Failed to delete contact",
     "contactDeleted": "Contact deleted",
     "deleteContactTitle": "Delete Contact",
-    "deleteContactDescription": "Are you sure you want to delete {name}? This action cannot be undone."
+    "deleteContactDescription": "Are you sure you want to delete {name}? This action cannot be undone.",
+    "filterByTags": "Filter by tags",
+    "clearAll": "Clear all",
+    "noTagsYet": "No tags yet.",
+    "customFieldsButton": "Custom fields",
+    "bulkDeleteTitle": "Delete {count} {count, plural, =1 {Contact} other {Contacts}}",
+    "bulkDeleteDescription": "Are you sure you want to delete {count} {count, plural, =1 {contact} other {contacts}}? This action cannot be undone.",
+    "filterByTagAria": "Filter by {name}",
+    "removeTagFilterAria": "Remove {name} filter",
+    "bulkSelectedLabel": "{count} {count, plural, =1 {contact} other {contacts}} selected",
+    "clear": "Clear",
+    "deleteSelected": "Delete selected",
+    "selectAllOnPage": "Select all contacts on this page",
+    "selectContactAria": "Select {name}"
   },
   "pipelines": {
     "title": "Pipelines",

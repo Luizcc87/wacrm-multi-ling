@@ -606,7 +606,20 @@
     "failedDelete": "Falha ao excluir contato",
     "contactDeleted": "Contato excluído",
     "deleteContactTitle": "Excluir contato",
-    "deleteContactDescription": "Tem certeza de que deseja excluir {name}? Esta ação não pode ser desfeita."
+    "deleteContactDescription": "Tem certeza de que deseja excluir {name}? Esta ação não pode ser desfeita.",
+    "filterByTags": "Filtrar por tags",
+    "clearAll": "Limpar todos",
+    "noTagsYet": "Nenhuma tag ainda.",
+    "customFieldsButton": "Campos personalizados",
+    "bulkDeleteTitle": "Excluir {count} {count, plural, =1 {contato} other {contatos}}",
+    "bulkDeleteDescription": "Tem certeza que deseja excluir {count} {count, plural, =1 {contato} other {contatos}}? Esta ação não pode ser desfeita.",
+    "filterByTagAria": "Filtrar por {name}",
+    "removeTagFilterAria": "Remover filtro {name}",
+    "bulkSelectedLabel": "{count} {count, plural, =1 {contato selecionado} other {contatos selecionados}}",
+    "clear": "Limpar",
+    "deleteSelected": "Excluir selecionados",
+    "selectAllOnPage": "Selecionar todos os contatos desta página",
+    "selectContactAria": "Selecionar {name}"
   },
   "pipelines": {
     "title": "Funis",

@@ -606,7 +606,20 @@
     "failedDelete": "Error al eliminar el contacto",
     "contactDeleted": "Contacto eliminado",
     "deleteContactTitle": "Eliminar contacto",
-    "deleteContactDescription": "¿Seguro que quieres eliminar {name}? Esta acción no se puede deshacer."
+    "deleteContactDescription": "¿Seguro que quieres eliminar {name}? Esta acción no se puede deshacer.",
+    "filterByTags": "Filtrar por etiquetas",
+    "clearAll": "Limpiar todo",
+    "noTagsYet": "No hay etiquetas todavía.",
+    "customFieldsButton": "Campos personalizados",
+    "bulkDeleteTitle": "Eliminar {count} {count, plural, =1 {contacto} other {contactos}}",
+    "bulkDeleteDescription": "¿Estás seguro de que deseas eliminar {count} {count, plural, =1 {contacto} other {contactos}}? Esta acción no se puede deshacer.",
+    "filterByTagAria": "Filtrar por {name}",
+    "removeTagFilterAria": "Eliminar filtro {name}",
+    "bulkSelectedLabel": "{count} {count, plural, =1 {contacto seleccionado} other {contactos seleccionados}}",
+    "clear": "Limpiar",
+    "deleteSelected": "Eliminar seleccionados",
+    "selectAllOnPage": "Seleccionar todos los contactos de esta página",
+    "selectContactAria": "Seleccionar {name}"
   },
   "pipelines": {
     "title": "Embudos",

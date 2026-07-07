@@ -221,12 +221,12 @@ export function ContactForm({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-slate-900 border-slate-700 text-slate-200 sm:max-w-md">
+      <DialogContent className="bg-popover border-border text-popover-foreground sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-white">
+          <DialogTitle className="text-popover-foreground">
             {isEdit ? t('editContact') : t('addContact')}
           </DialogTitle>
-          <DialogDescription className="text-slate-400">
+          <DialogDescription className="text-muted-foreground">
             {isEdit
               ? t('editContactDesc')
               : t('addContactDesc')}
@@ -235,7 +235,7 @@ export function ContactForm({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="cf-name" className="text-slate-300">
+            <Label htmlFor="cf-name" className="text-muted-foreground">
               {t('name')}
             </Label>
             <Input
@@ -243,12 +243,12 @@ export function ContactForm({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t('namePlaceholder')}
-              className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+              className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="cf-phone" className="text-slate-300">
+            <Label htmlFor="cf-phone" className="text-muted-foreground">
               {t('phone')} <span className="text-red-400">*</span>
             </Label>
             <Input
@@ -260,7 +260,7 @@ export function ContactForm({
               }}
               onBlur={checkDuplicate}
               placeholder={t('phonePlaceholder')}
-              className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+              className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
             />
             {dupMatch ? (
               <div
@@ -289,14 +289,14 @@ export function ContactForm({
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted-foreground">
                 {t('phoneHint')}
               </p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="cf-email" className="text-slate-300">
+            <Label htmlFor="cf-email" className="text-muted-foreground">
               {t('email')}
             </Label>
             <Input
@@ -305,12 +305,12 @@ export function ContactForm({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t('emailPlaceholder')}
-              className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+              className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="cf-company" className="text-slate-300">
+            <Label htmlFor="cf-company" className="text-muted-foreground">
               {t('company')}
             </Label>
             <Input
@@ -318,19 +318,19 @@ export function ContactForm({
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               placeholder={t('companyPlaceholder')}
-              className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+              className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <Label className="text-slate-300">{t('tagsLabel')}</Label>
+            <Label className="text-muted-foreground">{t('tagsLabel')}</Label>
             {loadingTags ? (
-              <div className="flex items-center gap-2 text-slate-500 text-sm">
+              <div className="flex items-center gap-2 text-muted-foreground text-sm">
                 <Loader2 className="size-3 animate-spin" />
                 {t('loadingTags')}
               </div>
             ) : tags.length === 0 ? (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted-foreground">
                 {t('noTagsAvailable')}
               </p>
             ) : (
@@ -344,7 +344,7 @@ export function ContactForm({
                       onClick={() => toggleTag(tag.id)}
                       className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors cursor-pointer ${
                         selected
-                          ? 'ring-2 ring-primary ring-offset-1 ring-offset-slate-900'
+                          ? 'ring-2 ring-primary ring-offset-1 ring-offset-border'
                           : 'opacity-60 hover:opacity-100'
                       }`}
                       style={{
@@ -361,12 +361,12 @@ export function ContactForm({
             )}
           </div>
 
-          <DialogFooter className="bg-slate-900 border-slate-700">
+          <DialogFooter className="bg-popover border-border">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="border-slate-700 text-slate-300 hover:bg-slate-800"
+              className="border-border text-muted-foreground hover:bg-muted"
             >
               {t('cancel')}
             </Button>

@@ -7,7 +7,11 @@ import { createClient } from '@/lib/supabase/client';
 import { useAuth } from '@/hooks/use-auth';
 import { formatCurrency } from '@/lib/currency';
 import { toast } from 'sonner';
-import type { Contact, Tag, ContactTag, ContactNote, CustomField, ContactCustomValue, Deal } from '@/types';
+import type { Contact, Tag, ContactTag, ContactNote, CustomField, ContactCustomValue, Deal, MessageTemplate } from '@/types';
+import {
+  TemplatePicker,
+  type TemplateSendValues,
+} from '@/components/inbox/template-picker';
 import {
   Sheet,
   SheetContent,
@@ -36,6 +40,7 @@ import {
   X,
   DollarSign,
   MessageSquarePlus,
+  LayoutTemplate,
 } from 'lucide-react';
 
 interface ContactDetailViewProps {
@@ -60,6 +65,12 @@ export function ContactDetailView({
   const [contact, setContact] = useState<Contact | null>(null);
   const [loading, setLoading] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
+
+  // Send template — lets the business initiate (or re-open) a conversation
+  // with this contact by sending an approved template. The send route
+  // find-or-creates the conversation, so no inbound message is required.
+  const [templatePickerOpen, setTemplatePickerOpen] = useState(false);
+  const [sendingTemplate, setSendingTemplate] = useState(false);
 
   // Details tab
   const [editName, setEditName] = useState('');
@@ -323,6 +334,48 @@ export function ContactDetailView({
     setSavingCustom(false);
   }
 
+  async function handleSendTemplate(
+    template: MessageTemplate,
+    values: TemplateSendValues,
+  ) {
+    if (!contactId) return;
+    setSendingTemplate(true);
+    try {
+      const res = await fetch('/api/whatsapp/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          // No conversation_id — the route find-or-creates one for this
+          // contact, mirroring the inbox template-send payload otherwise.
+          contact_id: contactId,
+          message_type: 'template',
+          template_name: template.name,
+          template_language: template.language,
+          template_message_params: {
+            body: values.body,
+            headerText: values.headerText,
+            buttonParams: values.buttonParams,
+          },
+          template_params: values.body,
+        }),
+      });
+
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const reason = payload?.error || `HTTP ${res.status}`;
+        toast.error(`Failed to send template: ${reason}`);
+        return;
+      }
+
+      toast.success(`Template "${template.name}" sent`);
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : 'network error';
+      toast.error(`Failed to send template: ${reason}`);
+    } finally {
+      setSendingTemplate(false);
+    }
+  }
+
   function getInitials(name?: string | null) {
     if (!name) return '?';
     return name
@@ -334,10 +387,11 @@ export function ContactDetailView({
   }
 
   return (
+    <>
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="bg-slate-900 border-slate-700 text-slate-200 sm:max-w-lg w-full p-0"
+        className="bg-popover border-border text-popover-foreground sm:max-w-lg w-full p-0"
       >
         {loading || !contact ? (
           <div className="flex items-center justify-center h-full">
@@ -346,21 +400,45 @@ export function ContactDetailView({
         ) : (
           <div className="flex flex-col h-full">
             {/* Header */}
-            <SheetHeader className="p-4 border-b border-slate-700/50">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div className="flex items-center gap-3 min-w-0">
-                  <Avatar className="size-12 bg-slate-800 border border-slate-700">
-                    <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
-                      {getInitials(contact.name)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0">
-                    <SheetTitle className="text-white truncate text-base">
-                      {contact.name || 'Unknown'}
-                    </SheetTitle>
-                    <SheetDescription className="text-slate-400 text-xs mt-0.5">
-                      {t('contactDetails')}
-                    </SheetDescription>
+            <SheetHeader className="p-4 border-b border-border/50">
+              <div className="flex items-center gap-3">
+                <Avatar className="size-12 bg-muted border border-border">
+                  <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+                    {getInitials(contact.name)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <SheetTitle className="text-popover-foreground truncate">
+                    {contact.name || t('unnamed')}
+                  </SheetTitle>
+                  <SheetDescription className="text-muted-foreground text-xs mt-0.5">
+                    {t('contactDetails')}
+                  </SheetDescription>
+                  <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-muted-foreground">
+                    <button
+                      onClick={copyPhone}
+                      className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer"
+                    >
+                      <Phone className="size-3" />
+                      {contact.phone}
+                      {copiedPhone ? (
+                        <Check className="size-3 text-primary" />
+                      ) : (
+                        <Copy className="size-3" />
+                      )}
+                    </button>
+                    {contact.email && (
+                      <span className="flex items-center gap-1">
+                        <Mail className="size-3" />
+                        {contact.email}
+                      </span>
+                    )}
+                    {contact.company && (
+                      <span className="flex items-center gap-1">
+                        <Building2 className="size-3" />
+                        {contact.company}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <Button
@@ -372,70 +450,59 @@ export function ContactDetailView({
                   }}
                   disabled={!contact.phone}
                   title={!contact.phone ? t('noPhoneForConversation') || 'Contato sem telefone' : undefined}
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800 shrink-0 gap-1.5 self-start sm:self-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="border-border text-muted-foreground hover:bg-muted shrink-0 gap-1.5 self-start sm:self-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <MessageSquarePlus className="size-4" />
                   <span>{t('startConversation')}</span>
                 </Button>
               </div>
-              <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-slate-400">
-                <button
-                  onClick={copyPhone}
-                  className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer"
+              <div className="mt-3">
+                <Button
+                  size="sm"
+                  onClick={() => setTemplatePickerOpen(true)}
+                  disabled={sendingTemplate}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5"
                 >
-                  <Phone className="size-3" />
-                  {contact.phone}
-                  {copiedPhone ? (
-                    <Check className="size-3 text-primary" />
+                  {sendingTemplate ? (
+                    <Loader2 className="size-4 animate-spin" />
                   ) : (
-                    <Copy className="size-3" />
+                    <LayoutTemplate className="size-4" />
                   )}
-                </button>
-                {contact.email && (
-                  <span className="flex items-center gap-1">
-                    <Mail className="size-3" />
-                    {contact.email}
-                  </span>
-                )}
-                {contact.company && (
-                  <span className="flex items-center gap-1">
-                    <Building2 className="size-3" />
-                    {contact.company}
-                  </span>
-                )}
+                  {t('sendTemplate') || "Send template"}
+                </Button>
               </div>
             </SheetHeader>
 
             {/* Tabs */}
             <Tabs defaultValue="details" className="flex-1 flex flex-col min-h-0">
-              <TabsList className="bg-slate-800/50 border-b border-slate-700 mx-4 mt-3">
+              <TabsList className="bg-muted/50 border-b border-border mx-4 mt-3">
                 <TabsTrigger
                   value="details"
-                  className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
+                  className="data-active:bg-muted data-active:text-primary text-muted-foreground"
                 >
                   {t('detailsTab')}
                 </TabsTrigger>
                 <TabsTrigger
                   value="tags"
-                  className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
+                  className="data-active:bg-muted data-active:text-primary text-muted-foreground"
                 >
                   {t('tagsTab')}
                 </TabsTrigger>
                 <TabsTrigger
                   value="notes"
-                  className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
+                  className="data-active:bg-muted data-active:text-primary text-muted-foreground"
                 >
                   {t('notesTab')}
                 </TabsTrigger>
                 <TabsTrigger
                   value="custom"
-                  className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
+                  className="data-active:bg-muted data-active:text-primary text-muted-foreground"
                 >
                   {t('customTab')}
                 </TabsTrigger>
                 <TabsTrigger
                   value="deals"
-                  className="data-active:bg-slate-800 data-active:text-primary text-slate-400"
+                  className="data-active:bg-muted data-active:text-primary text-muted-foreground"
                 >
                   {t('dealsTab')}
                 </TabsTrigger>
@@ -445,37 +512,37 @@ export function ContactDetailView({
               <TabsContent value="details" className="flex-1 overflow-y-auto px-4 py-3">
                 <div className="space-y-3">
                   <div className="space-y-1.5">
-                    <Label className="text-slate-400 text-xs">{t('name')}</Label>
+                    <Label className="text-muted-foreground text-xs">{t('name')}</Label>
                     <Input
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
-                      className="bg-slate-800 border-slate-700 text-white h-8 text-sm"
+                      className="bg-muted border-border text-foreground h-8 text-sm"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-slate-400 text-xs">
+                    <Label className="text-muted-foreground text-xs">
                       {t('phone')} <span className="text-red-400">*</span>
                     </Label>
                     <Input
                       value={editPhone}
                       onChange={(e) => setEditPhone(e.target.value)}
-                      className="bg-slate-800 border-slate-700 text-white h-8 text-sm"
+                      className="bg-muted border-border text-foreground h-8 text-sm"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-slate-400 text-xs">{t('email')}</Label>
+                    <Label className="text-muted-foreground text-xs">{t('email')}</Label>
                     <Input
                       value={editEmail}
                       onChange={(e) => setEditEmail(e.target.value)}
-                      className="bg-slate-800 border-slate-700 text-white h-8 text-sm"
+                      className="bg-muted border-border text-foreground h-8 text-sm"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-slate-400 text-xs">{t('company')}</Label>
+                    <Label className="text-muted-foreground text-xs">{t('company')}</Label>
                     <Input
                       value={editCompany}
                       onChange={(e) => setEditCompany(e.target.value)}
-                      className="bg-slate-800 border-slate-700 text-white h-8 text-sm"
+                      className="bg-muted border-border text-foreground h-8 text-sm"
                     />
                   </div>
                   <Button
@@ -497,11 +564,11 @@ export function ContactDetailView({
               {/* Tags Tab */}
               <TabsContent value="tags" className="flex-1 overflow-y-auto px-4 py-3">
                 <div className="space-y-3">
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-muted-foreground">
                     {t('clickTagHint')}
                   </p>
                   {allTags.length === 0 ? (
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-muted-foreground">
                       {t('noTagsForContact')}
                     </p>
                   ) : (
@@ -515,7 +582,7 @@ export function ContactDetailView({
                             disabled={savingTags}
                             className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-all cursor-pointer ${
                               selected
-                                ? 'ring-2 ring-primary ring-offset-1 ring-offset-slate-900'
+                                ? 'ring-2 ring-primary ring-offset-1 ring-offset-border'
                                 : 'opacity-50 hover:opacity-80'
                             }`}
                             style={{
@@ -540,7 +607,7 @@ export function ContactDetailView({
                     value={newNote}
                     onChange={(e) => setNewNote(e.target.value)}
                     placeholder={t('writeNote')}
-                    className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 min-h-[60px] text-sm resize-none"
+                    className="bg-muted border-border text-foreground placeholder:text-muted-foreground min-h-[60px] text-sm resize-none"
                   />
                   <Button
                     onClick={addNote}
@@ -560,30 +627,30 @@ export function ContactDetailView({
                 <div className="flex-1 overflow-y-auto space-y-2">
                   {loadingNotes ? (
                     <div className="flex items-center justify-center py-8">
-                      <Loader2 className="size-5 animate-spin text-slate-500" />
+                      <Loader2 className="size-5 animate-spin text-muted-foreground" />
                     </div>
                   ) : notes.length === 0 ? (
-                    <p className="text-sm text-slate-500 text-center py-8">
+                    <p className="text-sm text-muted-foreground text-center py-8">
                       {t('noNotes')}
                     </p>
                   ) : (
                     notes.map((note) => (
                       <div
                         key={note.id}
-                        className="rounded-lg bg-slate-800/50 border border-slate-700/50 p-3 group"
+                        className="rounded-lg bg-muted/50 border border-border/50 p-3 group"
                       >
                         <div className="flex items-start justify-between gap-2">
-                          <p className="text-sm text-slate-300 whitespace-pre-wrap flex-1">
+                          <p className="text-sm text-muted-foreground whitespace-pre-wrap flex-1">
                             {note.note_text}
                           </p>
                           <button
                             onClick={() => deleteNote(note.id)}
-                            className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-red-400 transition-all cursor-pointer shrink-0"
+                            className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-red-400 transition-all cursor-pointer shrink-0"
                           >
                             <Trash2 className="size-3.5" />
                           </button>
                         </div>
-                        <p className="text-xs text-slate-500 mt-1.5">
+                        <p className="text-xs text-muted-foreground mt-1.5">
                           {new Date(note.created_at).toLocaleDateString('en-US', {
                             month: 'short',
                             day: 'numeric',
@@ -602,17 +669,17 @@ export function ContactDetailView({
               <TabsContent value="custom" className="flex-1 overflow-y-auto px-4 py-3">
                 {loadingCustom ? (
                   <div className="flex items-center justify-center py-8">
-                    <Loader2 className="size-5 animate-spin text-slate-500" />
+                    <Loader2 className="size-5 animate-spin text-muted-foreground" />
                   </div>
                 ) : customFields.length === 0 ? (
-                  <p className="text-sm text-slate-500 text-center py-8">
+                  <p className="text-sm text-muted-foreground text-center py-8">
                     {t('noCustomFields')}
                   </p>
                 ) : (
                   <div className="space-y-3">
                     {customFields.map((field) => (
                       <div key={field.id} className="space-y-1.5">
-                        <Label className="text-slate-400 text-xs capitalize">
+                        <Label className="text-muted-foreground text-xs capitalize">
                           {field.field_name}
                         </Label>
                         <Input
@@ -624,7 +691,7 @@ export function ContactDetailView({
                             }))
                           }
                           placeholder={`Enter ${field.field_name}...`}
-                          className="bg-slate-800 border-slate-700 text-white h-8 text-sm placeholder:text-slate-500"
+                          className="bg-muted border-border text-foreground h-8 text-sm placeholder:text-muted-foreground"
                         />
                       </div>
                     ))}
@@ -652,16 +719,16 @@ export function ContactDetailView({
                     <Loader2 className="size-5 animate-spin text-primary" />
                   </div>
                 ) : deals.length === 0 ? (
-                  <p className="text-xs text-slate-500">{t('noDeals')}</p>
+                  <p className="text-xs text-muted-foreground">{t('noDeals')}</p>
                 ) : (
                   <div className="space-y-2">
                     {deals.map((deal) => (
                       <div
                         key={deal.id}
-                        className="rounded-lg border border-slate-700 bg-slate-800/50 p-3"
+                        className="rounded-lg border border-border bg-muted/50 p-3"
                       >
                         <div className="flex items-start justify-between gap-2">
-                          <p className="text-sm font-medium text-white">
+                          <p className="text-sm font-medium text-foreground">
                             {deal.title}
                           </p>
                           {deal.stage && (
@@ -676,7 +743,7 @@ export function ContactDetailView({
                             </span>
                           )}
                         </div>
-                        <div className="mt-1.5 flex items-center justify-between text-xs text-slate-400">
+                        <div className="mt-1.5 flex items-center justify-between text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <DollarSign className="size-3" />
                             {formatCurrency(
@@ -706,5 +773,11 @@ export function ContactDetailView({
         )}
       </SheetContent>
     </Sheet>
+    <TemplatePicker
+      open={templatePickerOpen}
+      onOpenChange={setTemplatePickerOpen}
+      onSelect={handleSendTemplate}
+    />
+    </>
   );
 }
