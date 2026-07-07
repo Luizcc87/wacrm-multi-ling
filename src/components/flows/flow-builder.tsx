@@ -19,6 +19,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Fragment } from "react";
 import {
   CircleAlert,
   Plus,
@@ -40,13 +41,17 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { type ValidationIssue } from "@/lib/flows/validate";
 import {
   NODE_META,
+  groupNodeTypesByCategory,
   slugify,
   summarizeNode,
   type BuilderNode,
@@ -557,15 +562,25 @@ function AddNodeButton({ onAdd }: { onAdd: (type: NodeType) => void }) {
         {t("builder.addNode")}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="border-slate-700 bg-slate-900">
-        {types.map((t) => {
-          const meta = NODE_META[t];
-          return (
-            <DropdownMenuItem key={t} onClick={() => onAdd(t)}>
-              <meta.icon className={cn("h-3.5 w-3.5", meta.color)} />
-              {tLabel(t)}
-            </DropdownMenuItem>
-          );
-        })}
+        {groupNodeTypesByCategory(types).map((group, i) => (
+          <Fragment key={group.id}>
+            {i > 0 && <DropdownMenuSeparator />}
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className="text-muted-foreground px-2 py-1.5 text-[11px] font-semibold tracking-wider uppercase">
+                {group.label}
+              </DropdownMenuLabel>
+              {group.types.map((t) => {
+                const meta = NODE_META[t];
+                return (
+                  <DropdownMenuItem key={t} onClick={() => onAdd(t)}>
+                    <meta.icon className={cn("h-3.5 w-3.5", meta.color)} />
+                    {tLabel(t)}
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuGroup>
+          </Fragment>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
