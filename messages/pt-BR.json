@@ -1310,6 +1310,18 @@
         "readonlyHint": "Apenas administradores podem editar a identidade visual"
       }
     },
+    "deals": {
+      "title": "Negócios & moeda",
+      "description": "A moeda usada para novos negócios e para totais do funil e dashboard.",
+      "cardTitle": "Moeda padrão",
+      "cardDescription": "Novos negócios usam esta moeda por padrão, e os totais do funil e do painel são exibidos nela. Negócios existentes mantêm a moeda com a qual foram salvos.",
+      "label": "Moeda",
+      "adminOnly": "Apenas administradores da conta podem alterar a moeda padrão.",
+      "save": "Salvar",
+      "saving": "Salvando...",
+      "success": "Moeda padrão atualizada",
+      "error": "Falha ao salvar a moeda padrão"
+    },
     "members": {
       "title": "Membros da conta",
       "description": "Pessoas com acesso a esta conta. As funções controlam o que cada colega de equipe pode fazer.",
@@ -1630,6 +1642,57 @@
         "renameFailed": "Falha ao renomear campo personalizado.",
         "deleteFailed": "Falha ao excluir campo personalizado.",
         "deleteSuccess": "Campo personalizado \"{name}\" excluído."
+      }
+    },
+    "api": {
+      "title": "Chaves de API",
+      "description": "As chaves autenticam a API REST pública (<code>/api/v1</code>) para que você possa criar suas próprias automações. Envie-as como <header>Authorization: Bearer &lt;key&gt;</header>.",
+      "newKey": "Nova chave de API",
+      "noKeys": "Nenhuma chave de API ainda.",
+      "clickNewKey": "Clique em <btn>Nova chave de API</btn> para criar uma.",
+      "askAdmin": "Peça a um administrador para criar uma.",
+      "revoked": "Revogada",
+      "expired": "Expirada",
+      "noScopes": "Sem escopos",
+      "created": "Criada em {date}",
+      "lastUsed": "último uso em {date}",
+      "neverUsed": "nunca usada",
+      "expires": "expira em {date}",
+      "revoke": "Revogar",
+      "scopes": {
+        "messages:send": "Enviar mensagens no WhatsApp",
+        "messages:read": "Ler mensagens e status de entrega",
+        "contacts:read": "Listar e ler contatos",
+        "contacts:write": "Criar e atualizar contatos",
+        "conversations:read": "Listar e ler conversas",
+        "broadcasts:send": "Disparar campanhas de transmissão",
+        "webhooks:manage": "Registrar e gerenciar webhooks de eventos de saída"
+      },
+      "dialog": {
+        "copyTitle": "Copie sua chave de API",
+        "copyDesc": "Esta é a única vez que a chave completa é mostrada. Guarde-a em um local seguro — se a perder, revogue-a e crie uma nova.",
+        "labelKey": "Chave de API",
+        "copy": "Copiar",
+        "done": "Concluído",
+        "newTitle": "Nova chave de API",
+        "newDesc": "Dê a ela o nome da integração que a utilizará e conceda apenas os escopos necessários.",
+        "name": "Nome",
+        "namePlaceholder": "Ex: Automação do Zapier",
+        "scopes": "Escopos",
+        "noScopesHint": "Uma chave sem escopos ainda pode chamar <code>GET /api/v1/me</code> para verificar se funciona.",
+        "cancel": "Cancelar",
+        "creating": "Criando...",
+        "createKey": "Criar chave"
+      },
+      "toasts": {
+        "loadFailed": "Falha ao carregar as chaves de API",
+        "networkError": "Não foi possível conectar ao servidor",
+        "revokeFailed": "Falha ao revogar a chave",
+        "revokeSuccess": "Chave \"{name}\" revogada",
+        "nameRequired": "Dê um nome para a chave",
+        "createFailed": "Falha ao criar a chave",
+        "copied": "Chave de API copiada",
+        "copyFailed": "Falha ao copiar — selecione e copie manualmente"
       }
     },
     "account": {

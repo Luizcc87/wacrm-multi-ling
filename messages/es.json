@@ -1310,6 +1310,18 @@
         "readonlyHint": "Solo los administradores pueden editar la identidad visual"
       }
     },
+    "deals": {
+      "title": "Tratos y moneda",
+      "description": "La moneda utilizada para nuevos tratos y para los totales del embudo y del tablero.",
+      "cardTitle": "Moneda predeterminada",
+      "cardDescription": "Los nuevos tratos se configuran de forma predeterminada con esta moneda, y los totales del embudo y del tablero se muestran en ella. Los tratos existentes conservan la moneda con la que se guardaron.",
+      "label": "Moneda",
+      "adminOnly": "Solo los administradores de la cuenta pueden cambiar la moneda predeterminada.",
+      "save": "Guardar",
+      "saving": "Guardando...",
+      "success": "Moneda predeterminada actualizada",
+      "error": "Error al guardar la moneda predeterminada"
+    },
     "members": {
       "title": "Miembros de la cuenta",
       "description": "Personas con acceso a esta cuenta. Los roles controlan lo que cada compañero puede hacer.",
@@ -1630,6 +1642,57 @@
         "renameFailed": "No se pudo renombrar el campo.",
         "deleteFailed": "No se pudo eliminar el campo.",
         "deleteSuccess": "Campo \"{name}\" eliminado."
+      }
+    },
+    "api": {
+      "title": "Claves de API",
+      "description": "Las claves autentican la API REST pública (<code>/api/v1</code>) para que puedas crear tus propias automatizaciones. Envialas como <header>Authorization: Bearer &lt;key&gt;</header>.",
+      "newKey": "Nueva clave de API",
+      "noKeys": "Aún no hay claves de API.",
+      "clickNewKey": "Haz clic en <btn>Nueva clave de API</btn> para crear una.",
+      "askAdmin": "Pídele a un administrador que cree una.",
+      "revoked": "Revocada",
+      "expired": "Expirada",
+      "noScopes": "Sin permisos",
+      "created": "Creada el {date}",
+      "lastUsed": "último uso el {date}",
+      "neverUsed": "nunca usada",
+      "expires": "expira el {date}",
+      "revoke": "Revocar",
+      "scopes": {
+        "messages:send": "Enviar mensajes de WhatsApp",
+        "messages:read": "Leer mensajes y sus estados de entrega",
+        "contacts:read": "Listar y leer contactos",
+        "contacts:write": "Crear y actualizar contactos",
+        "conversations:read": "Listar y leer conversaciones",
+        "broadcasts:send": "Lanzar campañas de difusión",
+        "webhooks:manage": "Registrar y administrar webhooks de eventos salientes"
+      },
+      "dialog": {
+        "copyTitle": "Copia tu clave de API",
+        "copyDesc": "Esta es la única vez que se muestra la clave completa. Guárdala en un lugar seguro; si la pierdes, revócala y crea una nueva.",
+        "labelKey": "Clave de API",
+        "copy": "Copiar",
+        "done": "Hecho",
+        "newTitle": "Nueva clave de API",
+        "newDesc": "Nómbrala según la integración que la usará y otorga solo los permisos que necesite.",
+        "name": "Nombre",
+        "namePlaceholder": "Ej: Automatización de Zapier",
+        "scopes": "Permisos",
+        "noScopesHint": "Una clave sin permisos aún puede llamar a <code>GET /api/v1/me</code> para verificar que funcione.",
+        "cancel": "Cancelar",
+        "creating": "Creando...",
+        "createKey": "Crear clave"
+      },
+      "toasts": {
+        "loadFailed": "Error al cargar las claves de API",
+        "networkError": "No se pudo conectar con el servidor",
+        "revokeFailed": "Error al revocar la clave",
+        "revokeSuccess": "Clave \"{name}\" revocada",
+        "nameRequired": "Dale un nombre a la clave",
+        "createFailed": "Error al crear la clave",
+        "copied": "Clave de API copiada",
+        "copyFailed": "Error al copiar: selecciona y copia manualmente"
       }
     },
     "account": {

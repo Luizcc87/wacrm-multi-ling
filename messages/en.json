@@ -1310,6 +1310,18 @@
         "readonlyHint": "Only administrators can edit brand settings"
       }
     },
+    "deals": {
+      "title": "Deals & currency",
+      "description": "The currency used for new deals and for pipeline and dashboard totals.",
+      "cardTitle": "Default currency",
+      "cardDescription": "New deals default to this currency, and pipeline and dashboard totals are shown in it. Existing deals keep the currency they were saved with.",
+      "label": "Currency",
+      "adminOnly": "Only account admins can change the default currency.",
+      "save": "Save",
+      "saving": "Saving...",
+      "success": "Default currency updated",
+      "error": "Failed to save default currency"
+    },
     "members": {
       "title": "Account members",
       "description": "People with access to this account. Roles control what each teammate can do.",
@@ -1630,6 +1642,57 @@
         "renameFailed": "Failed to rename custom field.",
         "deleteFailed": "Failed to delete custom field.",
         "deleteSuccess": "Deleted custom field \"{name}\"."
+      }
+    },
+    "api": {
+      "title": "API keys",
+      "description": "Keys authenticate the public REST API (<code>/api/v1</code>) so you can build your own automations. Send them as <header>Authorization: Bearer &lt;key&gt;</header>.",
+      "newKey": "New API key",
+      "noKeys": "No API keys yet.",
+      "clickNewKey": "Click <btn>New API key</btn> to create one.",
+      "askAdmin": "Ask an admin to create one.",
+      "revoked": "Revoked",
+      "expired": "Expired",
+      "noScopes": "No scopes",
+      "created": "Created {date}",
+      "lastUsed": "last used {date}",
+      "neverUsed": "never used",
+      "expires": "expires {date}",
+      "revoke": "Revoke",
+      "scopes": {
+        "messages:send": "Send WhatsApp messages",
+        "messages:read": "Read messages and their delivery status",
+        "contacts:read": "List and read contacts",
+        "contacts:write": "Create and update contacts",
+        "conversations:read": "List and read conversations",
+        "broadcasts:send": "Launch broadcast campaigns",
+        "webhooks:manage": "Register and manage outbound event webhooks"
+      },
+      "dialog": {
+        "copyTitle": "Copy your API key",
+        "copyDesc": "This is the only time the full key is shown. Store it somewhere safe — if you lose it, revoke it and create a new one.",
+        "labelKey": "API key",
+        "copy": "Copy",
+        "done": "Done",
+        "newTitle": "New API key",
+        "newDesc": "Name it after the integration that will use it, and grant only the scopes it needs.",
+        "name": "Name",
+        "namePlaceholder": "e.g. Zapier automation",
+        "scopes": "Scopes",
+        "noScopesHint": "A key with no scopes can still call <code>GET /api/v1/me</code> to verify it works.",
+        "cancel": "Cancel",
+        "creating": "Creating...",
+        "createKey": "Create key"
+      },
+      "toasts": {
+        "loadFailed": "Failed to load API keys",
+        "networkError": "Could not reach the server",
+        "revokeFailed": "Failed to revoke key",
+        "revokeSuccess": "Revoked \"{name}\"",
+        "nameRequired": "Give the key a name",
+        "createFailed": "Failed to create key",
+        "copied": "API key copied",
+        "copyFailed": "Copy failed — select and copy manually"
       }
     },
     "account": {

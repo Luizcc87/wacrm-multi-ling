@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Coins, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -29,6 +30,7 @@ import { SettingsPanelHead } from "./settings-panel-head";
  */
 export function DealsSettings() {
   const supabase = createClient();
+  const t = useTranslations("settings");
   const {
     accountId,
     defaultCurrency,
@@ -56,7 +58,7 @@ export function DealsSettings() {
       .update({ default_currency: selected })
       .eq("id", accountId);
     if (error) {
-      toast.error("Failed to save default currency");
+      toast.error(t("deals.error"));
       setSaving(false);
       return;
     }
@@ -64,30 +66,28 @@ export function DealsSettings() {
     // and every total pick it up without a full reload.
     await refreshProfile();
     setSaving(false);
-    toast.success("Default currency updated");
+    toast.success(t("deals.success"));
   }
 
   return (
     <section className="max-w-2xl animate-in fade-in-50 duration-200">
       <SettingsPanelHead
-        title="Deals & currency"
-        description="The currency used for new deals and for pipeline and dashboard totals."
+        title={t("deals.title")}
+        description={t("deals.description")}
       />
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-foreground">
             <Coins className="size-4 text-primary" />
-            Default currency
+            {t("deals.cardTitle")}
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            New deals default to this currency, and pipeline and
-            dashboard totals are shown in it. Existing deals keep the
-            currency they were saved with.
+            {t("deals.cardDescription")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-2 sm:max-w-xs">
-            <Label className="text-muted-foreground">Currency</Label>
+            <Label className="text-muted-foreground">{t("deals.label")}</Label>
             <select
               value={selected}
               onChange={(e) => setSelected(e.target.value)}
@@ -102,7 +102,7 @@ export function DealsSettings() {
             </select>
             {!canEditSettings && (
               <p className="text-xs text-muted-foreground">
-                Only account admins can change the default currency.
+                {t("deals.adminOnly")}
               </p>
             )}
           </div>
@@ -116,10 +116,10 @@ export function DealsSettings() {
               {saving ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  Saving...
+                  {t("deals.saving")}
                 </>
               ) : (
-                "Save"
+                t("deals.save")
               )}
             </Button>
           )}
