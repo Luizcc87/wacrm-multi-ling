@@ -169,10 +169,16 @@ export default function NotificationsPage() {
     if (n.type === "conversation_assigned") {
       const parsed = parseAssignedBody(n.body);
       if (parsed) {
-        return t("types.conversationAssigned.body", {
-          actor: parsed.actor,
-          contact: parsed.contact,
-        });
+        // The Postgres trigger writes 'Someone' when auth.uid() is NULL
+        // (system / automation assignment) and 'a contact' when the contact
+        // row has no name or phone. Translate both so the UI stays in locale.
+        const actor =
+          parsed.actor === "Someone" ? t("types.conversationAssigned.systemActor") : parsed.actor;
+        const contact =
+          parsed.contact === "a contact"
+            ? t("types.conversationAssigned.unknownContact")
+            : parsed.contact;
+        return t("types.conversationAssigned.body", { actor, contact });
       }
     }
     return n.body;

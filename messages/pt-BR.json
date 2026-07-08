@@ -2012,7 +2012,9 @@
     "types": {
       "conversationAssigned": {
         "title": "Nova conversa atribuída",
-        "body": "{actor} atribuiu uma conversa com {contact} a você"
+        "body": "{actor} atribuiu uma conversa com {contact} a você",
+        "systemActor": "O sistema",
+        "unknownContact": "um contato"
       }
     }
   },

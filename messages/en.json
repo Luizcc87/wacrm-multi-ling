@@ -3662,7 +3662,9 @@
     "types": {
       "conversationAssigned": {
         "title": "New conversation assigned",
-        "body": "{actor} assigned you a conversation with {contact}"
+        "body": "{actor} assigned you a conversation with {contact}",
+        "systemActor": "The system",
+        "unknownContact": "a contact"
       }
     }
   },
