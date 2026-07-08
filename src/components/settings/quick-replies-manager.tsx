@@ -82,6 +82,14 @@ export function QuickRepliesManager() {
       toast.error(t("errorEmptyTitle"));
       return;
     }
+    if (draft.kind === "text" && !draft.content_text.trim()) {
+      toast.error(t("errorEmptyContent"));
+      return;
+    }
+    if (draft.kind === "interactive" && !draft.interactive_payload.body.trim()) {
+      toast.error(t("errorEmptyBody"));
+      return;
+    }
     const payload =
       draft.kind === "interactive"
         ? { title: draft.title, kind: "interactive", interactive_payload: draft.interactive_payload }

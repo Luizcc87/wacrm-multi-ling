@@ -1982,6 +1982,8 @@
     "delete": "Excluir",
     "deleteConfirm": "Excluir esta resposta rápida?",
     "errorEmptyTitle": "Dê um nome para a resposta rápida.",
+    "errorEmptyContent": "Escreva o conteúdo da mensagem antes de salvar.",
+    "errorEmptyBody": "Escreva o corpo da mensagem antes de salvar.",
     "errorSaveFailed": "Não foi possível salvar a resposta rápida.",
     "toastUpdated": "Resposta rápida atualizada.",
     "toastCreated": "Resposta rápida criada.",

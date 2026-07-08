@@ -3631,6 +3631,8 @@
       "delete": "Delete",
       "deleteConfirm": "Delete this quick reply?",
       "errorEmptyTitle": "Give the quick reply a name.",
+      "errorEmptyContent": "Write the message content before saving.",
+      "errorEmptyBody": "Write the message body before saving.",
       "errorSaveFailed": "Couldn't save the quick reply.",
       "toastUpdated": "Quick reply updated.",
       "toastCreated": "Quick reply created.",
