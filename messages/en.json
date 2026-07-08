@@ -649,7 +649,11 @@
     "whatsappNotConnected": "WhatsApp® is not connected. Go to Settings to connect your account.",
     "today": "Today",
     "yesterday": "Yesterday",
-    "aiNotConfigured": "AI isn't set up yet — enable it in Settings → AI Assistant."
+    "aiNotConfigured": "AI isn't set up yet — enable it in Settings → AI Assistant.",
+    "hideContactPanel": "Hide contact panel",
+    "showContactPanel": "Show contact panel",
+    "hideContact": "Hide contact",
+    "showContact": "Show contact"
   },
   "contacts": {
     "title": "Contacts",
@@ -3419,13 +3423,16 @@
     "sections": {
       "overview": "Overview",
       "profile": "Your Profile",
-      "members": "Team Members",
-      "templates": "Message Templates",
+      "security": "Login & Security",
+      "appearance": "Appearance",
       "whatsapp": "WhatsApp",
+      "templates": "Message Templates",
+      "quick-replies": "Quick Replies",
+      "fields": "Fields & Tags",
       "tags": "Fields & Tags",
       "deals": "Deals & Currency",
+      "members": "Team Members",
       "api": "API Keys",
-      "appearance": "Appearance",
       "account": "My Account"
     },
     "groups": {
