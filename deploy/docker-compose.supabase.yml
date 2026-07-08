@@ -6,6 +6,7 @@ version: '3.8'
 # Variáveis principais (configure no .env):
 # - APP_URL: A URL pública da aplicação
 # - NEXT_PUBLIC_APP_URL: URL canônica pública usada nas páginas legais
+# - NEXT_PUBLIC_APP_LOCALE: Idioma padrão da aplicação (pt-BR, en, es).
 # - DATABASE_URL: URL do connection pooler fornecido pelo Supabase.
 #   Ex: postgres://postgres.[projeto]:[senha]@aws-0-[regiao].pooler.supabase.com:6543/postgres
 # - NEXT_PUBLIC_LEGAL_*: Identidade legal pública usada no App Review Meta e LGPD
@@ -14,12 +15,10 @@ version: '3.8'
 services:
   web:
     image: lc1868/wacrm-multi-ling:latest
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
     environment:
       # URLs públicas da aplicação
       APP_URL: ${APP_URL}
+      NEXT_PUBLIC_APP_LOCALE: ${NEXT_PUBLIC_APP_LOCALE:-pt-BR}
       NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
 
