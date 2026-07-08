@@ -2260,6 +2260,10 @@
     "groups": {
       "account": "Conta",
       "workspace": "Espaço de Trabalho"
+    },
+    "security": {
+      "title": "Login e segurança",
+      "description": "Altere sua senha e saia de seus dispositivos. Isso mantém sua conta segura."
     }
   },
   "Inbox": {

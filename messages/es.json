@@ -2260,6 +2260,10 @@
     "groups": {
       "account": "Cuenta",
       "workspace": "Espacio de Trabajo"
+    },
+    "security": {
+      "title": "Inicio de sesión y seguridad",
+      "description": "Cambie su contraseña y cierre sesión en sus dispositivos. Esto mantiene segura su cuenta."
     }
   },
   "Inbox": {
