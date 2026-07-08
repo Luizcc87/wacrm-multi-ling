@@ -3649,6 +3649,17 @@
       "save": "Save"
     }
   },
+  "Notifications": {
+    "title": "Notifications",
+    "description": "Conversations other teammates assign to you show up here.",
+    "markAllRead": "Mark all as read",
+    "emptyTitle": "No notifications yet",
+    "emptyDesc": "You'll see an alert here when someone assigns you a conversation.",
+    "unread": "Unread",
+    "retry": "Retry",
+    "errorMarkRead": "Failed to mark notification as read",
+    "errorMarkAllRead": "Failed to mark all as read"
+  },
   "roles": {
     "owner": "Propietario",
     "admin": "Administrador",

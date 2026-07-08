@@ -1999,6 +1999,17 @@
     "cancel": "Cancelar",
     "save": "Salvar"
   },
+  "Notifications": {
+    "title": "Notificações",
+    "description": "As conversas que outros membros da equipe atribuem a você aparecem aqui.",
+    "markAllRead": "Marcar todas como lidas",
+    "emptyTitle": "Nenhuma notificação ainda",
+    "emptyDesc": "Você receberá um alerta aqui quando alguém atribuir uma conversa a você.",
+    "unread": "Não lida",
+    "retry": "Tentar novamente",
+    "errorMarkRead": "Falha ao marcar notificação como lida",
+    "errorMarkAllRead": "Falha ao marcar todas como lidas"
+  },
   "ModeToggle": {
     "switchMode": "Alternar para modo {mode}"
   },

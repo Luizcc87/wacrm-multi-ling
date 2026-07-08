@@ -1999,6 +1999,17 @@
     "cancel": "Cancelar",
     "save": "Guardar"
   },
+  "Notifications": {
+    "title": "Notificaciones",
+    "description": "Las conversaciones que otros compañeros te asignan aparecen aquí.",
+    "markAllRead": "Marcar todas como leídas",
+    "emptyTitle": "Sin notificaciones todavía",
+    "emptyDesc": "Verás una alerta aquí cuando alguien te asigne una conversación.",
+    "unread": "No leída",
+    "retry": "Reintentar",
+    "errorMarkRead": "Error al marcar la notificación como leída",
+    "errorMarkAllRead": "Error al marcar todas como leídas"
+  },
   "ModeToggle": {
     "switchMode": "Cambiar a modo {mode}"
   },
