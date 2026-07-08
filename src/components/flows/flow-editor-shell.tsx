@@ -18,7 +18,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { LayoutGrid, ListTree } from "lucide-react";
+import { GitFork, List } from "lucide-react";
 
 import { FlowBuilder } from "./flow-builder";
 import { FlowCanvas } from "./flow-canvas";
@@ -27,6 +27,7 @@ import { EditorHeader } from "./header";
 import { ValidationPanel } from "./validation-panel";
 import { cn } from "@/lib/utils";
 import type { FlowRow, FlowNodeRow } from "@/lib/flows/types";
+import { NODE_META, nodeColors, type NodeType } from "./shared";
 
 /**
  * Below this viewport width we force list view and hide the toggle.
@@ -39,6 +40,8 @@ const MOBILE_BREAKPOINT = "(max-width: 767px)";
 type View = "canvas" | "list";
 
 const STORAGE_KEY = "wacrm.flowEditor.view";
+
+const LEGEND_TYPES = Object.keys(NODE_META) as NodeType[];
 
 interface Props {
   initialFlow: FlowRow;
@@ -92,15 +95,29 @@ export function FlowEditorShell({ initialFlow, initialNodes }: Props) {
               <ToggleButton
                 active={effectiveView === "canvas"}
                 onClick={() => choose("canvas")}
-                icon={<LayoutGrid className="h-3 w-3" />}
+                icon={<GitFork className="h-3.5 w-3.5" />}
                 label={t("header.canvas")}
               />
               <ToggleButton
                 active={effectiveView === "list"}
                 onClick={() => choose("list")}
-                icon={<ListTree className="h-3 w-3" />}
+                icon={<List className="h-3.5 w-3.5" />}
                 label={t("header.list")}
               />
+            </div>
+            <div className="ml-auto hidden flex-wrap items-center gap-x-3.5 gap-y-1.5 lg:flex">
+              {LEGEND_TYPES.map((t_type: NodeType) => (
+                <span
+                  key={t_type}
+                  className="inline-flex items-center gap-1.5 text-[11.5px] text-muted-foreground"
+                >
+                  <span
+                    className="h-2.5 w-2.5 rounded-full"
+                    style={{ background: nodeColors(t_type).solid }}
+                  />
+                  {t(`nodes.${t_type}.label`)}
+                </span>
+              ))}
             </div>
           </div>
         )}

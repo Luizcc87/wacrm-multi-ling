@@ -17,9 +17,8 @@
  * are list-only and have no canvas analogue.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
-import { Fragment } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   CircleAlert,
   Plus,
@@ -54,6 +53,7 @@ import {
   groupNodeTypesByCategory,
   slugify,
   summarizeNode,
+  nodeColors,
   type BuilderNode,
   type NodeType,
 } from "./shared";
@@ -175,21 +175,22 @@ export function FlowBuilder() {
         state={state}
         setState={setState}
         triggerIssues={issues.filter((i) => i.scope === "trigger")}
+        t={t}
       />
 
-      <EntryPicker state={state} setState={setState} />
+      <EntryPicker state={state} setState={setState} t={t} />
 
       <section className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-white">
+          <h2 className="text-foreground text-sm font-semibold">
             Nodes ({state.nodes.length})
           </h2>
-          <AddNodeButton onAdd={addNode} />
+          <AddNodeButton onAdd={addNode} t={t} />
         </div>
 
         {state.nodes.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-slate-700 bg-slate-900/50 p-8 text-center text-sm text-slate-400">
-            <div className="font-medium text-slate-300">{t("builder.noNodes")}</div>
+          <div className="border-border bg-card/50 text-muted-foreground rounded-lg border border-dashed p-8 text-center text-sm">
+            <div className="font-medium text-foreground">{t("builder.noNodes")}</div>
             <div className="mt-1">{t("builder.addFirst")}</div>
           </div>
         ) : (
@@ -212,6 +213,7 @@ export function FlowBuilder() {
               onSetEntry={() =>
                 setState((s) => ({ ...s, entry_node_id: node.node_key }))
               }
+              t={t}
             />
           ))
         )}
@@ -220,6 +222,56 @@ export function FlowBuilder() {
   );
 }
 
+// ============================================================
+// Keyword trigger input
+// ============================================================
+
+/**
+ * Comma-separated keyword entry. Keeps a local draft string so the
+ * comma (and trailing space) the user types survive until they're done
+ * — parsing into the keywords array on every keystroke stripped the
+ * trailing comma the instant it was typed, making it impossible to
+ * start a second keyword (issue #234). We commit on blur / Enter, then
+ * re-display the cleaned, rejoined form. Seeded once on mount; the
+ * component unmounts/remounts when the trigger type changes, so the
+ * seed stays in sync. Mirrors the automations builder's KeywordMatchConfig.
+ */
+function KeywordsInput({
+  keywords,
+  onChange,
+  t,
+}: {
+  keywords: string[];
+  onChange: (keywords: string[]) => void;
+  t: ReturnType<typeof useTranslations>;
+}) {
+  const [draft, setDraft] = useState(keywords.join(', '));
+
+  function commit() {
+    const parsed = draft
+      .split(',')
+      .map((k) => k.trim())
+      .filter(Boolean);
+    setDraft(parsed.join(', '));
+    onChange(parsed);
+  }
+
+  return (
+    <Input
+      value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          commit();
+        }
+      }}
+      placeholder={t('keywordsPlaceholder')}
+      className="bg-muted"
+    />
+  );
+}
 
 // ============================================================
 // Trigger panel
@@ -229,18 +281,21 @@ function TriggerPanel({
   state,
   setState,
   triggerIssues,
+  t,
 }: {
   state: BuilderState;
   setState: React.Dispatch<React.SetStateAction<BuilderState>>;
   triggerIssues: ValidationIssue[];
+  t: ReturnType<typeof useTranslations>;
 }) {
-  const t = useTranslations("flows");
   return (
-    <section className="rounded-lg border border-slate-800 bg-slate-900 p-4">
-      <h2 className="mb-3 text-sm font-semibold text-white">{t("builder.trigger")}</h2>
+    <section className="border-border bg-card rounded-lg border p-4">
+      <h2 className="text-foreground mb-3 text-sm font-semibold">{t("builder.trigger")}</h2>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div>
-          <label className="mb-1 block text-xs text-slate-400">When…</label>
+          <label className="text-muted-foreground mb-1 block text-xs">
+            {t("builder.when") || "Quando…"}
+          </label>
           <Select
             value={state.trigger_type}
             onValueChange={(v) =>
@@ -257,42 +312,35 @@ function TriggerPanel({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="keyword">
-                A message contains a keyword
+                {t('triggerKeywordTitle')}
               </SelectItem>
               <SelectItem value="first_inbound_message">
-                Customer&apos;s first ever inbound message
+                {t('triggerFirstInboundTitle')}
               </SelectItem>
               <SelectItem value="manual">
-                Manual only (no auto-trigger)
+                {t('triggerManualTitle')}
               </SelectItem>
             </SelectContent>
           </Select>
         </div>
         {state.trigger_type === "keyword" && (
           <div>
-            <label className="mb-1 block text-xs text-slate-400">
-              Keywords (comma-separated)
+            <label className="text-muted-foreground mb-1 block text-xs">
+              {t("builder.keywords") || "Palavras-chave (separadas por vírgula)"}
             </label>
-            <Input
-              value={
+            <KeywordsInput
+              keywords={
                 Array.isArray(state.trigger_config.keywords)
-                  ? (state.trigger_config.keywords as string[]).join(", ")
-                  : ""
+                  ? (state.trigger_config.keywords as string[])
+                  : []
               }
-              onChange={(e) =>
+              onChange={(keywords) =>
                 setState((s) => ({
                   ...s,
-                  trigger_config: {
-                    ...s.trigger_config,
-                    keywords: e.target.value
-                      .split(",")
-                      .map((k) => k.trim())
-                      .filter(Boolean),
-                  },
+                  trigger_config: { ...s.trigger_config, keywords },
                 }))
               }
-              placeholder="support, help, hi"
-              className="bg-slate-800"
+              t={t}
             />
           </div>
         )}
@@ -315,23 +363,23 @@ function TriggerPanel({
 function EntryPicker({
   state,
   setState,
+  t,
 }: {
   state: BuilderState;
   setState: React.Dispatch<React.SetStateAction<BuilderState>>;
+  t: ReturnType<typeof useTranslations>;
 }) {
   if (state.nodes.length === 0) return null;
   return (
-    <section className="flex items-center gap-3 rounded-lg border border-slate-800 bg-slate-900 p-3">
-      <CornerDownRight className="h-4 w-4 shrink-0 text-primary" />
-      <span className="text-xs text-slate-400">Entry node:</span>
+    <section className="border-border bg-card flex items-center gap-3 rounded-lg border p-3">
+      <CornerDownRight className="text-primary h-4 w-4 shrink-0" />
+      <span className="text-muted-foreground text-xs">{t("builder.entryNode") || "Nó de entrada:"}</span>
       <NodeKeySelect
         value={state.entry_node_id}
         nodes={state.nodes}
-        onChange={(key) =>
-          setState((s) => ({ ...s, entry_node_id: key }))
-        }
-        placeholder="Pick the first node…"
-        className="flex-1 max-w-xs"
+        onChange={(key) => setState((s) => ({ ...s, entry_node_id: key }))}
+        placeholder={t("builder.pickFirstNode") || "Escolha o primeiro nó…"}
+        className="max-w-xs flex-1"
       />
     </section>
   );
@@ -354,6 +402,7 @@ function NodeCard({
   onUpdateConfig,
   onRemove,
   onSetEntry,
+  t,
 }: {
   node: BuilderNode;
   allNodes: BuilderNode[];
@@ -367,11 +416,12 @@ function NodeCard({
   onUpdateConfig: (patch: Record<string, unknown>) => void;
   onRemove: () => void;
   onSetEntry: () => void;
+  t: ReturnType<typeof useTranslations>;
 }) {
-  const t = useTranslations("flows");
   const meta = NODE_META[node.node_type];
-  const hasError = issues.some((i) => i.severity === "error");
-  const preview = summarizeNode(node);
+  const c = nodeColors(node.node_type);
+  const hasError = issues.some((i) => i.severity === 'error');
+  const preview = summarizeNode(node, t);
   return (
     <div
       ref={cardRef}
@@ -394,8 +444,11 @@ function NodeCard({
         <meta.icon className={cn("h-4 w-4 shrink-0", meta.color)} />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="truncate text-sm font-medium text-white">
-              {t(NODE_LABEL_KEYS[node.node_type] as Parameters<typeof t>[0])}
+            <span
+              className="truncate text-[11px] font-semibold tracking-wider uppercase"
+              style={{ color: c.text }}
+            >
+              {t(`nodes.${node.node_type}.label`)}
             </span>
             <code className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">
               {node.node_key}
@@ -405,7 +458,7 @@ function NodeCard({
                 variant="outline"
                 className="border-primary/40 bg-primary/10 text-[10px] text-primary"
               >
-                Entry
+                {t('badgeEntry')}
               </Badge>
             )}
           </div>
@@ -431,12 +484,13 @@ function NodeCard({
             allNodes={allNodes}
             onUpdate={onUpdate}
             onUpdateConfig={onUpdateConfig}
+            t={t}
           />
           <div className="mt-4 flex items-center justify-between border-t border-slate-800 pt-3">
             <div className="flex items-center gap-2">
               {!isEntry && (
                 <Button variant="ghost" size="sm" onClick={onSetEntry}>
-                  Set as entry
+                  {t('setAsEntry')}
                 </Button>
               )}
             </div>
@@ -474,13 +528,14 @@ function NodeConfigWithAdvanced({
   allNodes,
   onUpdate,
   onUpdateConfig,
+  t,
 }: {
   node: BuilderNode;
   allNodes: BuilderNode[];
   onUpdate: (patch: Partial<BuilderNode>) => void;
   onUpdateConfig: (patch: Record<string, unknown>) => void;
+  t: ReturnType<typeof useTranslations>;
 }) {
-  const t = useTranslations("flows");
   const [showAdvanced, setShowAdvanced] = useState(false);
   const hasReplyIds =
     node.node_type === "send_buttons" || node.node_type === "send_list";
@@ -508,7 +563,7 @@ function NodeConfigWithAdvanced({
         {showAdvanced && (
           <div className="mt-3 flex flex-col gap-3">
             <div>
-              <label className="mb-1 block text-xs text-slate-400">
+              <label className="text-muted-foreground mb-1 block text-xs">
                 {t("builder.nodeKey")} (internal identifier — keep stable for analytics)
               </label>
               <Input
@@ -520,10 +575,8 @@ function NodeConfigWithAdvanced({
               />
             </div>
             {hasReplyIds && (
-              <p className="text-[10px] text-slate-500">
-                Reply IDs for each option are shown inline above. They&apos;re
-                returned by WhatsApp when a customer taps; you usually don&apos;t
-                need to touch them.
+              <p className="text-muted-foreground text-[10px]">
+                Reply IDs for each option are shown inline above. They&apos;re returned by WhatsApp when a customer taps; you usually don&apos;t need to touch them.
               </p>
             )}
           </div>
@@ -538,8 +591,7 @@ function NodeConfigWithAdvanced({
 // Add-node menu
 // ============================================================
 
-function AddNodeButton({ onAdd }: { onAdd: (type: NodeType) => void }) {
-  const t = useTranslations("flows");
+function AddNodeButton({ onAdd, t }: { onAdd: (type: NodeType) => void; t: ReturnType<typeof useTranslations> }) {
   const types: NodeType[] = [
     "start",
     "send_buttons",
@@ -555,7 +607,7 @@ function AddNodeButton({ onAdd }: { onAdd: (type: NodeType) => void }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="inline-flex items-center gap-1.5 rounded-md border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-200 transition-colors hover:bg-slate-800"
+        className="border-border bg-card text-foreground hover:bg-muted inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors"
         aria-label={t("builder.addNode")}
       >
         <Plus className="h-3.5 w-3.5" />
@@ -566,15 +618,15 @@ function AddNodeButton({ onAdd }: { onAdd: (type: NodeType) => void }) {
           <Fragment key={group.id}>
             {i > 0 && <DropdownMenuSeparator />}
             <DropdownMenuGroup>
-              <DropdownMenuLabel className="text-muted-foreground px-2 py-1.5 text-[11px] font-semibold tracking-wider uppercase">
+              <DropdownMenuLabel className="text-muted-foreground text-[11px] font-semibold tracking-wider uppercase">
                 {group.label}
               </DropdownMenuLabel>
-              {group.types.map((t) => {
-                const meta = NODE_META[t];
+              {group.types.map((t_type) => {
+                const meta = NODE_META[t_type];
                 return (
-                  <DropdownMenuItem key={t} onClick={() => onAdd(t)}>
-                    <meta.icon className={cn("h-3.5 w-3.5", meta.color)} />
-                    {tLabel(t)}
+                  <DropdownMenuItem key={t_type} onClick={() => onAdd(t_type)}>
+                    <meta.icon className={cn('h-3.5 w-3.5', meta.color)} />
+                    {t(`nodes.${t_type}.label`)}
                   </DropdownMenuItem>
                 );
               })}

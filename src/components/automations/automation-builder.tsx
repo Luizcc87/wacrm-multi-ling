@@ -31,6 +31,8 @@ import {
   Loader2,
   ArrowDown,
   ArrowUp,
+  MousePointerClick,
+  List,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -98,6 +100,8 @@ const STEP_META: Record<AutomationStepType, StepMeta> = {
   condition: { icon: GitBranch, border: "border-l-amber-500" },
   send_webhook: { icon: Webhook, border: "border-l-primary" },
   close_conversation: { icon: CircleSlash, border: "border-l-primary" },
+  send_buttons: { icon: MousePointerClick, border: "border-l-primary" },
+  send_list: { icon: List, border: "border-l-primary" },
 }
 
 const ADDABLE_STEPS: AutomationStepType[] = [
@@ -126,6 +130,8 @@ const STEP_LABEL_KEYS: Record<AutomationStepType, string> = {
   condition: "builder.steps.condition",
   send_webhook: "builder.steps.sendWebhook",
   close_conversation: "builder.steps.closeConversation",
+  send_buttons: "builder.steps.sendButtons",
+  send_list: "builder.steps.sendList",
 }
 
 function cid(): string {

@@ -349,6 +349,7 @@
     "description": "Tu agente de IA con clave propia: configúralo primero y pruébalo en el playground antes de que responda a clientes en la bandeja de entrada.",
     "playgroundLabel": "Playground",
     "setupLabel": "Configuración",
+    "usageLabel": "Uso",
     "playground": {
       "title": "Playground",
       "subtitle": "prueba las respuestas como si fueras un cliente",
@@ -399,6 +400,10 @@
         "label": "Máximo de auto-respuestas por conversación",
         "hint": "Después de este número de respuestas del bot en un hilo, el bot queda en silencio."
       },
+      "handoffTo": "Transferir a",
+      "handoffToDesc": "Cuando el bot no pueda ayudar — o alcance el límite de respuestas —, se detiene y transfiere la conversación aquí, con una breve nota sobre lo ocurrido.",
+      "handoffQueue": "Fila compartida (sin asignación)",
+      "handoffAgent": "Agente: {name}",
       "actions": {
         "remove": "Eliminar",
         "save": "Guardar"
@@ -597,6 +602,26 @@
     "templateHeaderPlaceholder": "Valor para la variable del encabezado",
     "templateFinalUrl": "URL final:",
     "addCaption": "Añadir una leyenda...",
+    "recording": "Grabando… {current} / {max}",
+    "cancel": "Cancelar",
+    "stopAndAttach": "Detener y adjuntar",
+    "attachMedia": "Adjuntar archivo",
+    "photo": "Foto",
+    "video": "Video",
+    "document": "Documento",
+    "voiceNote": "Mensaje de voz",
+    "sendTemplate": "Enviar plantilla",
+    "draftWithAI": "Borrador con IA",
+    "removeAttachment": "Eliminar adjunto",
+    "moreActions": "Más acciones",
+    "interactiveMessage": "Mensaje interactivo",
+    "quickReplies": "Respuestas rápidas",
+    "quickRepliesEmpty": "Aún no hay respuestas rápidas. Agregue algunas en Configuración → Respuestas rápidas.",
+    "saveAsQuickReply": "Guardar como respuesta rápida",
+    "send": "Enviar",
+    "quickReplyNamePrompt": "Nombre esta respuesta rápida:",
+    "quickReplySaved": "Guardada como respuesta rápida.",
+    "quickReplySaveError": "No se pudo guardar la respuesta rápida.",
     "contactSidebarEmpty": "Selecciona una conversación",
     "tagsLabel": "Etiquetas",
     "noTags": "Sin etiquetas",
@@ -1153,16 +1178,46 @@
     "nodes": {
       "one": "nodo",
       "other": "nodos",
-      "start": "Inicio",
-      "sendMessage": "Enviar mensaje",
-      "sendButtons": "Enviar botones",
-      "sendList": "Enviar lista",
-      "sendMedia": "Enviar multimedia",
-      "collectInput": "Recopilar entrada",
-      "condition": "Condición",
-      "setTag": "Establecer etiqueta",
-      "handoff": "Transferir",
-      "end": "Fin"
+      "start": {
+        "label": "Inicio",
+        "blurb": "Punto de entrada del flujo"
+      },
+      "send_message": {
+        "label": "Enviar mensaje",
+        "blurb": "Envía un mensaje de texto de WhatsApp"
+      },
+      "send_buttons": {
+        "label": "Enviar botones",
+        "blurb": "Envía botones de respuesta rápida"
+      },
+      "send_list": {
+        "label": "Enviar lista",
+        "blurb": "Envía una lista de opciones seleccionables"
+      },
+      "send_media": {
+        "label": "Enviar medio",
+        "blurb": "Envía una imagen, vídeo o documento"
+      },
+      "collect_input": {
+        "label": "Colectar entrada",
+        "blurb": "Hace una pregunta, guarda la respuesta"
+      },
+      "condition": {
+        "label": "Condición (Si / no)",
+        "blurb": "Crea ramificaciones basadas en una regla"
+      },
+      "set_tag": {
+        "label": "Definir etiqueta",
+        "blurb": "Añade o elimina una etiqueta de contacto"
+      },
+      "handoff": {
+        "label": "Transferir al agente",
+        "blurb": "Transfiere la conversación a un agente humano"
+      },
+      "end": {
+        "label": "Fin",
+        "blurb": "Termina el flujo"
+      }
     },
     "edit": "Editar",
     "delete": "Eliminar",

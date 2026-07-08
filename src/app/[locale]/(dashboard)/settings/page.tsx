@@ -18,6 +18,7 @@ import { ApiKeysSettings } from '@/components/settings/api-keys-settings';
 import { SettingsRail } from '@/components/settings/settings-rail';
 import { SettingsOverview } from '@/components/settings/settings-overview';
 import { resolveSection, type SettingsSection } from '@/components/settings/settings-sections';
+import { QuickRepliesManager } from '@/components/settings/quick-replies-manager';
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -49,6 +50,7 @@ export default function SettingsPage() {
     appearance: <AppearancePanel />,
     whatsapp: <WhatsAppConfig />,
     templates: <TemplateManager />,
+    'quick-replies': <QuickRepliesManager />,
     fields: <FieldsAndTagsPanel />,
     deals: <DealsSettings />,
     members: <MembersTab />,
