@@ -14,6 +14,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { SettingsPanelHead } from "./settings-panel-head";
 import {
@@ -49,6 +50,9 @@ export function QuickRepliesManager() {
   const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState<DraftState | null>(null);
   const [saving, setSaving] = useState(false);
+  // ID of item pending deletion — opens the confirm dialog
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -118,20 +122,26 @@ export function QuickRepliesManager() {
     } finally {
       setSaving(false);
     }
-  }, [draft, load]);
+  }, [draft, load, t]);
 
-  const remove = useCallback(
-    async (id: string) => {
-      if (!window.confirm(t("deleteConfirm"))) return;
-      const res = await fetch(`/api/quick-replies/${id}`, { method: "DELETE" });
+  const confirmDelete = useCallback(async () => {
+    if (!deletingId) return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/quick-replies/${deletingId}`, { method: "DELETE" });
       if (!res.ok) {
         toast.error(t("errorDeleteFailed"));
         return;
       }
+      toast.success(t("toastDeleted"));
       await load();
-    },
-    [load],
-  );
+    } catch {
+      toast.error(t("errorDeleteFailed"));
+    } finally {
+      setDeleting(false);
+      setDeletingId(null);
+    }
+  }, [deletingId, load, t]);
 
   return (
     <div>
@@ -181,7 +191,7 @@ export function QuickRepliesManager() {
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  onClick={() => remove(qr.id)}
+                  onClick={() => setDeletingId(qr.id)}
                   className="text-red-400 hover:bg-red-500/10 hover:text-red-300"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -192,6 +202,7 @@ export function QuickRepliesManager() {
         </ul>
       )}
 
+      {/* Edit / create dialog */}
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
@@ -242,6 +253,33 @@ export function QuickRepliesManager() {
             <Button onClick={save} disabled={saving}>
               {saving && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
               {t("save")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete confirmation dialog */}
+      <Dialog open={!!deletingId} onOpenChange={(o) => !o && !deleting && setDeletingId(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t("deleteTitle")}</DialogTitle>
+            <DialogDescription>{t("deleteConfirm")}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setDeletingId(null)}
+              disabled={deleting}
+            >
+              {t("cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDelete}
+              disabled={deleting}
+            >
+              {deleting && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
+              {t("delete")}
             </Button>
           </DialogFooter>
         </DialogContent>
