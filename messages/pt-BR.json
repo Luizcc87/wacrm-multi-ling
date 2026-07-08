@@ -1293,6 +1293,23 @@
       "tags": "Tags",
       "deals": "Negócios"
     },
+    "sections": {
+      "overview": "Visão geral",
+      "profile": "Seu perfil",
+      "security": "Login e segurança",
+      "appearance": "Aparência",
+      "whatsapp": "WhatsApp",
+      "templates": "Templates",
+      "quick-replies": "Respostas rápidas",
+      "fields": "Campos e tags",
+      "deals": "Negócios e moedas",
+      "members": "Membros da equipe",
+      "api": "Chaves de API"
+    },
+    "groups": {
+      "account": "Conta",
+      "workspace": "Espaço de trabalho"
+    },
     "profile": {
       "title": "Perfil",
       "description": "Como você aparece no aplicativo. Seu avatar e nome aparecem no cabeçalho, barra lateral e onde seus colegas te veem.",
@@ -1917,5 +1934,29 @@
     "signIn": "Entrar",
     "noAccount": "Não tem uma conta?",
     "createAccount": "Criar conta"
+  },
+  "quickReplies": {
+    "title": "Respostas rápidas",
+    "description": "Trechos reutilizáveis — texto simples ou uma mensagem interativa salva — que os agentes podem inserir a partir do compositor de mensagens.",
+    "new": "Nova resposta rápida",
+    "empty": "Nenhuma resposta rápida ainda. Crie uma para reutilizá-la nas conversas.",
+    "kindText": "Texto",
+    "kindInteractive": "Interativa",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "deleteConfirm": "Excluir esta resposta rápida?",
+    "errorEmptyTitle": "Dê um nome para a resposta rápida.",
+    "errorSaveFailed": "Não foi possível salvar a resposta rápida.",
+    "toastUpdated": "Resposta rápida atualizada.",
+    "toastCreated": "Resposta rápida criada.",
+    "errorDeleteFailed": "Não foi possível excluir a resposta rápida.",
+    "createTitle": "Nova resposta rápida",
+    "editTitle": "Editar resposta rápida",
+    "labelTitle": "Nome",
+    "placeholderTitle": "ex.: Horário de funcionamento",
+    "labelKind": "Tipo",
+    "placeholderText": "O texto da mensagem a ser inserido",
+    "cancel": "Cancelar",
+    "save": "Salvar"
   }
 }

@@ -3404,6 +3404,7 @@
       "appearance": "Appearance",
       "whatsapp": "WhatsApp",
       "templates": "Templates",
+      "quick-replies": "Quick replies",
       "fields": "Fields & tags",
       "deals": "Deals & currency",
       "members": "Team members",
@@ -3595,6 +3596,30 @@
       "reindex": "Reindex",
       "reindexTooltip": "Re-embed all documents (e.g. after adding an embeddings key)",
       "loading": "Loading…"
+    },
+    "quickReplies": {
+      "title": "Quick replies",
+      "description": "Reusable snippets — plain text or a saved interactive message — that agents can insert from the inbox composer.",
+      "new": "New quick reply",
+      "empty": "No quick replies yet. Create one to reuse it across conversations.",
+      "kindText": "Text",
+      "kindInteractive": "Interactive",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Delete this quick reply?",
+      "errorEmptyTitle": "Give the quick reply a name.",
+      "errorSaveFailed": "Couldn't save the quick reply.",
+      "toastUpdated": "Quick reply updated.",
+      "toastCreated": "Quick reply created.",
+      "errorDeleteFailed": "Couldn't delete the quick reply.",
+      "createTitle": "New quick reply",
+      "editTitle": "Edit quick reply",
+      "labelTitle": "Name",
+      "placeholderTitle": "e.g. Business hours",
+      "labelKind": "Kind",
+      "placeholderText": "The message text to insert",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   }
 }
