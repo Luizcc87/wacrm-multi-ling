@@ -76,7 +76,9 @@
     },
     "privacy": {
       "title": "Privacy Policy",
-      "controller": { "title": "1. Data Controller" },
+      "controller": {
+        "title": "1. Data Controller"
+      },
       "dataCollected": {
         "title": "2. Data We Collect",
         "intro": "We collect the following data in the context of our WhatsApp CRM platform:",
@@ -153,7 +155,9 @@
         "title": "10. Updates to this Policy",
         "body": "We may update this policy periodically. Significant changes will be communicated by email or in-app notification. The effective date at the top of this document reflects the most recent version."
       },
-      "contact": { "title": "11. Contact" }
+      "contact": {
+        "title": "11. Contact"
+      }
     },
     "terms": {
       "title": "Terms of Service",
@@ -161,7 +165,9 @@
         "title": "1. Acceptance",
         "body": "By accessing or using {companyName}, you agree to these Terms of Service. If you do not agree, do not use the service."
       },
-      "provider": { "title": "2. Service Provider" },
+      "provider": {
+        "title": "2. Service Provider"
+      },
       "service": {
         "title": "3. Description of Service",
         "body": "{companyName} is a SaaS CRM and communication platform built on the WhatsApp Business API (Meta), enabling:",
@@ -246,7 +252,9 @@
         "title": "11. Changes",
         "body": "We may update these Terms at any time. Users will be notified by email of material changes. Continued use after the effective date constitutes acceptance."
       },
-      "contact": { "title": "12. Contact" }
+      "contact": {
+        "title": "12. Contact"
+      }
     },
     "acceptableUse": {
       "title": "Acceptable Use Policy",
@@ -336,6 +344,7 @@
   "nav": {
     "dashboard": "Dashboard",
     "inbox": "Inbox",
+    "notifications": "Notifications",
     "contacts": "Contacts",
     "pipelines": "Pipelines",
     "broadcasts": "Broadcasts",
@@ -567,7 +576,7 @@
     "clearAll": "Clear all",
     "noConversationsFound": "No conversations found",
     "noMessages": "No messages yet",
-    "sendTemplate": "Send a template to start the conversation",
+    "sendTemplate": "Send template",
     "selectConversation": "Select a conversation",
     "selectConversationHint": "Choose a conversation from the left to start messaging",
     "backToConversations": "Back to conversations",
@@ -610,7 +619,6 @@
     "video": "Video",
     "document": "Document",
     "voiceNote": "Voice note",
-    "sendTemplate": "Send template",
     "draftWithAI": "Draft a reply with AI",
     "removeAttachment": "Remove attachment",
     "moreActions": "More",
@@ -874,13 +882,14 @@
   "broadcasts": {
     "title": "Broadcasts",
     "newBroadcast": "New broadcast",
-    "description": "Create and send a broadcast message to your contacts.",
+    "description": "Send bulk messages to your contacts using approved templates.",
     "retry": "Retry",
     "progressAria": "Broadcast in progress",
-    "description": "Send bulk messages to your contacts using approved templates.",
     "emptyTitle": "No broadcasts yet",
     "emptyDescription": "Create your first broadcast to reach your contacts at scale.",
-    "errors": { "loadFailed": "Failed to load broadcasts" },
+    "errors": {
+      "broadcastFailed": "Broadcast failed"
+    },
     "columns": {
       "name": "Name",
       "template": "Template",
@@ -906,9 +915,6 @@
       "noAccount": "Your profile is not linked to an account.",
       "saveFailed": "Failed to save draft: {error}",
       "saved": "Draft saved"
-    },
-    "errors": {
-      "broadcastFailed": "Broadcast failed"
     },
     "filters": {
       "all": "All",
@@ -1019,11 +1025,34 @@
     "emptyDescription": "Pick a template above or create one from scratch.",
     "cancel": "Cancel",
     "delete": "Delete",
-    "errors": { "loadFailed": "Failed to load automations", "updateFailed": "Failed to update", "duplicateFailed": "Failed to duplicate", "deleteFailed": "Failed to delete" },
-    "toasts": { "activated": "Automation activated", "paused": "Automation paused", "duplicated": "Automation duplicated", "deleted": "Automation deleted" },
-    "aria": { "activate": "Activate", "deactivate": "Deactivate", "openMenu": "Open menu" },
-    "menu": { "edit": "Edit", "duplicate": "Duplicate", "viewLogs": "View Logs", "delete": "Delete" },
-    "deleteDialog": { "title": "Delete automation", "descriptionPrefix": "This permanently removes", "descriptionSuffix": "and its execution history. This cannot be undone." },
+    "errors": {
+      "loadFailed": "Failed to load automations",
+      "updateFailed": "Failed to update",
+      "duplicateFailed": "Failed to duplicate",
+      "deleteFailed": "Failed to delete"
+    },
+    "toasts": {
+      "activated": "Automation activated",
+      "paused": "Automation paused",
+      "duplicated": "Automation duplicated",
+      "deleted": "Automation deleted"
+    },
+    "aria": {
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "openMenu": "Open menu"
+    },
+    "menu": {
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "viewLogs": "View Logs",
+      "delete": "Delete"
+    },
+    "deleteDialog": {
+      "title": "Delete automation",
+      "descriptionPrefix": "This permanently removes",
+      "descriptionSuffix": "and its execution history. This cannot be undone."
+    },
     "builder": {
       "trigger": "Trigger",
       "triggerType": "Trigger type",
@@ -2262,9 +2291,9 @@
         "notes": "Notes",
         "custom": "Custom Fields",
         "deals": "Deals",
-      "noTags": "No tags",
-      "noDeals": "No deals",
-      "addNotePlaceholder": "Add a note..."
+        "noTags": "No tags",
+        "noDeals": "No deals",
+        "addNotePlaceholder": "Add a note..."
       },
       "actions": {
         "edit": "Edit",
@@ -3234,13 +3263,11 @@
       "deleteLocallyAria": "Delete template locally",
       "deleteMetaLocallyTitle": "Delete from Meta and locally",
       "deleteLocallyTitle": "Delete locally",
-      
       "dialogEditTitle": "Edit Message Template",
       "dialogNewTitle": "New Message Template",
       "dialogEditDesc": "Save your changes to re-submit to Meta. Status will flip back to PENDING during review.",
       "dialogNewDesc": "Build a template and submit it to Meta for approval. Once approved, you can use it in broadcasts and the inbox.",
       "authWarning": "AUTHENTICATION templates have a fixed body + OTP button shape that needs a different builder. Create them in Meta WhatsApp Manager for now and use <bold>Sync from Meta</bold> to bring them in.",
-      
       "templateName": "Template Name",
       "namePlaceholder": "e.g. order_confirmation",
       "nameFixed": "Name is fixed once a template exists on Meta — create a new template to change it.",
@@ -3249,7 +3276,6 @@
       "language": "Language",
       "langFixed": "Language is fixed once a template exists on Meta.",
       "langHint": "Must match the exact code on Meta — <code>en_US</code> and <code>en</code> are distinct.",
-      
       "header": "Header",
       "headerNone": "None",
       "headerText": "Text",
@@ -3259,7 +3285,6 @@
       "headerTextPlaceholder": "Header text (max 60 chars, optional {{1}})",
       "headerSampleAria": "Sample value for header variable",
       "headerSamplePlaceholder": "Sample value for {{1}} (required for Meta review)",
-      
       "uploadImage": "Upload image",
       "uploadHint": "JPEG or PNG, ≤5 MB",
       "mediaUrlPlaceholder": "https://… (or paste a public {format} link)",
@@ -3267,17 +3292,14 @@
       "mediaHint": "Must be a publicly accessible HTTPS link. Meta fetches it once during review, so it needs to stay live for ~24 hrs.",
       "videoHint": " Recommended: MP4 / 3GPP, ≤16 MB, ≤60 seconds.",
       "documentHint": " Recommended: PDF, ≤100 MB.",
-      
       "bodyText": "Body Text",
       "bodyPlaceholder": "Hello {{1}}, your order {{2}} is confirmed.",
       "bodyHint": "Use {{1}}, {{2}} for variables (must be contiguous starting at {{1}}).",
       "sampleValues": "Sample values (Meta uses these to review your template)",
       "sampleAria": "Sample value for body variable {var}",
       "samplePlaceholder": "Sample for {var}",
-      
       "footer": "Footer (optional)",
       "footerPlaceholder": "Optional footer text (max 60 chars)",
-      
       "buttons": "Buttons (optional)",
       "addButton": "Add Button",
       "buttonsLimit": "Up to {max} buttons. QUICK_REPLY buttons must come before URL / phone / copy-code buttons.",
@@ -3290,19 +3312,16 @@
       "urlSamplePlaceholder": "Example value for {{1}} (required when URL has a variable)",
       "phonePlaceholder": "+15551234567",
       "codePlaceholder": "Example code (e.g. SUMMER20)",
-      
       "cancel": "Cancel",
       "saving": "Saving…",
       "submitting": "Submitting…",
       "saveResubmit": "Save & Resubmit",
       "submitApproval": "Submit for Approval",
-      
       "deleteDialogTitle": "Delete template?",
       "deleteMetaDesc": "\"{name}\" will be deleted from Meta and from wacrm. Active broadcasts using this template will start failing on their next send. This can't be undone.",
       "deleteLocalDesc": "\"{name}\" will be deleted from wacrm. It was never submitted to Meta, so no remote cleanup is needed.",
       "deleting": "Deleting…",
       "delete": "Delete",
-      
       "toastLoadFailed": "Failed to load templates",
       "toastSubmitFailed": "Failed to submit",
       "toastSubmitEditSuccess": "Edit submitted — Meta typically reviews within 24 hours.",
@@ -3399,16 +3418,15 @@
     },
     "sections": {
       "overview": "Overview",
-      "profile": "Your profile",
-      "security": "Login & security",
-      "appearance": "Appearance",
+      "profile": "Your Profile",
+      "members": "Team Members",
+      "templates": "Message Templates",
       "whatsapp": "WhatsApp",
-      "templates": "Templates",
-      "quick-replies": "Quick replies",
-      "fields": "Fields & tags",
-      "deals": "Deals & currency",
-      "members": "Team members",
-      "api": "API keys"
+      "tags": "Fields & Tags",
+      "deals": "Deals & Currency",
+      "api": "API Keys",
+      "appearance": "Appearance",
+      "account": "My Account"
     },
     "groups": {
       "account": "Account",
@@ -3442,7 +3460,6 @@
       "profileSaved": "Profile saved",
       "emailChangeFailed": "Email change failed: {message}",
       "profileSavedEmailCheck": "Profile saved — check your email to confirm the address change",
-      
       "passwordTitle": "Password",
       "passwordDesc": "Use at least {min} characters. You will stay signed in on this device after changing it.",
       "currentPassword": "Current password",
@@ -3456,7 +3473,6 @@
       "currentPasswordIncorrect": "Current password is incorrect",
       "passwordUpdateFailed": "Password update failed: {message}",
       "passwordUpdated": "Password updated",
-      
       "sessionsTitle": "Active sessions",
       "sessionsDesc": "Sign out of every device where you're logged in — including this one. Useful if you lost a laptop or shared your password.",
       "signOutAll": "Sign out of all devices",
@@ -3621,5 +3637,11 @@
       "cancel": "Cancel",
       "save": "Save"
     }
+  },
+  "roles": {
+    "owner": "Propietario",
+    "admin": "Administrador",
+    "agent": "Agente",
+    "viewer": "Espectador"
   }
 }

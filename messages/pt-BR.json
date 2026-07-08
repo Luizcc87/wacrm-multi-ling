@@ -76,7 +76,9 @@
     },
     "privacy": {
       "title": "Política de Privacidade",
-      "controller": { "title": "1. Controlador de Dados" },
+      "controller": {
+        "title": "1. Controlador de Dados"
+      },
       "dataCollected": {
         "title": "2. Dados que Coletamos",
         "intro": "Coletamos os seguintes dados no contexto da nossa plataforma de CRM para WhatsApp:",
@@ -153,7 +155,9 @@
         "title": "10. Atualizações desta Política",
         "body": "Podemos atualizar esta política periodicamente. Alterações significativas serão comunicadas por e-mail ou notificação no aplicativo. A data de vigência no início reflete a versão mais recente."
       },
-      "contact": { "title": "11. Contato" }
+      "contact": {
+        "title": "11. Contato"
+      }
     },
     "terms": {
       "title": "Termos de Uso",
@@ -161,7 +165,9 @@
         "title": "1. Aceitação",
         "body": "Ao acessar ou usar {companyName}, você concorda com estes Termos de Uso. Se não concordar, não use o serviço."
       },
-      "provider": { "title": "2. Prestador do Serviço" },
+      "provider": {
+        "title": "2. Prestador do Serviço"
+      },
       "service": {
         "title": "3. Descrição do Serviço",
         "body": "{companyName} é uma plataforma SaaS de CRM e comunicação baseada na WhatsApp Business API (Meta), permitindo:",
@@ -246,7 +252,9 @@
         "title": "11. Alterações",
         "body": "Podemos atualizar estes Termos a qualquer momento. Usuários serão notificados por e-mail sobre alterações materiais. O uso contínuo após a data de vigência constitui aceitação."
       },
-      "contact": { "title": "12. Contato" }
+      "contact": {
+        "title": "12. Contato"
+      }
     },
     "acceptableUse": {
       "title": "Política de Uso Aceitável",
@@ -336,6 +344,7 @@
   "nav": {
     "dashboard": "Painel",
     "inbox": "Caixa de entrada",
+    "notifications": "Notificações",
     "contacts": "Contatos",
     "pipelines": "Funis",
     "broadcasts": "Transmissões",
@@ -368,6 +377,7 @@
       }
     },
     "setup": {
+      "loadFailed": "Falha ao carregar a configuração de IA",
       "title": "Configuração do agente",
       "description": "Traga sua própria chave da OpenAI ou Anthropic. O wacrm chama o provedor diretamente com a sua chave. Isso alimenta respostas em rascunho no inbox, o bot de auto-resposta e o playground.",
       "readOnly": "Somente administradores e proprietários podem alterar a configuração de IA.",
@@ -567,7 +577,7 @@
     "clearAll": "Limpar todos",
     "noConversationsFound": "Nenhuma conversa encontrada",
     "noMessages": "Nenhuma mensagem ainda",
-    "sendTemplate": "Envie um template para iniciar a conversa",
+    "sendTemplate": "Enviar template",
     "selectConversation": "Selecione uma conversa",
     "selectConversationHint": "Escolha uma conversa à esquerda para começar a conversar",
     "backToConversations": "Voltar às conversas",
@@ -610,7 +620,6 @@
     "video": "Vídeo",
     "document": "Documento",
     "voiceNote": "Mensagem de voz",
-    "sendTemplate": "Enviar template",
     "draftWithAI": "Rascunhar com IA",
     "removeAttachment": "Remover anexo",
     "moreActions": "Mais ações",
@@ -874,13 +883,14 @@
   "broadcasts": {
     "title": "Transmissões",
     "newBroadcast": "Nova transmissão",
-    "description": "Crie e envie uma transmissão para seus contatos.",
+    "description": "Envie mensagens em massa para seus contatos usando templates aprovados.",
     "retry": "Tentar novamente",
     "progressAria": "Transmissão em andamento",
-    "description": "Envie mensagens em massa para seus contatos usando templates aprovados.",
     "emptyTitle": "Nenhuma transmissão ainda",
     "emptyDescription": "Crie sua primeira transmissão para alcançar seus contatos em escala.",
-    "errors": { "loadFailed": "Falha ao carregar transmissões" },
+    "errors": {
+      "broadcastFailed": "Falha na transmissão"
+    },
     "columns": {
       "name": "Nome",
       "template": "Template",
@@ -906,9 +916,6 @@
       "noAccount": "Seu perfil não está vinculado a uma conta.",
       "saveFailed": "Falha ao salvar o rascunho: {error}",
       "saved": "Rascunho salvo"
-    },
-    "errors": {
-      "broadcastFailed": "Falha na transmissão"
     },
     "filters": {
       "all": "Todos",
@@ -1019,11 +1026,34 @@
     "emptyDescription": "Escolha um modelo acima ou crie do zero.",
     "cancel": "Cancelar",
     "delete": "Excluir",
-    "errors": { "loadFailed": "Falha ao carregar automações", "updateFailed": "Falha ao atualizar", "duplicateFailed": "Falha ao duplicar", "deleteFailed": "Falha ao excluir" },
-    "toasts": { "activated": "Automação ativada", "paused": "Automação pausada", "duplicated": "Automação duplicada", "deleted": "Automação excluída" },
-    "aria": { "activate": "Ativar", "deactivate": "Desativar", "openMenu": "Abrir menu" },
-    "menu": { "edit": "Editar", "duplicate": "Duplicar", "viewLogs": "Ver logs", "delete": "Excluir" },
-    "deleteDialog": { "title": "Excluir automação", "descriptionPrefix": "Isso removerá permanentemente", "descriptionSuffix": "e seu histórico de execução. Isso não pode ser desfeito." },
+    "errors": {
+      "loadFailed": "Falha ao carregar automações",
+      "updateFailed": "Falha ao atualizar",
+      "duplicateFailed": "Falha ao duplicar",
+      "deleteFailed": "Falha ao excluir"
+    },
+    "toasts": {
+      "activated": "Automação ativada",
+      "paused": "Automação pausada",
+      "duplicated": "Automação duplicada",
+      "deleted": "Automação excluída"
+    },
+    "aria": {
+      "activate": "Ativar",
+      "deactivate": "Desativar",
+      "openMenu": "Abrir menu"
+    },
+    "menu": {
+      "edit": "Editar",
+      "duplicate": "Duplicar",
+      "viewLogs": "Ver logs",
+      "delete": "Excluir"
+    },
+    "deleteDialog": {
+      "title": "Excluir automação",
+      "descriptionPrefix": "Isso removerá permanentemente",
+      "descriptionSuffix": "e seu histórico de execução. Isso não pode ser desfeito."
+    },
     "builder": {
       "trigger": "Gatilho",
       "triggerType": "Tipo de gatilho",
@@ -1861,6 +1891,8 @@
       "profile": "Perfil",
       "settings": "Configurações",
       "signOut": "Sair",
+      "unreadConversations": "{count} conversas não lidas",
+      "unreadNotifications": "{count} notificações não lidas",
       "roles": {
         "owner": "Proprietário",
         "admin": "Administrador",
@@ -1958,5 +1990,272 @@
     "placeholderText": "O texto da mensagem a ser inserido",
     "cancel": "Cancelar",
     "save": "Salvar"
+  },
+  "ModeToggle": {
+    "switchMode": "Alternar para modo {mode}"
+  },
+  "Dashboard": {
+    "emptyState": {
+      "title": "Dados insuficientes ainda"
+    }
+  },
+  "Flows": {
+    "list": {
+      "title": "Fluxos",
+      "beta": "Beta",
+      "description": "Crie conversas no WhatsApp ramificadas e orientadas a botões. Útil para menus, FAQs e triagem antes da intervenção humana.",
+      "newFlow": "Novo fluxo",
+      "statusDraft": "Rascunho",
+      "statusActive": "Ativo",
+      "statusArchived": "Arquivado",
+      "loadError": "Não foi possível carregar os fluxos.",
+      "createError": "Não foi possível criar o fluxo.",
+      "cloneError": "Falha ao clonar",
+      "deleteConfirm": "Excluir \"{name}\"? Qualquer execução ativa será encerrada imediatamente.",
+      "deleteSuccess": "Fluxo excluído.",
+      "deleteError": "Não foi possível excluir o fluxo.",
+      "emptyTitle": "Nenhum fluxo ainda",
+      "emptyDesc": "Crie sua primeira conversa — um menu de boas-vindas, busca de pedidos, robô de FAQ. Os clientes tocam nos botões e o robô os direciona para a resposta certa (ou o agente correto).",
+      "createFirst": "Criar seu primeiro fluxo",
+      "createTitle": "Criar um novo fluxo",
+      "createDesc": "Comece a partir de um template ou crie do zero.",
+      "startTemplate": "Começar a partir de um template",
+      "nodeCount": "{count} {count, plural, =1 {nó} other {nós}}",
+      "startBlank": "Ou comece em branco",
+      "placeholderName": "ex.: Menu de boas-vindas",
+      "cancel": "Cancelar",
+      "createBlank": "Criar fluxo em branco",
+      "runCount": "{count} {count, plural, =1 {execução} other {execuções}}",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "triggerKeywordNone": "Dispara por palavra-chave (nenhuma definida)",
+      "triggerKeyword": "Dispara ao conter: {keywords}",
+      "triggerFirstInbound": "Dispara na primeira mensagem recebida de um contato",
+      "triggerManual": "Disparo manual"
+    },
+    "edit": {
+      "notFound": "Fluxo não encontrado.",
+      "backToFlows": "← Voltar para fluxos",
+      "loadError": "Não foi possível carregar o fluxo."
+    },
+    "logs": {
+      "title": "Execuções",
+      "description": "As 50 execuções mais recentes deste fluxo. Expanda uma linha para ver o registro de passos do motor.",
+      "emptyState": "Nenhuma execução ainda. Dispare o fluxo a partir de um número pessoal do WhatsApp para vê-lo aparecer aqui.",
+      "loadError": "Não foi possível carregar as execuções.",
+      "unknownContact": "Contato desconhecido",
+      "atNode": "no nó {node}",
+      "started": "Iniciado {time}",
+      "reprompts": "{count} novas tentativas",
+      "ranFor": "executado por {duration}",
+      "capturedVars": "Variáveis capturadas ({count})",
+      "noEvents": "Nenhum evento registrado para esta execução.",
+      "statusActive": "Ativo",
+      "statusCompleted": "Concluído",
+      "statusHandedOff": "Encaminhado para humano",
+      "statusTimedOut": "Tempo limite esgotado",
+      "statusPaused": "Pausado pelo agente",
+      "statusFailed": "Falhou"
+    },
+    "builder": {
+      "triggerTitle": "Gatilho de entrada",
+      "whenLabel": "Quando…",
+      "triggerKeywordTitle": "Uma mensagem contiver palavra-chave",
+      "triggerFirstInboundTitle": "Primeira mensagem de entrada do cliente",
+      "triggerManualTitle": "Apenas manual (sem gatilho automático)",
+      "keywordsLabel": "Palavras-chave (separadas por vírgula)",
+      "keywordsPlaceholder": "suporte, ajuda, ola",
+      "entryNodeTitle": "Nó de entrada:",
+      "entryNodePlaceholder": "Escolha o primeiro nó…",
+      "nodesTitle": "Nós ({count})",
+      "nodesEmpty": "Adicione um nó de <strong>Início</strong>, depois um nó de <strong>Enviar botões</strong>, depois um de <strong>Encaminhar</strong> — esse é o formato padrão do fluxo de boas-vindas.",
+      "addNode": "Adicionar nó",
+      "setAsEntry": "Definir como entrada",
+      "removeNode": "Remover nó",
+      "showAdvanced": "Mostrar avançado",
+      "hideAdvanced": "Ocultar avançado",
+      "nodeKeyLabel": "Chave do nó (identificador interno — mantenha estável para análises)",
+      "replyIdsHint": "Os IDs de resposta para cada opção são exibidos inline acima. Eles são retornados pelo WhatsApp quando um cliente toca; normalmente você não precisa alterá-los.",
+      "badgeEntry": "Entrada",
+      "noNodesYet": "Nenhum nó ainda.",
+      "deleteNode": "Excluir nó",
+      "canvasView": "Visualização em Tela",
+      "listView": "Lista",
+      "noNodeSelected": "Nenhum nó selecionado",
+      "noNodeDesc": "Selecione um nó na tela para editar suas configurações.",
+      "form": {
+        "advancesTo": "Avança para",
+        "textToCustomer": "Texto enviado ao cliente",
+        "promptToCustomer": "Pergunta enviada ao cliente",
+        "varKeyLabel": "Chave da variável (salva em flow_runs.vars; alfanumérica + sublinhado)",
+        "varKeyPlaceholder": "ex.: nome, email, empresa",
+        "varKeyHelp": "Interpole em perguntas futuras e notas de encaminhamento com",
+        "advanceAfterCapture": "Após capturar, avança para",
+        "internalNote": "Nota interna (para o agente que assumir o atendimento)",
+        "endNodeHelp": "Nó terminal. Quando a execução alcança este nó, o fluxo é marcado como concluído. Sem necessidade de configurações adicionais.",
+        "bodyText": "Texto do corpo",
+        "footerText": "Rodapé (opcional, máx. 60 caracteres)",
+        "buttonsHelp": "Botões (1–3) — cada um direciona para um próximo nó diferente",
+        "optionTitlePlaceholder": "Título visível (≤20 chars)",
+        "nextNodePlaceholder": "Próximo nó…",
+        "addButton": "Adicionar botão",
+        "buttonLabel": "Rótulo do botão para expandir (≤20 chars)",
+        "rowsHelp": "Linhas (1–10 no total em todas as seções)",
+        "sectionTitlePlaceholder": "Título da seção {count} (opcional)",
+        "rowTitlePlaceholder": "Título da linha (≤24)",
+        "addRow": "Adicionar linha",
+        "addSection": "Adicionar seção",
+        "ifLabel": "Se",
+        "capturedVariable": "Variável capturada",
+        "contactHasTag": "Contato possui tag",
+        "contactField": "Campo do contato",
+        "varName": "nome da variável",
+        "tagLabel": "Tag",
+        "fieldLabel": "Campo",
+        "pickTag": "Escolha uma tag…",
+        "pickField": "Escolha um campo…",
+        "operatorLabel": "Operador",
+        "isPresent": "está presente",
+        "isAbsent": "está ausente",
+        "equals": "é igual a",
+        "contains": "contém",
+        "valueLabel": "Valor",
+        "ifTrueAdvance": "Se verdadeiro → avançar para",
+        "ifFalseAdvance": "Se falso → avançar para",
+        "actionLabel": "Ação",
+        "addTag": "Adicionar tag",
+        "removeTag": "Remover tag",
+        "tagUuidPlaceholder": "UUID da Tag",
+        "thenAdvanceTo": "Depois avançar para",
+        "mediaTypeLabel": "Tipo de mídia",
+        "imageLabel": "Imagem (PNG, JPEG, WebP)",
+        "videoLabel": "Vídeo (MP4, 3GP)",
+        "documentLabel": "Documento (PDF, Word, Excel, PowerPoint, TXT)",
+        "fileLabel": "Arquivo",
+        "removeFile": "Remover arquivo",
+        "uploading": "Enviando…",
+        "clickToUpload": "Clique para enviar (máx. 16 MB)",
+        "captionLabel": "Legenda (opcional, exibida abaixo da mídia)",
+        "filenameLabel": "Nome do arquivo exibido para o cliente (apenas documentos)",
+        "filenamePlaceholder": "fatura.pdf",
+        "advanceAfterSending": "Após enviar, avançar para",
+        "pickNextNode": "Escolha o próximo nó…",
+        "none": "— Nenhum —"
+      },
+      "categories": {
+        "messaging": "Mensagens",
+        "logic": "Lógica & dados",
+        "flow": "Controle de fluxo"
+      },
+      "nodes": {
+        "start": {
+          "label": "Início",
+          "blurb": "Ponto de entrada do fluxo"
+        },
+        "send_message": {
+          "label": "Enviar mensagem",
+          "blurb": "Envia uma mensagem de texto no WhatsApp"
+        },
+        "send_buttons": {
+          "label": "Enviar botões",
+          "blurb": "Envia botões de resposta rápida"
+        },
+        "send_list": {
+          "label": "Enviar lista",
+          "blurb": "Envia uma lista interativa de opções"
+        },
+        "send_media": {
+          "label": "Enviar mídia",
+          "blurb": "Envia uma imagem, vídeo ou documento"
+        },
+        "collect_input": {
+          "label": "Coletar entrada",
+          "blurb": "Faz uma pergunta e salva a resposta"
+        },
+        "condition": {
+          "label": "Se / senão",
+          "blurb": "Desvia baseado em uma regra"
+        },
+        "set_tag": {
+          "label": "Tag no contato",
+          "blurb": "Adiciona ou remove uma tag de contato"
+        },
+        "handoff": {
+          "label": "Encaminhar para agente",
+          "blurb": "Encaminha a conversa para um atendente humano"
+        },
+        "end": {
+          "label": "Fim",
+          "blurb": "Finaliza o fluxo"
+        }
+      }
+    },
+    "validation": {
+      "noIssues": "Nenhum problema encontrado. Pronto para ativar.",
+      "summary": "{errorCount} {errorCount, plural, =1 {erro} other {erros}}, {warningCount} {warningCount, plural, =1 {aviso} other {avisos}}",
+      "jumpToNode": "Ir para o nó {key}"
+    },
+    "editorState": {
+      "saved": "Salvo.",
+      "fixIssues": "Corrija os problemas abaixo antes de ativar.",
+      "statusActivated": "Fluxo ativado.",
+      "statusArchived": "Arquivado.",
+      "statusDraft": "Salvo como rascunho."
+    },
+    "summary": {
+      "options": "{count} {count, plural, =1 {opção} other {opções}}",
+      "optionsAcrossSections": "{rowCount} {rowCount, plural, =1 {opção} other {opções}} em {sectionCount} {sectionCount, plural, =1 {seção} other {seções}}",
+      "noFile": "{label} (nenhum arquivo enviado)",
+      "media": "Mídia",
+      "image": "Imagem",
+      "video": "Vídeo",
+      "document": "Documento",
+      "audio": "Áudio",
+      "hasTag": "possui tag {tag}",
+      "opContains": "contém",
+      "opExists": "existe",
+      "opMissing": "ausente",
+      "modeAdd": "Adicionar",
+      "modeRemove": "Remover",
+      "tagPicked": "{mode} tag {tag}…",
+      "tagNone": "{mode} tag (nenhuma escolhida)"
+    }
+  },
+  "Settings": {
+    "overview": {
+      "notSetup": "Ainda não configurado",
+      "connected": "Conectado",
+      "needsReconnecting": "Requer reconexão",
+      "viewTeamMembers": "Ver membros da equipe",
+      "membersCount": "{count} {count, plural, =1 {membro} other {membros}}",
+      "pendingInvites": "{count} {count, plural, =1 {convite pendente} other {convites pendentes}}",
+      "manageTemplates": "Gerenciar templates de mensagens",
+      "templatesCount": "{count} {count, plural, =1 {template} other {templates}}",
+      "pendingReview": "{count} pendente de revisão",
+      "tagsAndFields": "Tags e campos personalizados",
+      "tagsCount": "{count} {count, plural, =1 {tag} other {tags}}",
+      "fieldsCount": "{count} {count, plural, =1 {campo personalizado} other {campos personalizados}}",
+      "appearance": "Modo {mode} · Destaque {theme}",
+      "yourAccount": "Sua conta",
+      "loading": "Carregando…"
+    },
+    "sections": {
+      "overview": "Visão Geral",
+      "profile": "Seu Perfil",
+      "members": "Membros da Equipe",
+      "templates": "Templates de Mensagem",
+      "whatsapp": "WhatsApp",
+      "tags": "Tags & Campos",
+      "deals": "Negócios & Moeda",
+      "api": "Chaves de API",
+      "appearance": "Aparência",
+      "account": "Minha Conta"
+    }
+  },
+  "roles": {
+    "owner": "Proprietário",
+    "admin": "Administrador",
+    "agent": "Agente",
+    "viewer": "Visualizador"
   }
 }

@@ -76,7 +76,9 @@
     },
     "privacy": {
       "title": "Política de Privacidad",
-      "controller": { "title": "1. Controlador de Datos" },
+      "controller": {
+        "title": "1. Controlador de Datos"
+      },
       "dataCollected": {
         "title": "2. Datos que Recopilamos",
         "intro": "Recopilamos los siguientes datos en el contexto de nuestra plataforma CRM para WhatsApp:",
@@ -153,7 +155,9 @@
         "title": "10. Actualizaciones de esta Política",
         "body": "Podemos actualizar esta política periódicamente. Los cambios significativos se comunicarán por correo electrónico o notificación dentro de la aplicación. La fecha de vigencia al inicio refleja la versión más reciente."
       },
-      "contact": { "title": "11. Contacto" }
+      "contact": {
+        "title": "11. Contacto"
+      }
     },
     "terms": {
       "title": "Términos de Servicio",
@@ -161,7 +165,9 @@
         "title": "1. Aceptación",
         "body": "Al acceder o usar {companyName}, usted acepta estos Términos de Servicio. Si no está de acuerdo, no use el servicio."
       },
-      "provider": { "title": "2. Proveedor del Servicio" },
+      "provider": {
+        "title": "2. Proveedor del Servicio"
+      },
       "service": {
         "title": "3. Descripción del Servicio",
         "body": "{companyName} es una plataforma SaaS de CRM y comunicación basada en WhatsApp Business API (Meta), que permite:",
@@ -246,7 +252,9 @@
         "title": "11. Cambios",
         "body": "Podemos actualizar estos Términos en cualquier momento. Los usuarios serán notificados por correo electrónico sobre cambios materiales. El uso continuado después de la fecha de vigencia constituye aceptación."
       },
-      "contact": { "title": "12. Contacto" }
+      "contact": {
+        "title": "12. Contacto"
+      }
     },
     "acceptableUse": {
       "title": "Política de Uso Aceptable",
@@ -336,6 +344,7 @@
   "nav": {
     "dashboard": "Panel",
     "inbox": "Bandeja de entrada",
+    "notifications": "Notificaciones",
     "contacts": "Contactos",
     "pipelines": "Embudos",
     "broadcasts": "Transmisiones",
@@ -368,6 +377,7 @@
       }
     },
     "setup": {
+      "loadFailed": "Error al cargar la configuración de IA",
       "title": "Configuración del agente",
       "description": "Trae tu propia clave de OpenAI o Anthropic. wacrm llama al proveedor directamente con tu clave - sin costos por asiento de IA, y tus datos siguen siendo tuyos. Esto impulsa los borradores de IA en la bandeja de entrada, el bot de respuesta automática y el playground.",
       "readOnly": "Solo administradores y propietarios pueden cambiar la configuración de IA.",
@@ -567,7 +577,7 @@
     "clearAll": "Limpiar todo",
     "noConversationsFound": "No se encontraron conversaciones",
     "noMessages": "Sin mensajes aún",
-    "sendTemplate": "Envía una plantilla para iniciar la conversación",
+    "sendTemplate": "Enviar plantilla",
     "selectConversation": "Selecciona una conversación",
     "selectConversationHint": "Elige una conversación a la izquierda para comenzar a mensajear",
     "backToConversations": "Volver a conversaciones",
@@ -610,7 +620,6 @@
     "video": "Video",
     "document": "Documento",
     "voiceNote": "Mensaje de voz",
-    "sendTemplate": "Enviar plantilla",
     "draftWithAI": "Borrador con IA",
     "removeAttachment": "Eliminar adjunto",
     "moreActions": "Más acciones",
@@ -874,13 +883,14 @@
   "broadcasts": {
     "title": "Transmisiones",
     "newBroadcast": "Nueva transmisión",
-    "description": "Crea y envía un mensaje de transmisión a tus contactos.",
+    "description": "Envía mensajes masivos a tus contactos usando plantillas aprobadas.",
     "retry": "Reintentar",
     "progressAria": "Transmisión en curso",
-    "description": "Envía mensajes masivos a tus contactos usando plantillas aprobadas.",
     "emptyTitle": "Todavía no hay transmisiones",
     "emptyDescription": "Crea tu primera transmisión para llegar a tus contactos a escala.",
-    "errors": { "loadFailed": "Error al cargar transmisiones" },
+    "errors": {
+      "broadcastFailed": "Error de transmisión"
+    },
     "columns": {
       "name": "Nombre",
       "template": "Plantilla",
@@ -906,9 +916,6 @@
       "noAccount": "Tu perfil no está vinculado a una cuenta.",
       "saveFailed": "Error al guardar el borrador: {error}",
       "saved": "Borrador guardado"
-    },
-    "errors": {
-      "broadcastFailed": "Error de transmisión"
     },
     "filters": {
       "all": "Todos",
@@ -1019,11 +1026,34 @@
     "emptyDescription": "Elige una plantilla arriba o crea una desde cero.",
     "cancel": "Cancelar",
     "delete": "Eliminar",
-    "errors": { "loadFailed": "Error al cargar automatizaciones", "updateFailed": "Error al actualizar", "duplicateFailed": "Error al duplicar", "deleteFailed": "Error al eliminar" },
-    "toasts": { "activated": "Automatización activada", "paused": "Automatización pausada", "duplicated": "Automatización duplicada", "deleted": "Automatización eliminada" },
-    "aria": { "activate": "Activar", "deactivate": "Desactivar", "openMenu": "Abrir menú" },
-    "menu": { "edit": "Editar", "duplicate": "Duplicar", "viewLogs": "Ver registros", "delete": "Eliminar" },
-    "deleteDialog": { "title": "Eliminar automatización", "descriptionPrefix": "Esto eliminará permanentemente", "descriptionSuffix": "y su historial de ejecución. No se puede deshacer." },
+    "errors": {
+      "loadFailed": "Error al cargar automatizaciones",
+      "updateFailed": "Error al actualizar",
+      "duplicateFailed": "Error al duplicar",
+      "deleteFailed": "Error al eliminar"
+    },
+    "toasts": {
+      "activated": "Automatización activada",
+      "paused": "Automatización pausada",
+      "duplicated": "Automatización duplicada",
+      "deleted": "Automatización eliminada"
+    },
+    "aria": {
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "openMenu": "Abrir menú"
+    },
+    "menu": {
+      "edit": "Editar",
+      "duplicate": "Duplicar",
+      "viewLogs": "Ver registros",
+      "delete": "Eliminar"
+    },
+    "deleteDialog": {
+      "title": "Eliminar automatización",
+      "descriptionPrefix": "Esto eliminará permanentemente",
+      "descriptionSuffix": "y su historial de ejecución. No se puede deshacer."
+    },
     "builder": {
       "trigger": "Disparador",
       "triggerType": "Tipo de disparador",
@@ -1861,6 +1891,8 @@
       "profile": "Perfil",
       "settings": "Configuración",
       "signOut": "Cerrar sesión",
+      "unreadConversations": "{count} conversaciones no leídas",
+      "unreadNotifications": "{count} notificaciones no leídas",
       "roles": {
         "owner": "Propietario",
         "admin": "Administrador",
@@ -1958,5 +1990,272 @@
     "placeholderText": "El texto del mensaje a insertar",
     "cancel": "Cancelar",
     "save": "Guardar"
+  },
+  "ModeToggle": {
+    "switchMode": "Cambiar a modo {mode}"
+  },
+  "Dashboard": {
+    "emptyState": {
+      "title": "Datos insuficientes aún"
+    }
+  },
+  "Flows": {
+    "list": {
+      "title": "Flujos",
+      "beta": "Beta",
+      "description": "Cree conversaciones de WhatsApp ramificadas e impulsadas por botones. Útil para menús, preguntas frecuentes y triaje antes de que intervenga un agente humano.",
+      "newFlow": "Nuevo flujo",
+      "statusDraft": "Borrador",
+      "statusActive": "Activo",
+      "statusArchived": "Archivado",
+      "loadError": "No se pudieron cargar los flujos.",
+      "createError": "No se pudo crear el flujo.",
+      "cloneError": "Fallo al clonar",
+      "deleteConfirm": "¿Eliminar \"{name}\"? Cualquier ejecución activa finalizará de inmediato.",
+      "deleteSuccess": "Flujo eliminado.",
+      "deleteError": "No se pudo eliminar el flujo.",
+      "emptyTitle": "No hay flujos todavía",
+      "emptyDesc": "Cree su primera conversación — un menú de bienvenida, consulta de pedidos, robot de preguntas frecuentes. Los clientes tocan los botones; el robot los dirige a la respuesta correcta (o al agente adecuado).",
+      "createFirst": "Crear su primer flujo",
+      "createTitle": "Crear un nuevo flujo",
+      "createDesc": "Comience desde una plantilla o cree desde cero.",
+      "startTemplate": "Comenzar desde una plantilla",
+      "nodeCount": "{count} {count, plural, =1 {nodo} other {nodos}}",
+      "startBlank": "O comenzar en blanco",
+      "placeholderName": "ej.: Menú de bienvenida",
+      "cancel": "Cancelar",
+      "createBlank": "Crear flujo en blanco",
+      "runCount": "{count} {count, plural, =1 {ejecución} other {ejecuciones}}",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "triggerKeywordNone": "Se activa por palabra clave (ninguna establecida)",
+      "triggerKeyword": "Se activa al contener: {keywords}",
+      "triggerFirstInbound": "Se activa con el primer mensaje entrante del contacto",
+      "triggerManual": "Activador manual"
+    },
+    "edit": {
+      "notFound": "Flujo no encontrado.",
+      "backToFlows": "← Volver a flujos",
+      "loadError": "No se pudo cargar el flujo."
+    },
+    "logs": {
+      "title": "Ejecuciones",
+      "description": "Las 50 ejecuciones más recientes de este flujo. Expanda una fila para ver el registro paso a paso del motor.",
+      "emptyState": "No hay ejecuciones todavía. Active el flujo desde un número de WhatsApp personal para verlo aparecer aquí.",
+      "loadError": "No se pudieron cargar las ejecuciones.",
+      "unknownContact": "Contacto desconocido",
+      "atNode": "en el nodo {node}",
+      "started": "Iniciado {time}",
+      "reprompts": "{count} reintentos",
+      "ranFor": "ejecutado durante {duration}",
+      "capturedVars": "Variables capturadas ({count})",
+      "noEvents": "No se registraron eventos para esta ejecución.",
+      "statusActive": "Activo",
+      "statusCompleted": "Completado",
+      "statusHandedOff": "Transferido a agente",
+      "statusTimedOut": "Tiempo de espera agotado",
+      "statusPaused": "Pausado por el agente",
+      "statusFailed": "Fallido"
+    },
+    "builder": {
+      "triggerTitle": "Activador",
+      "whenLabel": "Cuando…",
+      "triggerKeywordTitle": "Un mensaje contiene una palabra clave",
+      "triggerFirstInboundTitle": "Primer mensaje entrante del cliente",
+      "triggerManualTitle": "Solo manual (sin auto-activación)",
+      "keywordsLabel": "Palabras clave (separadas por comas)",
+      "keywordsPlaceholder": "soporte, ayuda, hola",
+      "entryNodeTitle": "Nodo de entrada:",
+      "entryNodePlaceholder": "Elija el primer nodo…",
+      "nodesTitle": "Nodos ({count})",
+      "nodesEmpty": "Agregue un nodo de <strong>Inicio</strong>, luego un nodo de <strong>Enviar botones</strong>, luego uno de <strong>Transferencia</strong> — ese es el flujo clásico de bienvenida.",
+      "addNode": "Agregar nodo",
+      "setAsEntry": "Establecer como entrada",
+      "removeNode": "Eliminar nodo",
+      "showAdvanced": "Mostrar avanzado",
+      "hideAdvanced": "Ocultar avanzado",
+      "nodeKeyLabel": "Clave del nodo (identificador interno — manténgalo estable para analíticas)",
+      "replyIdsHint": "Los IDs de respuesta para cada opción se muestran inline arriba. Son devueltos por WhatsApp cuando un cliente toca; normalmente no necesita tocarlos.",
+      "badgeEntry": "Entrada",
+      "noNodesYet": "No hay nodos todavía.",
+      "deleteNode": "Eliminar nodo",
+      "canvasView": "Lienzo",
+      "listView": "Lista",
+      "noNodeSelected": "Ningún nodo seleccionado",
+      "noNodeDesc": "Seleccione un nodo en el lienzo para editar su configuración.",
+      "form": {
+        "advancesTo": "Avanza a",
+        "textToCustomer": "Texto enviado al cliente",
+        "promptToCustomer": "Pregunta enviada al cliente",
+        "varKeyLabel": "Clave de la variable (guardada en flow_runs.vars; alfanumérica + guion bajo)",
+        "varKeyPlaceholder": "ej.: nombre, email, empresa",
+        "varKeyHelp": "Interpole en preguntas posteriores y notas de transferencia con",
+        "advanceAfterCapture": "Después de capturar, avanza a",
+        "internalNote": "Nota interna (para el agente que tome el caso)",
+        "endNodeHelp": "Nodo terminal. Cuando se llega a este nodo, la ejecución se marca como completada. No requiere configuración.",
+        "bodyText": "Texto del cuerpo",
+        "footerText": "Pie de página (opcional, máx. 60 caracteres)",
+        "buttonsHelp": "Botones (1–3) — cada uno dirige a un nodo siguiente diferente",
+        "optionTitlePlaceholder": "Título visible (≤20 chars)",
+        "nextNodePlaceholder": "Siguiente nodo…",
+        "addButton": "Agregar botón",
+        "buttonLabel": "Etiqueta de botón desplegable (≤20 chars)",
+        "rowsHelp": "Filas (1–10 en total en todas las secciones)",
+        "sectionTitlePlaceholder": "Título de sección {count} (opcional)",
+        "rowTitlePlaceholder": "Título de fila (≤24)",
+        "addRow": "Agregar fila",
+        "addSection": "Agregar sección",
+        "ifLabel": "Si",
+        "capturedVariable": "Variable capturada",
+        "contactHasTag": "El contacto tiene la etiqueta",
+        "contactField": "Campo del contacto",
+        "varName": "nombre de var",
+        "tagLabel": "Etiqueta",
+        "fieldLabel": "Campo",
+        "pickTag": "Elija una etiqueta…",
+        "pickField": "Elija un campo…",
+        "operatorLabel": "Operador",
+        "isPresent": "está presente",
+        "isAbsent": "está ausente",
+        "equals": "es igual a",
+        "contains": "contiene",
+        "valueLabel": "Valor",
+        "ifTrueAdvance": "Si es verdadero → avanzar a",
+        "ifFalseAdvance": "Si es falso → avanzar a",
+        "actionLabel": "Acción",
+        "addTag": "Agregar etiqueta",
+        "removeTag": "Eliminar etiqueta",
+        "tagUuidPlaceholder": "UUID de etiqueta",
+        "thenAdvanceTo": "Luego avanzar a",
+        "mediaTypeLabel": "Tipo de medio",
+        "imageLabel": "Imagen (PNG, JPEG, WebP)",
+        "videoLabel": "Video (MP4, 3GP)",
+        "documentLabel": "Documento (PDF, Word, Excel, PowerPoint, TXT)",
+        "fileLabel": "Archivo",
+        "removeFile": "Eliminar archivo",
+        "uploading": "Subiendo…",
+        "clickToUpload": "Haga clic para subir (máx. 16 MB)",
+        "captionLabel": "Leyenda (opcional, se muestra debajo del archivo)",
+        "filenameLabel": "Nombre del archivo visible para el cliente (solo documentos)",
+        "filenamePlaceholder": "factura.pdf",
+        "advanceAfterSending": "Después de enviar, avanzar a",
+        "pickNextNode": "Elija el siguiente nodo…",
+        "none": "— Ninguno —"
+      },
+      "categories": {
+        "messaging": "Mensajería",
+        "logic": "Lógica & datos",
+        "flow": "Control de flujo"
+      },
+      "nodes": {
+        "start": {
+          "label": "Inicio",
+          "blurb": "Punto de entrada del flujo"
+        },
+        "send_message": {
+          "label": "Enviar mensaje",
+          "blurb": "Envía un mensaje de texto por WhatsApp"
+        },
+        "send_buttons": {
+          "label": "Enviar botones",
+          "blurb": "Envía botones de respuesta rápida"
+        },
+        "send_list": {
+          "label": "Enviar lista",
+          "blurb": "Envía una lista interactiva de opciones"
+        },
+        "send_media": {
+          "label": "Enviar medio",
+          "blurb": "Envía una imagen, video o documento"
+        },
+        "collect_input": {
+          "label": "Colectar entrada",
+          "blurb": "Hace una pregunta, guarda la respuesta"
+        },
+        "condition": {
+          "label": "Si / si no",
+          "blurb": "Desvía según una regla"
+        },
+        "set_tag": {
+          "label": "Etiquetar contacto",
+          "blurb": "Añade o quita una etiqueta al contacto"
+        },
+        "handoff": {
+          "label": "Transferir a agente",
+          "blurb": "Transfiere la conversación a un humano"
+        },
+        "end": {
+          "label": "Fin",
+          "blurb": "Finaliza el flujo"
+        }
+      }
+    },
+    "validation": {
+      "noIssues": "Sin problemas. Listo para activar.",
+      "summary": "{errorCount} {errorCount, plural, =1 {error} other {errores}}, {warningCount} {warningCount, plural, =1 {advertencia} other {advertencias}}",
+      "jumpToNode": "Saltar al nodo {key}"
+    },
+    "editorState": {
+      "saved": "Guardado.",
+      "fixIssues": "Corrija los problemas a continuación antes de activar.",
+      "statusActivated": "Flujo activado.",
+      "statusArchived": "Archivado.",
+      "statusDraft": "Guardado como borrador."
+    },
+    "summary": {
+      "options": "{count} {count, plural, =1 {opción} other {opciones}}",
+      "optionsAcrossSections": "{rowCount} {rowCount, plural, =1 {opción} other {opciones}} a través de {sectionCount} {sectionCount, plural, =1 {sección} other {secciones}}",
+      "noFile": "{label} (sin archivo subido)",
+      "media": "Medios",
+      "image": "Imagen",
+      "video": "Video",
+      "document": "Documento",
+      "audio": "Audio",
+      "hasTag": "tiene etiqueta {tag}",
+      "opContains": "contiene",
+      "opExists": "existe",
+      "opMissing": "falta",
+      "modeAdd": "Añadir",
+      "modeRemove": "Quitar",
+      "tagPicked": "{mode} etiqueta {tag}…",
+      "tagNone": "{mode} etiqueta (ninguna seleccionada)"
+    }
+  },
+  "Settings": {
+    "overview": {
+      "notSetup": "Aún no configurado",
+      "connected": "Conectado",
+      "needsReconnecting": "Requiere reconexión",
+      "viewTeamMembers": "Ver miembros del equipo",
+      "membersCount": "{count} {count, plural, =1 {miembro} other {miembros}}",
+      "pendingInvites": "{count} {count, plural, =1 {invitación pendiente} other {invitaciones pendientes}}",
+      "manageTemplates": "Gestionar plantillas de mensajes",
+      "templatesCount": "{count} {count, plural, =1 {plantilla} other {plantillas}}",
+      "pendingReview": "{count} pendiente de revisión",
+      "tagsAndFields": "Etiquetas y campos personalizados",
+      "tagsCount": "{count} {count, plural, =1 {etiqueta} other {etiquetas}}",
+      "fieldsCount": "{count} {count, plural, =1 {campo personalizado} other {campos personalizados}}",
+      "appearance": "Modo {mode} · Acento {theme}",
+      "yourAccount": "Tu cuenta",
+      "loading": "Cargando…"
+    },
+    "sections": {
+      "overview": "Vista General",
+      "profile": "Tu Perfil",
+      "members": "Miembros del Equipo",
+      "templates": "Plantillas de Mensajes",
+      "whatsapp": "WhatsApp",
+      "tags": "Etiquetas & Campos",
+      "deals": "Negocios & Moneda",
+      "api": "Claves de API",
+      "appearance": "Apariencia",
+      "account": "Mi Cuenta"
+    }
+  },
+  "roles": {
+    "owner": "Propietario",
+    "admin": "Administrador",
+    "agent": "Agente",
+    "viewer": "Espectador"
   }
 }
