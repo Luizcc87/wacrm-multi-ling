@@ -2008,7 +2008,13 @@
     "unread": "No leída",
     "retry": "Reintentar",
     "errorMarkRead": "Error al marcar la notificación como leída",
-    "errorMarkAllRead": "Error al marcar todas como leídas"
+    "errorMarkAllRead": "Error al marcar todas como leídas",
+    "types": {
+      "conversationAssigned": {
+        "title": "Nueva conversación asignada",
+        "body": "{actor} te asignó una conversación con {contact}"
+      }
+    }
   },
   "ModeToggle": {
     "switchMode": "Cambiar a modo {mode}"

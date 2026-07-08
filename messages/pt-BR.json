@@ -2008,7 +2008,13 @@
     "unread": "Não lida",
     "retry": "Tentar novamente",
     "errorMarkRead": "Falha ao marcar notificação como lida",
-    "errorMarkAllRead": "Falha ao marcar todas como lidas"
+    "errorMarkAllRead": "Falha ao marcar todas como lidas",
+    "types": {
+      "conversationAssigned": {
+        "title": "Nova conversa atribuída",
+        "body": "{actor} atribuiu uma conversa com {contact} a você"
+      }
+    }
   },
   "ModeToggle": {
     "switchMode": "Alternar para modo {mode}"

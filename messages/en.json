@@ -3658,7 +3658,13 @@
     "unread": "Unread",
     "retry": "Retry",
     "errorMarkRead": "Failed to mark notification as read",
-    "errorMarkAllRead": "Failed to mark all as read"
+    "errorMarkAllRead": "Failed to mark all as read",
+    "types": {
+      "conversationAssigned": {
+        "title": "New conversation assigned",
+        "body": "{actor} assigned you a conversation with {contact}"
+      }
+    }
   },
   "roles": {
     "owner": "Propietario",
