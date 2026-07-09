@@ -2443,6 +2443,43 @@
       "networkError": "Não foi possível conectar ao servidor."
     }
   },
+  "FlowTemplates": {
+    "welcome_menu": {
+      "name": "Menu de boas-vindas",
+      "description": "Cumprimente os clientes que digitam uma palavra-chave e encaminhe-os para o atendente certo com base no fato de serem novos ou antigos.",
+      "welcome_text": "Olá! 👋 Bem-vindo ao suporte. Você é um cliente existente ou é novo por aqui?",
+      "welcome_footer": "Toque em um botão abaixo para continuar.",
+      "existing_btn": "Cliente existente",
+      "new_btn": "Novo cliente",
+      "existing_note": "Cliente existente precisa de assistência — verifique o histórico da conta antes de responder.",
+      "new_note": "Novo cliente — compartilhe a tabela de preços + link de integração."
+    },
+    "faq_bot": {
+      "name": "Bot de FAQ",
+      "description": "Responda a perguntas comuns automaticamente. O cliente escolhe um tópico de uma lista; o bot responde com a resposta e encerra.",
+      "topics_text": "Com o que posso ajudar?",
+      "topics_btn_label": "Ver tópicos",
+      "section_common": "Perguntas comuns",
+      "row_hours": "Horário de funcionamento",
+      "row_pricing": "Preços",
+      "row_refunds": "Política de reembolso",
+      "section_other": "Outros",
+      "row_human": "Falar com um humano",
+      "hours_text": "Estamos abertos de segunda a sexta, das 9h às 18h (horário local). O suporte de fim de semana é limitado a casos urgentes.",
+      "pricing_text": "Nossos preços começam em $9/mês. Visite https://example.com/pricing para ver a tabela completa.",
+      "refunds_text": "Os reembolsos são concedidos em até 30 dias após a compra. Responda com o número do seu pedido e nós o processaremos.",
+      "human_note": "O cliente solicitou falar com um humano a partir do bot de FAQ."
+    },
+    "lead_capture": {
+      "name": "Captura de leads",
+      "description": "Cumprimente os contatos novos, colete nome + e-mail + empresa, e depois encaminhe para a equipe de vendas com as respostas na nota.",
+      "intro_text": "Bem-vindo! 👋 Vou fazer algumas perguntas rápidas para que possamos encaminhá-lo para a pessoa certa.",
+      "ask_name": "Qual é o seu nome?",
+      "ask_email": "Obrigado {{vars.name}}! Qual é o seu e-mail comercial?",
+      "ask_company": "Quase pronto — qual é o nome da sua empresa?",
+      "handoff_note": "Novo lead — nome={{vars.name}}, e-mail={{vars.email}}, empresa={{vars.company}}."
+    }
+  },
   "roles": {
     "owner": "Proprietário",
     "admin": "Administrador",

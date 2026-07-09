@@ -2443,6 +2443,43 @@
       "networkError": "No se pudo conectar con el servidor."
     }
   },
+  "FlowTemplates": {
+    "welcome_menu": {
+      "name": "Menú de bienvenida",
+      "description": "Salude a los clientes que escriban una palabra clave y diríjalos al agente adecuado según sejam nuevos o existentes.",
+      "welcome_text": "¡Hola! 👋 Bienvenido al soporte. ¿Es un cliente existente o es nuevo por aquí?",
+      "welcome_footer": "Toque un botón a continuación para continuar.",
+      "existing_btn": "Cliente existente",
+      "new_btn": "Nuevo cliente",
+      "existing_note": "El cliente existente necesita asistencia; consulte el historial de la cuenta antes de responder.",
+      "new_note": "Nuevo cliente: comparta los precios y el enlace de incorporación."
+    },
+    "faq_bot": {
+      "name": "Bot de preguntas frecuentes",
+      "description": "Responda preguntas comunes automáticamente. El cliente elige un tema de una lista; el bot responde con la respuesta y finaliza.",
+      "topics_text": "¿En qué puedo ayudarle?",
+      "topics_btn_label": "Ver temas",
+      "section_common": "Preguntas comunes",
+      "row_hours": "Horario de apertura",
+      "row_pricing": "Precios",
+      "row_refunds": "Política de reembolso",
+      "section_other": "Otro",
+      "row_human": "Hablar con un humano",
+      "hours_text": "Abrimos de lunes a viernes, de 9 a 18 horas (hora local). El soporte de fin de semana está limitado a casos urgentes.",
+      "pricing_text": "Nuestros precios comienzan en $9/mes. Visite https://example.com/pricing para ver el desglose completo.",
+      "refunds_text": "Los reembolsos se procesan dentro de los 30 días posteriores a la compra. Responda con su número de pedido y lo procesaremos.",
+      "human_note": "El cliente solicitó hablar con un humano desde el bot de preguntas frecuentes."
+    },
+    "lead_capture": {
+      "name": "Captura de leads",
+      "description": "Salude a los contactos primerizos, recopile nombre + correo electrónico + empresa, luego asigne a ventas con las respuestas en la nota.",
+      "intro_text": "¡Bienvenido! 👋 Le haré unas breves preguntas para que podamos dirigirlo a la persona adecuada.",
+      "ask_name": "¿Cómo se llama?",
+      "ask_email": "¡Gracias {{vars.name}}! ¿Cuál es su correo electrónico de trabajo?",
+      "ask_company": "Casi terminado: ¿cuál es el nombre de su empresa?",
+      "handoff_note": "Nuevo lead: nombre={{vars.name}}, correo electrónico={{vars.email}}, empresa={{vars.company}}."
+    }
+  },
   "roles": {
     "owner": "Propietario",
     "admin": "Administrador",

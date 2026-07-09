@@ -302,3 +302,186 @@ export function getFlowTemplate(slug: string): FlowTemplate | null {
 export function listFlowTemplates(): FlowTemplate[] {
   return Object.values(TEMPLATES);
 }
+
+/**
+ * Returns a copy of the FlowTemplate with localized strings using the provided translator.
+ */
+export function getLocalizedTemplate(template: FlowTemplate, t: (key: string) => string): FlowTemplate {
+  const slug = template.slug;
+  const localized: FlowTemplate = {
+    ...template,
+    name: t(`${slug}.name`) || template.name,
+    description: t(`${slug}.description`) || template.description,
+    nodes: template.nodes.map((node) => {
+      const nodeKey = node.node_key;
+      const config = { ...node.config };
+
+      if (slug === "welcome_menu") {
+        if (nodeKey === "welcome") {
+          const welcomeConfig = config as SendButtonsNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...welcomeConfig,
+              text: t("welcome_menu.welcome_text") || welcomeConfig.text,
+              footer_text: t("welcome_menu.welcome_footer") || welcomeConfig.footer_text,
+              buttons: welcomeConfig.buttons?.map((btn) => {
+                if (btn.reply_id === "existing") {
+                  return { ...btn, title: t("welcome_menu.existing_btn") || btn.title };
+                }
+                if (btn.reply_id === "new") {
+                  return { ...btn, title: t("welcome_menu.new_btn") || btn.title };
+                }
+                return btn;
+              }) || [],
+            } as SendButtonsNodeConfig,
+          };
+        } else if (nodeKey === "existing_handoff") {
+          const handoffConfig = config as HandoffNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...handoffConfig,
+              note: t("welcome_menu.existing_note") || handoffConfig.note,
+            } as HandoffNodeConfig,
+          };
+        } else if (nodeKey === "new_handoff") {
+          const handoffConfig = config as HandoffNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...handoffConfig,
+              note: t("welcome_menu.new_note") || handoffConfig.note,
+            } as HandoffNodeConfig,
+          };
+        }
+      } else if (slug === "faq_bot") {
+        if (nodeKey === "topics") {
+          const listConfig = config as SendListNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...listConfig,
+              text: t("faq_bot.topics_text") || listConfig.text,
+              button_label: t("faq_bot.topics_btn_label") || listConfig.button_label,
+              sections: listConfig.sections?.map((sect) => {
+                let title = sect.title;
+                if (sect.title === "Common questions") {
+                  title = t("faq_bot.section_common") || sect.title;
+                } else if (sect.title === "Other") {
+                  title = t("faq_bot.section_other") || sect.title;
+                }
+                return {
+                  ...sect,
+                  title,
+                  rows: sect.rows?.map((row) => {
+                    if (row.reply_id === "hours") {
+                      return { ...row, title: t("faq_bot.row_hours") || row.title };
+                    }
+                    if (row.reply_id === "pricing") {
+                      return { ...row, title: t("faq_bot.row_pricing") || row.title };
+                    }
+                    if (row.reply_id === "refunds") {
+                      return { ...row, title: t("faq_bot.row_refunds") || row.title };
+                    }
+                    if (row.reply_id === "human") {
+                      return { ...row, title: t("faq_bot.row_human") || row.title };
+                    }
+                    return row;
+                  }) || [],
+                };
+              }) || [],
+            } as SendListNodeConfig,
+          };
+        } else if (nodeKey === "answer_hours") {
+          const msgConfig = config as SendMessageNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...msgConfig,
+              text: t("faq_bot.hours_text") || msgConfig.text,
+            } as SendMessageNodeConfig,
+          };
+        } else if (nodeKey === "answer_pricing") {
+          const msgConfig = config as SendMessageNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...msgConfig,
+              text: t("faq_bot.pricing_text") || msgConfig.text,
+            } as SendMessageNodeConfig,
+          };
+        } else if (nodeKey === "answer_refunds") {
+          const msgConfig = config as SendMessageNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...msgConfig,
+              text: t("faq_bot.refunds_text") || msgConfig.text,
+            } as SendMessageNodeConfig,
+          };
+        } else if (nodeKey === "human_handoff") {
+          const handoffConfig = config as HandoffNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...handoffConfig,
+              note: t("faq_bot.human_note") || handoffConfig.note,
+            } as HandoffNodeConfig,
+          };
+        }
+      } else if (slug === "lead_capture") {
+        if (nodeKey === "intro") {
+          const msgConfig = config as SendMessageNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...msgConfig,
+              text: t("lead_capture.intro_text") || msgConfig.text,
+            } as SendMessageNodeConfig,
+          };
+        } else if (nodeKey === "ask_name") {
+          const collectConfig = config as CollectInputNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...collectConfig,
+              prompt_text: t("lead_capture.ask_name") || collectConfig.prompt_text,
+            } as CollectInputNodeConfig,
+          };
+        } else if (nodeKey === "ask_email") {
+          const collectConfig = config as CollectInputNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...collectConfig,
+              prompt_text: t("lead_capture.ask_email") || collectConfig.prompt_text,
+            } as CollectInputNodeConfig,
+          };
+        } else if (nodeKey === "ask_company") {
+          const collectConfig = config as CollectInputNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...collectConfig,
+              prompt_text: t("lead_capture.ask_company") || collectConfig.prompt_text,
+            } as CollectInputNodeConfig,
+          };
+        } else if (nodeKey === "handoff") {
+          const handoffConfig = config as HandoffNodeConfig;
+          return {
+            ...node,
+            config: {
+              ...handoffConfig,
+              note: t("lead_capture.handoff_note") || handoffConfig.note,
+            } as HandoffNodeConfig,
+          };
+        }
+      }
+
+      return node;
+    }),
+  };
+
+  return localized;
+}
