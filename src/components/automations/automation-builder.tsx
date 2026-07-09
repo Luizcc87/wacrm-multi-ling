@@ -49,10 +49,18 @@ import type {
   AccountMember,
   AutomationStepType,
   AutomationTriggerType,
+  CustomField,
+  InteractiveMessagePayload,
   KeywordMatchTriggerConfig,
   MessageTemplate,
   Tag as TagRecord,
 } from "@/types"
+import {
+  InteractiveBuilder,
+  blankButtonsPayload,
+  blankListPayload,
+} from "@/components/interactive/interactive-builder"
+import { interactivePayloadPreviewText } from "@/lib/whatsapp/interactive"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 
@@ -106,6 +114,8 @@ const STEP_META: Record<AutomationStepType, StepMeta> = {
 
 const ADDABLE_STEPS: AutomationStepType[] = [
   "send_message",
+  "send_buttons",
+  "send_list",
   "send_template",
   "add_tag",
   "remove_tag",
@@ -134,6 +144,17 @@ const STEP_LABEL_KEYS: Record<AutomationStepType, string> = {
   send_list: "builder.steps.sendList",
 }
 
+const TRIGGER_OPTIONS: { value: AutomationTriggerType }[] = [
+  { value: "new_message_received" },
+  { value: "first_inbound_message" },
+  { value: "keyword_match" },
+  { value: "interactive_reply" },
+  { value: "new_contact_created" },
+  { value: "conversation_assigned" },
+  { value: "tag_added" },
+  { value: "time_based" },
+]
+
 function cid(): string {
   return (
     "c_" +
@@ -143,10 +164,26 @@ function cid(): string {
   )
 }
 
+// The send_buttons / send_list step_config IS an InteractiveMessagePayload,
+// but step_config is typed generically as Record<string, unknown>. These two
+// helpers hold the single unavoidable structural cast in one place so a
+// payload-shape change has one seam to update instead of four scattered
+// `as unknown as` sites.
+function toStepConfig(p: InteractiveMessagePayload): Record<string, unknown> {
+  return p as unknown as Record<string, unknown>
+}
+function asInteractive(cfg: Record<string, unknown>): InteractiveMessagePayload {
+  return cfg as unknown as InteractiveMessagePayload
+}
+
 function blankConfig(type: AutomationStepType): Record<string, unknown> {
   switch (type) {
     case "send_message":
       return { text: "" }
+    case "send_buttons":
+      return toStepConfig(blankButtonsPayload())
+    case "send_list":
+      return toStepConfig(blankListPayload())
     case "send_template":
       return { template_name: "", language: "en_US" }
     case "add_tag":
@@ -657,6 +694,9 @@ function TriggerCard({
                 onChange={onConfigChange}
               />
             )}
+            {type === "interactive_reply" && (
+              <InteractiveReplyConfig config={config} onChange={onConfigChange} t={t} />
+            )}
             {type === "tag_added" && (
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-400">
@@ -744,6 +784,52 @@ function KeywordMatchConfig({
           <option value="exact">{t("builder.matchTypes.exact")}</option>
         </select>
       </div>
+    </div>
+  )
+}
+
+function InteractiveReplyConfig({
+  config,
+  onChange,
+  t,
+}: {
+  config: Record<string, unknown>
+  onChange: (c: Record<string, unknown>) => void
+  t: ReturnType<typeof useTranslations>
+}) {
+  const ids = (config?.reply_ids as string[] | undefined) ?? []
+  // Same local-draft-then-commit pattern as KeywordMatchConfig so
+  // commas + spaces survive keystrokes.
+  const [draft, setDraft] = useState(ids.join(", "))
+
+  function commit() {
+    const parsed = draft
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+    setDraft(parsed.join(", "))
+    onChange({ ...config, reply_ids: parsed })
+  }
+
+  return (
+    <div>
+      <label className="mb-1 block text-xs font-medium text-muted-foreground">
+        {t("replyIds")}
+      </label>
+      <Input
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault()
+            commit()
+          }
+        }}
+        placeholder={t("replyIdsHint")}
+        className="bg-muted font-mono text-foreground"
+      />
+      <p className="mt-1 text-[11px] text-muted-foreground">{t("replyIdsHelp")}</p>
     </div>
   )
 }
@@ -1032,6 +1118,18 @@ function StepEditor({
           />
         </FieldBlock>
       )
+    case "send_buttons":
+    case "send_list":
+      // The whole step_config IS the interactive payload; the shared
+      // builder edits it in place (and enforces Meta's limits + preview).
+      return (
+        <InteractiveBuilder
+          value={asInteractive(cfg)}
+          onChange={(payload) =>
+            onChange({ ...step, step_config: toStepConfig(payload) })
+          }
+        />
+      )
     case "send_template":
       return (
         <SendTemplateFields
@@ -1246,6 +1344,9 @@ function previewFor(step: BuilderStep): string {
   switch (step.step_type) {
     case "send_message":
       return (step.step_config.text as string) || "no text yet"
+    case "send_buttons":
+    case "send_list":
+      return interactivePayloadPreviewText(asInteractive(step.step_config)) || "no body yet"
     case "send_template":
       return (step.step_config.template_name as string) || "pick a template"
     case "wait":
