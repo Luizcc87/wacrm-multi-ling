@@ -2085,11 +2085,14 @@
       "statusFailed": "Fallido"
     },
     "builder": {
+      "trigger": "Activador",
       "triggerTitle": "Activador",
+      "when": "Cuando…",
       "whenLabel": "Cuando…",
       "triggerKeywordTitle": "Un mensaje contiene una palabra clave",
       "triggerFirstInboundTitle": "Primer mensaje entrante del cliente",
       "triggerManualTitle": "Solo manual (sin auto-activación)",
+      "keywords": "Palabras clave (separadas por comas)",
       "keywordsLabel": "Palabras clave (separadas por comas)",
       "keywordsPlaceholder": "soporte, ayuda, hola",
       "entryNodeTitle": "Nodo de entrada:",

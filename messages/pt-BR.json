@@ -2085,11 +2085,14 @@
       "statusFailed": "Falhou"
     },
     "builder": {
+      "trigger": "Gatilho de entrada",
       "triggerTitle": "Gatilho de entrada",
+      "when": "Quando…",
       "whenLabel": "Quando…",
       "triggerKeywordTitle": "Uma mensagem contiver palavra-chave",
       "triggerFirstInboundTitle": "Primeira mensagem de entrada do cliente",
       "triggerManualTitle": "Apenas manual (sem gatilho automático)",
+      "keywords": "Palavras-chave (separadas por vírgula)",
       "keywordsLabel": "Palavras-chave (separadas por vírgula)",
       "keywordsPlaceholder": "suporte, ajuda, ola",
       "entryNodeTitle": "Nó de entrada:",

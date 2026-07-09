@@ -2971,11 +2971,14 @@
       "statusFailed": "Failed"
     },
     "builder": {
+      "trigger": "Trigger",
       "triggerTitle": "Trigger",
+      "when": "When…",
       "whenLabel": "When…",
       "triggerKeywordTitle": "A message contains a keyword",
       "triggerFirstInboundTitle": "Customer's first ever inbound message",
       "triggerManualTitle": "Manual only (no auto-trigger)",
+      "keywords": "Keywords (comma-separated)",
       "keywordsLabel": "Keywords (comma-separated)",
       "keywordsPlaceholder": "support, help, hi",
       "entryNodeTitle": "Entry node:",
