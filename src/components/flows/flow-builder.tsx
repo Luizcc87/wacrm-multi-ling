@@ -89,7 +89,8 @@ const NODE_LABEL_KEYS: Record<NodeType, string> = {
 // ============================================================
 
 export function FlowBuilder() {
-  const t = useTranslations("flows");
+  const t = useTranslations("Flows.builder");
+  const tSummary = useTranslations("Flows.summary");
   const {
     state,
     setState,
@@ -183,15 +184,15 @@ export function FlowBuilder() {
       <section className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h2 className="text-foreground text-sm font-semibold">
-            Nodes ({state.nodes.length})
+            {t("nodesTitle", { count: state.nodes.length })}
           </h2>
           <AddNodeButton onAdd={addNode} t={t} />
         </div>
 
         {state.nodes.length === 0 ? (
           <div className="border-border bg-card/50 text-muted-foreground rounded-lg border border-dashed p-8 text-center text-sm">
-            <div className="font-medium text-foreground">{t("builder.noNodes")}</div>
-            <div className="mt-1">{t("builder.addFirst")}</div>
+            <div className="font-medium text-foreground">{t("noNodesYet")}</div>
+            <div className="mt-1">{t("nodesEmpty")}</div>
           </div>
         ) : (
           state.nodes.map((node) => (
@@ -214,6 +215,7 @@ export function FlowBuilder() {
                 setState((s) => ({ ...s, entry_node_id: node.node_key }))
               }
               t={t}
+              tSummary={tSummary}
             />
           ))
         )}
@@ -290,11 +292,11 @@ function TriggerPanel({
 }) {
   return (
     <section className="border-border bg-card rounded-lg border p-4">
-      <h2 className="text-foreground mb-3 text-sm font-semibold">{t("builder.trigger")}</h2>
+      <h2 className="text-foreground mb-3 text-sm font-semibold">{t("triggerTitle")}</h2>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div>
           <label className="text-muted-foreground mb-1 block text-xs">
-            {t("builder.when") || "Quando…"}
+            {t("when")}
           </label>
           <Select
             value={state.trigger_type}
@@ -326,7 +328,7 @@ function TriggerPanel({
         {state.trigger_type === "keyword" && (
           <div>
             <label className="text-muted-foreground mb-1 block text-xs">
-              {t("builder.keywords") || "Palavras-chave (separadas por vírgula)"}
+              {t("keywords")}
             </label>
             <KeywordsInput
               keywords={
@@ -373,12 +375,12 @@ function EntryPicker({
   return (
     <section className="border-border bg-card flex items-center gap-3 rounded-lg border p-3">
       <CornerDownRight className="text-primary h-4 w-4 shrink-0" />
-      <span className="text-muted-foreground text-xs">{t("builder.entryNode") || "Nó de entrada:"}</span>
+      <span className="text-muted-foreground text-xs">{t("entryNodeTitle")}</span>
       <NodeKeySelect
         value={state.entry_node_id}
         nodes={state.nodes}
         onChange={(key) => setState((s) => ({ ...s, entry_node_id: key }))}
-        placeholder={t("builder.pickFirstNode") || "Escolha o primeiro nó…"}
+        placeholder={t("entryNodePlaceholder")}
         className="max-w-xs flex-1"
       />
     </section>
@@ -403,6 +405,7 @@ function NodeCard({
   onRemove,
   onSetEntry,
   t,
+  tSummary,
 }: {
   node: BuilderNode;
   allNodes: BuilderNode[];
@@ -417,11 +420,12 @@ function NodeCard({
   onRemove: () => void;
   onSetEntry: () => void;
   t: ReturnType<typeof useTranslations>;
+  tSummary: ReturnType<typeof useTranslations>;
 }) {
   const meta = NODE_META[node.node_type];
   const c = nodeColors(node.node_type);
   const hasError = issues.some((i) => i.severity === 'error');
-  const preview = summarizeNode(node, t);
+  const preview = summarizeNode(node, tSummary);
   return (
     <div
       ref={cardRef}
@@ -501,7 +505,7 @@ function NodeCard({
               className="text-red-400 hover:bg-red-500/10 hover:text-red-300"
             >
               <Trash2 className="h-3.5 w-3.5" />
-              {t("builder.delete")}
+              {t("deleteNode")}
             </Button>
           </div>
           {issues.length > 0 && (
@@ -558,13 +562,13 @@ function NodeConfigWithAdvanced({
           ) : (
             <ChevronDown className="h-3 w-3" />
           )}
-          {showAdvanced ? t("builder.collapse") : t("builder.expand")} {t("builder.advanced").toLowerCase()}
+          {showAdvanced ? t("hideAdvanced") : t("showAdvanced")}
         </button>
         {showAdvanced && (
           <div className="mt-3 flex flex-col gap-3">
             <div>
               <label className="text-muted-foreground mb-1 block text-xs">
-                {t("builder.nodeKey")} (internal identifier — keep stable for analytics)
+                {t("nodeKeyLabel")}
               </label>
               <Input
                 value={node.node_key}
@@ -576,7 +580,7 @@ function NodeConfigWithAdvanced({
             </div>
             {hasReplyIds && (
               <p className="text-muted-foreground text-[10px]">
-                Reply IDs for each option are shown inline above. They&apos;re returned by WhatsApp when a customer taps; you usually don&apos;t need to touch them.
+                {t("replyIdsHint")}
               </p>
             )}
           </div>
