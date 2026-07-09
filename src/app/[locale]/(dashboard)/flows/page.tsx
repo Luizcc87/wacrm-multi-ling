@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import {
   Workflow,
@@ -85,6 +85,7 @@ const TEMPLATE_ICONS = {
 export default function FlowsPage() {
   const router = useRouter();
   const t = useTranslations("flows");
+  const locale = useLocale();
   const canCreate = useCan("send-messages");
   const [flows, setFlows] = useState<FlowRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +100,7 @@ export default function FlowsPage() {
       try {
         const [flowsRes, tmplRes] = await Promise.all([
           fetch("/api/flows"),
-          fetch("/api/flows/templates"),
+          fetch("/api/flows/templates?locale=" + locale),
         ]);
         if (!flowsRes.ok) {
           throw new Error(`Failed to load flows: ${flowsRes.status}`);
@@ -160,7 +161,7 @@ export default function FlowsPage() {
       const res = await fetch("/api/flows", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ template_slug: slug }),
+        body: JSON.stringify({ template_slug: slug, locale }),
       });
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
