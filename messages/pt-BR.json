@@ -1897,6 +1897,7 @@
       "signOut": "Sair",
       "unreadConversations": "{count} conversas não lidas",
       "unreadNotifications": "{count} notificações não lidas",
+      "defaultAvatar": "Avatar",
       "roles": {
         "owner": "Proprietário",
         "admin": "Administrador",

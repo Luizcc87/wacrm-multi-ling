@@ -612,10 +612,10 @@ function AddNodeButton({ onAdd, t }: { onAdd: (type: NodeType) => void; t: Retur
     <DropdownMenu>
       <DropdownMenuTrigger
         className="border-border bg-card text-foreground hover:bg-muted inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors"
-        aria-label={t("builder.addNode")}
+        aria-label={t("addNode")}
       >
         <Plus className="h-3.5 w-3.5" />
-        {t("builder.addNode")}
+        {t("addNode")}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="border-slate-700 bg-slate-900">
         {groupNodeTypesByCategory(types).map((group, i) => (

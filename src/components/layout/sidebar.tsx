@@ -112,7 +112,6 @@ interface SidebarProps {
   onClose?: () => void;
 }
 export function Sidebar({ open = false, onClose }: SidebarProps) {
-  const t = useTranslations("Sidebar");
   const pathname = usePathname();
   const { profile, profileLoading, account, accountRole, signOut } = useAuth();
   const branding = useBranding();
@@ -347,7 +346,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
                 {profile?.avatar_url ? (
                   <AvatarImage
                     src={profile.avatar_url}
-                    alt={profile.full_name ?? t("defaultAvatar")}
+                    alt={profile.full_name ?? tSidebar("defaultAvatar")}
                   />
                 ) : null}
                 <AvatarFallback className="bg-primary/10 text-sm font-medium text-primary">

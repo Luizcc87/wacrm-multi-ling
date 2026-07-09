@@ -73,7 +73,7 @@ export function NodeConfigForm({
           allNodes={allNodes}
           currentKey={node.node_key}
           onChange={(v) => onUpdateConfig({ next_node_key: v })}
-          label={t("validation.jumpToNode")}
+            label={t("builder.form.advancesTo")}
         />
       );
 
@@ -90,7 +90,7 @@ export function NodeConfigForm({
             allNodes={allNodes}
             currentKey={node.node_key}
             onChange={(v) => onUpdateConfig({ next_node_key: v })}
-            label={t("validation.jumpToNode")}
+          label={t("builder.form.advancesTo")}
           />
         </>
       );
@@ -822,7 +822,7 @@ function SetTagForm({
         allNodes={allNodes}
         currentKey={currentKey}
         onChange={(v) => onUpdateConfig({ next_node_key: v })}
-        label={t("validation.jumpToNode")}
+        label={t("builder.form.advancesTo")}
       />
     </>
   );

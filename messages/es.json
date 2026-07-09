@@ -1897,6 +1897,7 @@
       "signOut": "Cerrar sesión",
       "unreadConversations": "{count} conversaciones no leídas",
       "unreadNotifications": "{count} notificaciones no leídas",
+      "defaultAvatar": "Avatar",
       "roles": {
         "owner": "Propietario",
         "admin": "Administrador",
