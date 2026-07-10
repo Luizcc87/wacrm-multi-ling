@@ -1117,7 +1117,9 @@
         "wait": "Aguardar",
         "condition": "Condição (Se/Não)",
         "sendWebhook": "Enviar webhook",
-        "closeConversation": "Fechar conversa"
+        "closeConversation": "Fechar conversa",
+        "sendButtons": "Enviar botões",
+        "sendList": "Enviar lista"
       },
       "triggers": {
         "newMessageReceived": "Nova mensagem recebida",
