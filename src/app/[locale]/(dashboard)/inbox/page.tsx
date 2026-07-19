@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef, useMemo } from "react";
+import { Suspense, useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { differenceInHours } from "date-fns";
@@ -22,7 +22,18 @@ import { cn } from "@/lib/utils";
 // across reloads and sessions (device-scoped, like the theme prefs).
 const CONTACT_PANEL_STORAGE_KEY = "wacrm:inbox:contact-panel-open";
 
+// `useSearchParams` (the `?c=<id>` deep link below) requires a Suspense
+// boundary or the production build bails to CSR and errors out. Thin
+// wrapper supplies it; the inner component holds all the inbox state.
 export default function InboxPage() {
+  return (
+    <Suspense fallback={null}>
+      <InboxPageInner />
+    </Suspense>
+  );
+}
+
+function InboxPageInner() {
   const t = useTranslations("inbox");
   const router = useRouter();
   const searchParams = useSearchParams();
